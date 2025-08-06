@@ -1,7 +1,7 @@
 <?php
 // local
-define('BASE', '/STAMPEE/mvc');
-define('ASSET', '/STAMPEE/mvc/public');
+define('BASE', '/Stampee/mvc');
+define('ASSET', '/Stampee/mvc/public');
 
 
 // webdev
