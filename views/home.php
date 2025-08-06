@@ -12,8 +12,8 @@
     lien1: '#',
     lien2: '/user/create',
     lien3: '/auth/index',
-    lien2: '/user/create',
-    lien3: '/auth/index',
+    lien2: '/rrrrr',
+    lien7: '/user/create',
 
 }) }}
 <header class="entete entete-accueil">

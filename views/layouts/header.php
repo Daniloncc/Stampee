@@ -30,7 +30,7 @@
                     <li><i class="fa-solid fa-phone"></i><a href="#"> +1(514)123-4567</a></li>
                     <li><i class="fa-solid fa-envelope"></i><a href="#"> stampeeIII@info.com</a></li>
                     <li><i class="fa-solid fa-arrow-right-to-bracket"></i><a href="#">{{ nav6 }}</a></li>
-                    <li><a href="#">{{ nav7 }}</a></li>
+                    <li><a href="{{ base }}{{ lien7 }}">{{ nav7 }}</a></li>
                 </ul>
                 <form action="#">
                     <input

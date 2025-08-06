@@ -16,6 +16,8 @@
 @import "./composants/pagination.css";
 @import "./composants/forme-enchere.css";
 @import "./composants/preference.css";
+@import "./composants/main__form.css";
+@import "./composants/form.css";
 @import "./composants/flex-row.css";
 @import "./composants/flex-column.css";
 @import "./composants/media-query.css";
