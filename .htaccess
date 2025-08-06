@@ -1,0 +1,42 @@
+# # Activer le moteur de réécriture d'URL d'Apache.
+# # C'est la première étape indispensable pour pouvoir modifier la façon dont les URLs sont gérées.
+RewriteEngine On
+
+# # ---
+
+# # Condition 1 : Vérifier si la requête ne correspond PAS à un fichier réel existant sur le serveur.
+# # '%{REQUEST_FILENAME}' représente le chemin complet du fichier demandé par l'utilisateur.
+# # '!-f' signifie "n'est pas un fichier".
+# # Si la requête est pour "monsite.com/image.jpg" et que "image.jpg" existe physiquement, cette condition est fausse.
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# # Condition 2 : Vérifier si la requête ne correspond PAS à un dossier réel existant sur le serveur.
+# # '%{REQUEST_FILENAME}' représente encore une fois le chemin demandé.
+# # '!-d' signifie "n'est pas un dossier".
+# # Si la requête est pour "monsite.com/blog/" et que "blog/" est un dossier physique, cette condition est fausse.
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# # ---
+
+# # Règle de réécriture : Appliquer la réécriture si les deux conditions ci-dessus sont vraies.
+# # C'est-à-dire, si l'URL demandée ne correspond ni à un fichier existant, ni à un dossier existant.
+# #
+# # '^(.*)$' : C'est une expression régulière qui capture TOUT ce qui suit le nom de domaine dans l'URL.
+# #            Le '^' indique le début de la chaîne, '(.*)' capture n'importe quel caractère ('.') zéro ou plusieurs fois ('*'),
+# #            et '$' indique la fin de la chaîne. La partie capturée est stockée dans la variable $1.
+# #
+# # 'index.php' : C'est le fichier vers lequel l'URL est réécrite.
+# #               Toutes les requêtes qui ne pointent pas vers un fichier ou un dossier réel seront dirigées vers 'index.php'.
+# #               Cela est typique pour les applications web qui gèrent le routage des URLs via un contrôleur frontal.
+# #
+# # '[L]' : C'est un "flag" (drapeau) qui signifie "Last" (Dernière).
+# #         Il indique à Apache d'arrêter le traitement des règles de réécriture supplémentaires si cette règle est appliquée.
+# #         C'est important pour éviter des boucles ou des réécritures indésirables.
+RewriteRule ^(.*)$ index.php [L]
+
+# #pour le webdev
+
+# RewriteEngine On
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
