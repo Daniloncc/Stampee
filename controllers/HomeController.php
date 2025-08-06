@@ -11,4 +11,9 @@ class HomeController
     {
         return View::render('/home');
     }
+
+    public function error()
+    {
+        return View::render('/error');
+    }
 }

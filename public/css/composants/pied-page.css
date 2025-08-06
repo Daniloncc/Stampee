@@ -1,0 +1,126 @@
+.pied-page {
+  width: 100%;
+  margin-left: 0;
+
+}
+
+.pied-page__contenu {
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  background-color: var(--rouge-fonce);
+}
+
+.pied-page__logo {
+  border-top: 0.5px solid black;
+  display: flex;
+  justify-content: center;
+
+  & picture {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+.pied-page__titre {
+  margin-left: -5px;
+  margin-top: 25px;
+  font-size: var(--titre-moyen-1);
+  color: var(--joune-clair);
+  & > div {
+    color: var(--joune-clair);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: -14px;
+    margin-bottom: 30px;
+    letter-spacing: 3px;
+  }
+
+  & h2 {
+    font-size: var(--moyen-1);
+    letter-spacing: 2px;
+  }
+}
+
+.pied-page__menu {
+  border-bottom: 0.5px solid whitesmoke;
+  & ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  & a {
+    color: antiquewhite;
+    font-size: var(--paragraphe);
+  }
+}
+
+.pied-page__sous-menu {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  text-align: start;
+  & > div {
+    flex-basis: 40ch;
+    & > * + * {
+      margin-top: 15px;
+    }
+    & h3 {
+      color: antiquewhite;
+    }
+    & p {
+      color: var(--joune-clair);
+      font-size: var(--paragraphe);
+    }
+  }
+
+  & > :nth-child(2) {
+    text-align: center;
+    line-height: 25px;
+    margin-left: -20px;
+  }
+
+  & > :nth-child(3) {
+    text-align: right;
+
+  }
+
+  & a {
+    color: var(--joune-clair);
+    font-size: var(--paragraphe);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pied-page__detail {
+  margin-top: var(--gros-1);
+
+  & > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    & a {
+      color: antiquewhite;
+      text-decoration: underline;
+    }
+  }
+
+  & div {
+    margin-top: var(--petit-3);
+    margin-bottom: var(--petit-3);
+    color: antiquewhite;
+  }
+}

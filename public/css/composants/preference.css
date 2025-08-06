@@ -1,0 +1,8 @@
+.preference {
+    display: block;
+    color: var(--joune-fonce-2);
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -10px;
+
+}

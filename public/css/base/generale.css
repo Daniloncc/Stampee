@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Typographie */
+
+.pompiere-regular {
+  font-family: "Pompiere", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.quicksand {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.italianno-regular {
+  font-family: "Italianno", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cinzel {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.old-standard-tt-regular {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.old-standard-tt-bold {
+  font-family: "Old Standard TT", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  /* ECHELLE TEXTE */
+  
+  --titre-tres-gros: 4em;
+  --titre-gros-1: 45.78px;
+  --titre-gros-2: 36.62px;
+  --titre-moyen-1: 29.3px;
+  --titre-moyen-2: 23.44px;
+  --titre-petit: 18.75px;
+  
+  --paragraphe: 17px;
+  
+  --small: 14px;
+  
+  /* ECHELLE ESPACEMENT */
+  --tres-gros: 70px;
+  --gros-1: 45.78px;
+  --gros-2: 36.62px;
+  --moyen-1: 29.3px;
+  --moyen-2: 23.44px;
+  --petit: 18.75px;
+  --petit-2: 17px;
+  --petit-3: 14px;
+  
+  /* COULEURS */
+  --bleu-fonce: #0b057c;
+  --bleu-fonce-2: #2d256b;
+  --bleu-clair: #4941e2;
+  --bleu-clair-2: #847ace;
+  
+  --rouge-fonce: #5b0000;
+  --rouge: #d63131;
+  
+  --brun-fonce: #6a3c24;
+  --brun-clair: #ffcbaf;
+  
+  --joune-fonce: #896e16;
+  --joune-clair: #e8ca85;
+  
+  --joune-fonce-2: #c19c23;
+  --joune-clair-2: #fef1d5;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+body {
+  min-height: 100vh;
+  max-width: 1400px;
+  margin-inline: auto;
+  display: grid;
+  grid:
+  "nav" auto
+  "header" auto
+  "main" 1fr
+  "footer" auto;
+  
+  & nav {
+    grid-area: nav;
+  }
+  
+  & > header {
+    grid-area: header;
+  }
+  
+  & > main {
+    margin-inline: auto;
+    max-width: 90vw;
+    grid-area: main;
+  }
+  
+  & > footer {
+    grid-area: footer;
+  }
+  
+  & > * + * {
+    margin-top: 60px;
+  }
+  
+  & > * {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+li {
+  list-style: none;
+  display: flex;
+  color: var(--joune-clair-2);
+  gap: 7px;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+a {
+  font-size: var(--petit-3);
+  text-decoration: none;
+}

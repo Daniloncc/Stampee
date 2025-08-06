@@ -1,0 +1,46 @@
+.encheres {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+
+  & > * + * {
+
+    margin-top: 90px;
+  }
+}
+
+.encheres__presentation {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  & > header {
+    margin-bottom: 45px;
+    border-bottom: 0.7px solid var(--joune-fonce);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  & h2 {
+    font-size: var(--moyen-1);
+  }
+
+  & small {
+    color: rgb(91, 90, 90);
+  }
+}
+
+.encheres__presentation-gauche {
+  & header {
+    display: inline;
+    color: var(--bleu-fonce);
+  }
+}
+
+.encheres-accueil {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}

@@ -1,0 +1,9 @@
+.grille-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28ch, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  height: fit-content;
+  margin: 0 auto;
+  box-sizing: border-box;
+}

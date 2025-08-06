@@ -1,0 +1,23 @@
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 120px;
+    
+    
+}
+
+.flex-column-center {
+    border-top: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+    align-items: center;
+    gap: 15px;
+
+    & > picture {
+        height: 100px;
+        width: 100px;
+    }
+
+    & > p {
+        margin-bottom: 15px;
+    }
+}

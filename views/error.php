@@ -22,13 +22,8 @@
     </picture>
     <div class="entete__opacite"></div>
     <div class="entete__contenu">
-        <h1 class="italianno-regular">Le Lord Ronald Stampee <strong class="old-standard-tt-bold">III</strong></h1>
-        <p class="pompiere-regular">
-            vous souhaite la bienvenue sur son prestigieux site d'enchères.
-            Passionné et collectionneur depuis toujours, il est fier de vous
-            proposer les plus rares et exquis timbres jamais vendus. Faites vos
-            offres!
-        </p>
+        <h1 class="italianno-regular">Desole, nous avos pas trouve la page souhaite!</h1>
+
     </div>
 </header>
 

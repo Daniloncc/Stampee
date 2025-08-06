@@ -1,0 +1,223 @@
+@media (max-width: 1200px) {
+}
+@media (max-width: 900px) {
+  /* ENTETE */
+  .entete {
+    padding: 20px 0;
+  }
+  /* NAVIGATION */
+  .navigation {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navigation__secondaire {
+    order: 2;
+    
+    & .navigation__sous-menu{
+      margin-right: 0;
+    }
+  }
+  .navigation__principale,
+  .navigation__secondaire {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .navigation__options,
+  .navigation__sous-menu > ul {
+    width: 300px;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    font-size: var(--titre-moyen-2);
+  }
+  
+  .navigation__sous-menu form {
+    display: none !important;
+  }
+  
+  .navigation__options li:hover,
+  .navigation__sous-menu li:hover {
+    transform: scale(1);
+
+
+  }
+
+  .menu-deroulant:hover {
+    display: block;
+
+    & .conteneur{
+      
+      margin-left: -20px;
+    }
+    
+  }
+  
+  
+  .navigation__burger-wrapper {
+    margin: 20px 0;
+  }
+  
+  .navigation__burger {
+    display: flex;
+    width: 30px;
+    height: 24px;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  
+  .navigation__burger span {
+    height: 4px;
+    background: black;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Menu affiché si burger coché */
+  [id="burger-toggle"]:checked ~ .navigation__principale .navigation__options,
+  [id="burger-toggle"]:checked ~ .navigation__secondaire ul {
+    max-height: fit-content;
+    padding-top: 1rem;
+    align-items: flex-start;
+    margin: 0;
+  }
+  
+  [id="burger-toggle"]:checked ~ .navigation__secondaire .conteneur,
+  [id="burger-toggle"]:checked ~ .navigation__principale .conteneur {
+    position: relative;
+    top: 0;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Animation croix */
+  [id="burger-toggle"]:checked ~ .navigation__principale  span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+  }
+  
+  [id="burger-toggle"]:checked ~ .navigation__principale span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  [id="burger-toggle"]:checked ~ .navigation__principale span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  
+  /* MAIN */
+  .encheres__presentation > header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .timbre {
+    height: fit-content;
+  }
+  
+}
+
+@media (max-width: 700px) {
+  .entete__contenu {
+    margin-left: 15vw;
+    margin-right: 15vw;
+    
+    & h1 {
+      font-size: var(--titre-moyen-1);
+      font-weight: 200;
+    }
+    
+    & h2 {
+      font-size: var(--titre-moyen-1);
+      color: var(--bleu-fonce);
+      margin-bottom: var(--moyen-1);
+      
+      & strong {
+        font-size: var(--titre-gros-2);
+      }
+    }
+    
+    & p {
+      font-size: var(--titre-moyen-2);
+      font-weight: 600;
+    }
+  }
+  /* FILTRE */
+  .filtre {
+    
+    & > .button {
+      align-self: flex-start;
+      margin-left: 10px;
+    }
+  }
+  
+  
+  .timbre {
+    flex-direction: column-reverse;
+    height: fit-content;
+    max-width: 350px;
+    
+    & p{
+      text-align: justify;
+      letter-spacing: 5px;
+      word-spacing: 10px;
+    }
+    
+    & button {
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .pied-page__sous-menu {
+    gap: 35px;
+
+  }
+}
+
+@media (max-width: 650px) {
+  .pied-page__menu {
+    & ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+  }
+  
+  .pied-page__sous-menu {
+    flex-direction: column;
+    margin-inline: auto;
+    padding-left: 25px;
+    gap: 35px;
+    width: 200px;
+    
+    & > div {
+      flex-basis: 100px;
+    }
+    
+    & > :nth-child(2), :nth-child(3) {
+      margin-left: 0;
+      flex-direction: column;
+      text-align: left;
+    }
+    
+  }
+  
+}
+
+@media (max-width: 500px) {
+  /* ENCHERES */
+  .encheres {
+    flex-direction: column;
+    & > .button {
+      align-self: flex-start;
+      margin-left: 10px;
+    }
+  }
+}

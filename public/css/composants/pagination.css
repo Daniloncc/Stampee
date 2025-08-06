@@ -1,0 +1,21 @@
+.pagination {
+    display: flex;
+    gap: 3px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 0.7px solid var(--joune-fonce);
+  }
+  
+  .pagination__page {
+    padding: 6px 12px;
+    border: 1px solid var(--bleu-fonce, #003366);
+    background-color: transparent;
+    cursor: pointer;
+    font-family: "Old Standard TT", serif;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination__page:hover {
+    background-color: var(--bleu-fonce, #003366);
+    color: white;
+  }

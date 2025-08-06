@@ -1,0 +1,16 @@
+.forme-enchere {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  
+    & header {
+      border-bottom: 1px solid var(--bleu-fonce);
+      text-align: left;
+      
+    }
+
+    & h3 {
+        font-size: var(--petit-3);
+        color: var(--bleu-fonce);
+      }
+}

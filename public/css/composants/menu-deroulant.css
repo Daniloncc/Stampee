@@ -1,0 +1,48 @@
+.menu-deroulant {
+  position: relative;
+  z-index: 7;
+  margin-bottom: 5px;
+}
+
+.menu-deroulant .conteneur {
+  position: absolute;
+  top: 100%;
+  background-color: #fdf1d3;
+  transition-duration: 300ms;
+  margin-left: -10px;
+  padding: 10px;
+  display: block;
+
+  & > * + * {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 20px;
+      width: 15px;
+      height: 0.5px;
+      background-color: var(--rouge-fonce);
+    }
+  }
+
+  & > * {
+    padding: 10px;
+    width: max-content;
+    transform: scale(1);
+  }
+
+  & a {
+    display: inline;
+    color: var(--rouge-fonce);
+    
+  }
+
+  & a:hover {
+    text-decoration: 2px underline;
+  }
+}
+
+.menu-deroulant:not(:hover) .conteneur {
+  display: none;
+  pointer-events: none;
+}

@@ -54,7 +54,13 @@ class Route
                 return;
             }
         }
-        http_response_code(404);
-        echo "404 page not found";
+        $contollerSegments = explode('@', $route['controller']);
+        $controllerName = 'App\\Controllers\\' . $contollerSegments[0];
+        $methodName = "error";
+        $controllerInstance = new $controllerName;
+        $controllerInstance->$methodName();
+
+        // http_response_code(404);
+        // echo "404 page not found";
     }
 }
