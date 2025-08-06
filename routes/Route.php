@@ -23,9 +23,12 @@ class Route
         $urlSegments = explode('?', $url);
         $urlPath = $urlSegments[0];
 
-        print($url);
-        die;
+        // print($url);
+        // print($urlPath);
+        // die;
         foreach (self::$routes as $route) {
+
+
             if (BASE . $route['url'] == $urlPath && $route['method'] == $method) {
                 $contollerSegments = explode('@', $route['controller']);
                 $controllerName = 'App\\Controllers\\' . $contollerSegments[0];
@@ -34,6 +37,7 @@ class Route
 
                 if ($method == 'GET') {
                     if (isset($urlSegments[1])) {
+
                         parse_str($urlSegments[1], $queryParams);
                         $controllerInstance->$methodName($queryParams);
                     } else {
