@@ -10,18 +10,18 @@
     nav5: ' Échange ▿',
     nav6: 'Profil',
     nav7: 'Deconnecter',
-    lien6: '/auth/index',
-    lien7: '/user/create',
+    lien6: '/user/edit?id=' ~ session.userId,
+lien7: '/auth/logout',
 
 }) }}
 {% endif %}
 <header>
-    <h1 class="old-standard-tt-bold">Bonjour, <strong class="italianno-regular">{{ user.prenom }}</strong></h1>
+    <h1 class="quicksand">Bonjour, {{ user.prenom }}</h1>
 </header>
 
 <main class="main__form">
     <div class="donnee">
-        <h2 class="old-standard-tt-bold">Votre Profil</h2>
+        <h2 class="quicksand">Votre Profil</h2>
         <hr>
         <p class="pompiere-regular"><strong>Nom: </strong>{{ user.nom }}</p>
         <p class="pompiere-regular"><strong>Prenom: </strong>{{ user.prenom }}</p>

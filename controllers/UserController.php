@@ -67,4 +67,20 @@ class UserController
             return View::render('error', ['message' => '404 page non trouve!']);
         }
     }
+
+    final public function edit($data)
+    {
+        if (isset($data['id']) && $data['id'] != null) {
+            $user = new User;
+            $user = $user->selectId($data['id']);
+
+            if ($user) {
+                return View::render('user/edit', ['user' => $user]);
+            } else {
+                return View::render('error', ['message' => "Ce Client n'existe pas!"]);
+            }
+        } else {
+            return View::render('error', ['message' => '404 page non trouve!']);
+        }
+    }
 }

@@ -47,7 +47,7 @@
         {% if errors is defined %}
         <span class="error">{{errors.message}}</span>
         {% endif %}
-        <button type="submit" class="button">Connecter →</button>
+        <button type="submit" class="button button-bleu">Connecter →</button>
     </form>
 </main>
 
