@@ -62,6 +62,9 @@
             <span class="error">{{errors.courriel}}</span>
             {% endif %}
         </div>
+        {% if message is defined %}
+        <span class="error">{{message}}</span>
+        {% endif %}
         <button type="submit" class="button button-bleu">Modifier</button>
         <div>
             <a class="button button-rouge" href="{{ base }}/user/show?id={{ user.id }}">Retourner</a>

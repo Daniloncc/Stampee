@@ -19,7 +19,9 @@
     </picture>
     <div class="entete__opacite"></div>
     <div class="entete__contenu">
-        <h1 class="italianno-regular">Desole, nous avos pas trouve la page souhaite!</h1>
+        {% if message is defined %}
+        <h1 class="italianno-regular">Desole, {{message}}!</h1>
+        {% endif %}
 
     </div>
 </header>

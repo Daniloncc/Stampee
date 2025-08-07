@@ -70,7 +70,7 @@
             <span class="error">{{errors.motPasse}}</span>
             {% endif %}
         </div>
-        <button type="submit" class="button">Creer →</button>
+        <button type="submit" class="button button-bleu">Creer →</button>
     </form>
 </main>
 
