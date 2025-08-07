@@ -4,9 +4,9 @@
   margin-top: 15px;
   margin-bottom: 10px;
   margin-right: 10px;
-  background-color: var(--bleu-fonce);
+  
   padding: 8px 5px;
-  border: 0.5px solid var(--bleu-fonce);
+  
   color: whitesmoke;
   transition: all 0.3s ease-in-out;
 
@@ -16,4 +16,14 @@
     border: 0.5px solid var(--joune-fonce);
     color: var(--bleu-fonce);
   }
+}
+.button-rouge {
+  background-color: var(--rouge-fonce);
+  border: 0.5px solid var(--joune-fonce);
+}
+
+.button-bleu {
+  background-color: var(--bleu-fonce);
+  border: 0.5px solid var(--bleu-fonce);
+
 }

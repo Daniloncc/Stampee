@@ -9,10 +9,7 @@
     nav5: ' Échange ▿',
     nav6: 'Se connecter',
     nav7: 'Devenir Membre',
-    lien1: '#',
-    lien2: '/user/create',
-    lien3: '/auth/index',
-    lien2: '/rrrrr',
+    lien6: '/auth/index',
     lien7: '/user/create',
 
 }) }}

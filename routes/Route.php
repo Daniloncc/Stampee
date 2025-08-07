@@ -39,6 +39,11 @@ class Route
                     if (isset($urlSegments[1])) {
 
                         parse_str($urlSegments[1], $queryParams);
+                        // print($urlSegments[1]);
+                        // print_r($queryParams);
+                        // print($methodName);
+                        // print($controllerName);
+                        // die;
                         $controllerInstance->$methodName($queryParams);
                     } else {
                         $controllerInstance->$methodName();

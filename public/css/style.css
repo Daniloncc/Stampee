@@ -18,6 +18,7 @@
 @import "./composants/preference.css";
 @import "./composants/main__form.css";
 @import "./composants/form.css";
+@import "./composants/donnee.css";
 @import "./composants/flex-row.css";
 @import "./composants/flex-column.css";
 @import "./composants/media-query.css";

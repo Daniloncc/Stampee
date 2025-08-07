@@ -1,5 +1,5 @@
 {{ include('layouts/header.php', {
-    title: 'Bienvenue',
+    title: 'Page Error',
     nav1: 'Lord Stampee III ▿',
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
@@ -9,11 +9,8 @@
     nav5: ' Échange ▿',
     nav6: 'Se connecter',
     nav7: 'Devenir Membre',
-    lien1: '#',
-    lien2: '/user/create',
-    lien3: '/auth/index',
-    lien2: '/user/create',
-    lien3: '/auth/index',
+    lien6: '/auth/index',
+    lien7: '/user/create',
 
 }) }}
 <header class="entete entete-accueil">
