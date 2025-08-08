@@ -5,8 +5,11 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Providers\View;
 use App\Providers\Validator;
-//use App\Models\Auth;
+// use App\Models\Auth;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+require 'vendor/autoload.php';
 class UserController
 {
     final public function create()
@@ -37,8 +40,35 @@ class UserController
                 // die;
                 return View::render('user/create', ['errors' => $errors, 'user' => $data, 'message' => $insertUser]);
             } else {
-                return View::render('auth/index');
-                //return View::redirect('user/show?id=' . $insertUser);
+                $mail = new PHPMailer(true);
+
+                try {
+                    // Configuration SMTP
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com'; // change ça si tu utilises un autre service
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'dancc86@gmail.com'; // ton email
+                    $mail->Password = 'oylp wijw sigd eoiq';   // mot de passe d’application
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port = 587;
+
+                    // Destinataires
+                    $mail->setFrom('dancc86@gmail.com', 'Ton Projet');
+                    $mail->addAddress($data['courriel'], $data['prenom']);
+
+                    $nom = $data['prenom'];
+                    // Contenu
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Confirmation d\'inscription';
+                    $mail->Body    = "Bonjour $nom,<br><br>Ton inscription a bien été prise en compte.<br>Merci et bienvenue !";
+
+                    $mail->send();
+                    return View::render('auth/index');
+                    //return true;
+                } catch (Exception $e) {
+                    error_log("Erreur d'envoi de mail : {$mail->ErrorInfo}");
+                    return false;
+                }
             }
         } else {
             $errors = $validator->getErrors();
