@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Models\CRUD;
 
-class Timbre extends CRUD
+class Etat extends CRUD
 {
-    protected $table = "timbre";
+    protected $table = "etat";
     protected $primaryKey = "id";
 }

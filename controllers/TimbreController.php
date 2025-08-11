@@ -4,30 +4,32 @@ namespace App\Controllers;
 
 use App\Providers\View;
 use App\Models\Timbre;
-// use App\Models\Editeur;
-// use App\Models\Categorie;
-// use App\Models\Auteur;
+use App\Models\Certifie;
+use App\Models\Couleur;
+use App\Models\Pays;
+use App\Models\Etat;
+use App\Models\Image;
 use App\Providers\Validator;
 
-class LivreController
+class TimbreController
 {
     public function index()
     {
-        $livre = new Livre;
-        $livres = $livre->select();
-        return View::render('livre/index', ['livres' => $livres]);
+        return View::render('timbre/index');
     }
 
     final public function create()
     {
-        $editeur = new Editeur;
-        $editeurs = $editeur->select();
-        $categorie = new Categorie;
-        $categories = $categorie->select();
-        $auteur = new Auteur;
-        $auteurs = $auteur->select();
-        //print_r($editeurs);
-        return View::render('livre/create', ['editeurs' => $editeurs, 'categories' => $categories, 'auteurs' => $auteurs]);
+        $certifie = new Certifie;
+        $certifie = $certifie->select();
+        $couleur = new Couleur;
+        $couleurs = $couleur->select();
+        $pays = new Pays;
+        $pays = $pays->select();
+        $etat = new Etat;
+        $etat = $etat->select();
+
+        return View::redirect('timbre/create?id=' . $_SESSION['userId'], ['certifie' => $certifie, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
     }
 
     final public function store($data)

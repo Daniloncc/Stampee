@@ -24,4 +24,9 @@ Route::get('/auth/logout', 'AuthController@delete');
 // Route POST pour l'auth'
 Route::post('/auth/index', 'AuthController@login');
 
+
+// Route GET pour les timbre
+Route::get('/livres', 'LivreController@index');
+Route::get('/timbre/create', 'TimbreController@create');
+
 Route::dispatch();

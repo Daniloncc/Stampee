@@ -6,7 +6,7 @@ use App\Models\CRUD;
 
 class User extends CRUD
 {
-    protected $table = "utilisateur";
+    protected $table = "Utilisateur";
     protected $primaryKey = "id";
     protected $fillable = ['nom', 'prenom', 'adresse', 'telephone', 'courriel', 'motPasse'];
 
