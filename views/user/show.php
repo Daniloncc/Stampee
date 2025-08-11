@@ -33,8 +33,9 @@ lien7: '/auth/logout',
         <form class="donnee__form" action="{{ base }}/user/delete" method="post">
             <input type="hidden" name="id" value="{{ user.id }}">
             <a href="{{ base }}/user/edit?id={{ user.id }}" class=" button button-bleu">Edit profil</a>
-
             <button type="submit" class="button button-rouge">Delete profil</button>
+            <div class="barre-division"> </div>
+            <a href="{{ base }}/timbres?id={{ user.id }}" class="button button-joune">Ajouter Timbre</a>
         </form>
     </div>
 </main>

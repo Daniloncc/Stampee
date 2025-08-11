@@ -128,10 +128,11 @@ class UserController
             if ($validator->isSuccess()) {
                 $user = new User;
 
-                $courrielExistant = $user->selectId($_SESSION['userId']);
-                $courrielExistant = $courrielExistant['courriel'];
-                $testUser = $user->unique('courriel', $data['courriel']);
+                $courrielExistant = $user->selectId($_SESSION['userId']); // dan
+                $courrielExistant = $courrielExistant['courriel']; //dan
+                $testUser = $user->unique('courriel', $data['courriel']); //mohamed
 
+                // Voir si le nouveau courriel exite das la base de donnees et comparer si le courriel qui est dans la base de donnees est different
                 if (isset($testUser['courriel']) && $testUser['courriel'] != $courrielExistant) {
                     $errors = $validator->getErrors();
                     return View::render('user/edit', ['message' => "Le courriel existe déjà.", 'user' => $data]);

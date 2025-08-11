@@ -74,6 +74,17 @@
                         <li><a href="#">Historique familial</a></li>
                     </ul>
                 </li>
+
+                {% if session.userId is defined %}
+                <li class="menu-deroulant">
+                    <a href="#">Timbre ▿</a>
+                    <ul class="conteneur">
+                        <li><a href="#">Ajouter Timbre</a></li>
+                        <li><a href="#">Mes Favoris</a></li>
+                        <li><a href="#">Mes Timbres</a></li>
+                    </ul>
+                </li>
+                {% endif %}
                 <li class="menu-deroulant">
                     <a href="#">{{ nav2 }}</a>
                     <ul class="conteneur">

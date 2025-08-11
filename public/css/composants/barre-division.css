@@ -1,0 +1,10 @@
+.barre-division {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    background-color: black;
+    width: 1px;
+    /* display: block; */
+    height: 30px;
+    /* height: 100%; */
+    /* border-right: 10px solid black; */
+}
