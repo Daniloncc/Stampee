@@ -11,6 +11,7 @@
     nav6: 'Profil',
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
+    lien8: '/timbre/create',
 lien7: '/auth/logout',
 
 }) }}
@@ -35,7 +36,7 @@ lien7: '/auth/logout',
             <a href="{{ base }}/user/edit?id={{ user.id }}" class=" button button-bleu">Edit profil</a>
             <button type="submit" class="button button-rouge">Delete profil</button>
             <div class="barre-division"> </div>
-            <a href="{{ base }}/timbres?id={{ user.id }}" class="button button-joune">Ajouter Timbre</a>
+            <a href="{{ base }}/timbre/create?id={{ user.id }}" class="button button-joune">Ajouter Timbre</a>
         </form>
     </div>
 </main>

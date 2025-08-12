@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Providers\View;
 use App\Providers\Validator;
-// use App\Models\Auth;
+use App\Models\Auth;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 

@@ -16,95 +16,94 @@ lien7: '/auth/logout',
 }) }}
 {% endif %}
 
-<header>
-    <h1 class="quicksand">Librairie <strong class="pompiere">Voyages imaginaires</strong></h1>
-</header>
+<!-- <header>
+    <h1 class="quicksand">Ajouter <strong class="pompiere">Un Timbre</strong></h1>
+</header> -->
 
 <main class="main__form">
 
-
-    <!-- <form action="{{ base }}/livre/index" method="post" class="form" enctype="multipart/form-data">
+    <form action="{{ base }}/timbre/index" method="post" class="form" enctype="multipart/form-data">
         <header>
-            <h2 class="quicksand">Ajouter un Livre</h2>
+            <h2 class="quicksand">Ajouter un Timbre</h2>
             <hr>
         </header>
 
+        <label for="idUtilisateur"></label>
+        <input class="form__input" type="hidden" name="idUtilisateur" id="idUtilisateur" value="{{ session.userId }}">
+
         <div class="form__contenu">
             <label class="form__label" for="titre">Titre :</label>
-            <input class="form__input" type="text" name="titre" id="titre" value="{{ livre.titre|default('') }}" placeholder="Min 2 lettres, Max 45">
+            <input class="form__input" type="text" name="titre" id="titre" value="{{ timbre.titre|default('') }}" placeholder="Min 2 lettres, Max 45">
             {% if errors.titre is defined %}
             <span class="error">{{ errors.titre }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="numero_pages">Nombre de pages :</label>
-            <input class="form__input" type="number" name="numero_pages" id="numero_pages" value="{{ livre.numero_pages|default('') }}" placeholder="Entrez un nombre">
-            {% if errors.numero_pages is defined %}
-            <span class="error">{{ errors.numero_pages }}</span>
+            <label class="form__label" for="tirage">Tirage :</label>
+            <input class="form__input" type="number" name="tirage" id="tirage" value="{{ timbre.tirage|default('') }}" placeholder="Entrez un nombre">
+            {% if errors.tirage is defined %}
+            <span class="error">{{ errors.tirage }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="edition">Édition :</label>
-            <input class="form__input" type="number" name="edition" id="edition" value="{{ livre.edition|default('') }}" placeholder="Numéro d'édition">
-            {% if errors.edition is defined %}
-            <span class="error">{{ errors.edition }}</span>
+            <label class="form__label" for="dimensions">Dimensions :</label>
+            <input class="form__input" type="number" name="dimensions" id="dimensions" value="{{ timbre.dimensions|default('') }}" placeholder="Dimensions">
+            {% if errors.dimensions is defined %}
+            <span class="error">{{ errors.dimensions }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="fileToUpload">Image (Upload) :</label>
-            <input class="form__input" type="file" name="fileToUpload" id="fileToUpload">
-            {% if errors.fileToUpload is defined %}
-            <span class="error">{{ errors.fileToUpload }}</span>
-            {% endif %}
-        </div>
-
-        <div class="form__contenu">
-            <label class="form__label" for="prix">Prix :</label>
-            <input class="form__input" type="text" name="prix" id="prix" value="{{ livre.prix|default('') }}" placeholder="Ex : 19,99">
-            {% if errors.prix is defined %}
-            <span class="error">{{ errors.prix }}</span>
-            {% endif %}
-        </div>
-
-        <div class="form__contenu">
-            <label class="form__label" for="id_editeur">Choisissez un Éditeur :</label>
-            <select name="id_editeur" id="id_editeur" class="form__options">
-                <option value="">Éditeur</option>
-                {% for editeur in editeurs %}
-                <option value="{{ editeur.id }}" {% if livre.id_editeur is defined and livre.id_editeur == editeur.id %}selected{% endif %}>{{ editeur.editeur }}</option>
+            <label class="form__label" for="id_certifie">Est certifie :</label>
+            <select name="id_certifie" id="id_certifie" class="form__options">
+                <option value="">Certifie</option>
+                {% for certifie in certifies %}
+                <option value="{{ certifie.id }}" {% if timbre.id_certifie is defined and timbre.id_certifie == certifie.id %}selected{% endif %}>{{ certifie.certifie }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_editeur is defined %}
-            <span class="error">{{ errors.id_editeur }}</span>
+            {% if errors.id_certifie is defined %}
+            <span class="error">{{ errors.id_certifie }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_categorie">Choisissez une Catégorie :</label>
-            <select name="id_categorie" id="id_categorie" class="form__options">
-                <option value="">Catégorie</option>
-                {% for categorie in categories %}
-                <option value="{{ categorie.id }}" {% if livre.id_categorie is defined and livre.id_categorie == categorie.id %}selected{% endif %}>{{ categorie.categorie }}</option>
+            <label class="form__label" for="id_pays">Pays:</label>
+            <select name="id_pays" id="id_pays" class="form__options">
+                <option value="">Pays</option>
+                {% for pay in pays %}
+                <option value="{{ pay.id }}" {% if timbre.id_pay is defined and timbre.id_pay == pay.id %}selected{% endif %}>{{ pay.pays }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_categorie is defined %}
-            <span class="error">{{ errors.id_categorie }}</span>
+            {% if errors.id_pays is defined %}
+            <span class="error">{{ errors.id_pays }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_auteur">Choisissez un Auteur :</label>
-            <select name="id_auteur" id="id_auteur" class="form__options">
-                <option value="">Auteur</option>
-                {% for auteur in auteurs %}
-                <option value="{{ auteur.id }}" {% if livre.id_auteur is defined and livre.id_auteur == auteur.id %}selected{% endif %}>{{ auteur.auteur }}</option>
+            <label class="form__label" for="id_etat">Etat:</label>
+            <select name="id_etat" id="id_etat" class="form__options">
+                <option value="">Etat</option>
+                {% for etat1 in etat %}
+                <option value="{{ etat1.id }}" {% if timbre.id_etat1 is defined and timbre.id_etat1 == etat1.id %}selected{% endif %}>{{ etat1.etat }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_auteur is defined %}
-            <span class="error">{{ errors.id_auteur }}</span>
+            {% if errors.id_etat is defined %}
+            <span class="error">{{ errors.id_etat }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form__contenu">
+            <label class="form__label" for="id_couleur">Couleur:</label>
+            <select name="id_couleur" id="id_couleur" class="form__options">
+                <option value="">Couleur</option>
+                {% for couleur in couleurs %}
+                <option value="{{ couleur.id }}" {% if timbre.id_couleur is defined and timbre.id_couleur == couleur.id %}selected{% endif %}>{{ couleur.couleur }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.id_couleur is defined %}
+            <span class="error">{{ errors.id_couleur }}</span>
             {% endif %}
         </div>
 
@@ -116,8 +115,16 @@ lien7: '/auth/logout',
             {% endif %}
         </div>
 
+        <!-- <div class="form__contenu">
+            <label class="form__label" for="fileToUpload">Image (Upload) :</label>
+            <input class="form__input" type="file" name="fileToUpload" id="fileToUpload">
+            {% if errors.fileToUpload is defined %}
+            <span class="error">{{ errors.fileToUpload }}</span>
+            {% endif %}
+        </div> -->
+
         <button type="submit" class="btn">Créer</button>
-    </form> -->
+    </form>
 
 </main>
 
