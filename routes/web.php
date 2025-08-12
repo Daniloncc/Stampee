@@ -28,4 +28,9 @@ Route::post('/auth/index', 'AuthController@login');
 // Route GET pour les timbre
 Route::get('/timbre/create', 'TimbreController@create');
 
+// Route POST pour l'auth'
+Route::post('/timbre/store', 'TimbreController@store');
+
+
+
 Route::dispatch();

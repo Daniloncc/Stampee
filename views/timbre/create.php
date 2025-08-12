@@ -22,7 +22,7 @@ lien7: '/auth/logout',
 
 <main class="main__form">
 
-    <form action="{{ base }}/timbre/index" method="post" class="form" enctype="multipart/form-data">
+    <form action="{{ base }}/timbre/store" method="post" class="form" enctype="multipart/form-data">
         <header>
             <h2 class="quicksand">Ajouter un Timbre</h2>
             <hr>
@@ -123,8 +123,12 @@ lien7: '/auth/logout',
             {% endif %}
         </div> -->
 
-        <button type="submit" class="btn">Créer</button>
+        <button type="submit" class="button button-bleu">Créer</button>
+        <div>
+            <a class="button button-rouge" href="{{ base }}/user/show?id={{ session.userId }}">Retourner</a>
+        </div>
     </form>
+
 
 </main>
 
