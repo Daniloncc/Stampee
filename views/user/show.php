@@ -11,9 +11,10 @@
     nav6: 'Profil',
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
+    lien7: '/auth/logout',
     lien8: '/timbre/create?id=' ~ session.userId,
-lien7: '/auth/logout',
-
+    lien15: '/timbre/index',
+    
 }) }}
 {% endif %}
 <header>

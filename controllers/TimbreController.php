@@ -16,7 +16,15 @@ class TimbreController
 {
     public function index()
     {
-        return View::render('timbre/index');
+        $timbres = new Timbre;
+        $timbres = $timbres->select();
+
+        $images = new Image;
+        $images = $images->select();
+        // print_r($images);
+        // print_r($timbres);
+        // die;
+        return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'page' => 'Mes timbres']);
     }
 
     final public function create($get)
@@ -120,7 +128,10 @@ class TimbreController
 
                 $images = new Image;
                 $images = $images->select();
-                return View::redirect('timbre/index?id=' . $_SESSION['userId'], ['timbres' => $timbres, 'images' => $images], ['page' => 'Mes timbres']);
+                // print_r($images);
+                // print_r($timbres);
+                // die;
+                return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'page' => 'Mes timbres']);
             } else {
                 $certifie = new Certifie;
                 $certifies = $certifie->select();

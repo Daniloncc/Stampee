@@ -11,7 +11,9 @@
     nav6: 'Profil',
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
-lien7: '/auth/logout',
+    lien7: '/auth/logout',
+    lien8: '/timbre/index',
+    lienJScript:'Timbre.js'
 
 }) }}
 {% endif %}
@@ -41,12 +43,22 @@ lien7: '/auth/logout',
     <section class="encheres__presentation">
         <header>
             <h2 class="old-standard-tt-regular">
-                {{ page }}
+                <pre>{{ page }}</pre>
             </h2>
             <small class="quicksand">Tous les options | 12 sur 231</small>
         </header>
+
+        <div class="form__contenu">
+            <lablel class="form__label">Timbre :</lablel>
+            <select name="idVille" id="idVille" class="form__options">
+                <option value="">Choisissez la ville</option>
+                {% for timbre in timbres %}
+                <option value="{{ timbre.id }}">{{ timbre.titre}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <!--  -->
-        <div class="grille-cartes">
+        <!-- <div class="grille-cartes">
             <article class="carte">
                 <i class="fa-solid fa-star preference"></i>
                 <picture>
@@ -303,7 +315,7 @@ lien7: '/auth/logout',
                 </div>
                 <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
             </article>
-        </div>
+        </div> -->
         <!--  -->
         <footer class="pagination">
             <span class="pagination__page">1</span>
@@ -314,6 +326,5 @@ lien7: '/auth/logout',
         </footer>
     </section>
 </main>
-
 
 {{ include('layouts/footer.php') }}

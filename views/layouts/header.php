@@ -16,7 +16,10 @@
         rel="stylesheet">
     <!-- LINK CSS -->
     <link rel="stylesheet" href="{{ asset }}/css/style.css">
-
+    <!-- LINK JS -->
+    {% if lienJScript is defined %}
+    <script src="{{ base }}/views/timbre/{{ lienJScript }}" defer></script>
+    {% endif %}
     <title>{{ title }}</title>
 </head>
 
@@ -81,7 +84,7 @@
                     <ul class="conteneur">
                         <li><a href="{{ base }}{{ lien8}}">Ajouter Timbre</a></li>
                         <li><a href="#">Mes Favoris</a></li>
-                        <li><a href="#">Mes Timbres</a></li>
+                        <li><a href="{{ base }}{{ lien15}}">Mes Timbres</a></li>
                     </ul>
                 </li>
                 {% endif %}
