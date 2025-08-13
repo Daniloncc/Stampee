@@ -10,6 +10,7 @@ use App\Models\Pays;
 use App\Models\Etat;
 use App\Models\Image;
 use App\Providers\Validator;
+use Intervention\Image\ImageManager;
 
 class TimbreController
 {
@@ -36,117 +37,152 @@ class TimbreController
 
     final public function store($data)
     {
-        print_r($data);
-        die;
-        // filtrer le prix:
-        // $prix_input = $_POST['prix'] ?? '';
-        // $prix_cleaned = trim($prix_input);
-        // $prix_cleaned = str_replace(',', '.', $prix_cleaned);
-        // $prix_float = floatval($prix_cleaned);
+        // ADRESSE POUR ENREGISTRER L'IMAGE, CHANGER POUR LE WEBDEV
+        $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
+        $db_image_prefix = "img/";
+        $imagesData = [];
 
-        // $validator = new Validator;
-        // $validator->field('titre', $data['titre'])->onlyLetters()->min(2)->max(45);
-        // $validator->field('numero_pages', $data['numero_pages'], 'numero_pages')->required();
-        // $validator->field('edition', $data['edition'])->number()->required();
-        // $validator->field('prix', $prix_cleaned)->number()->required();
-        // $validator->field('id_editeur', $data['id_editeur'], 'id_editeur')->required();
-        // $validator->field('id_categorie', $data['id_categorie'], 'id_categorie')->required();
-        // $validator->field('id_auteur', $data['id_auteur'], 'id_auteur')->required();
-        // $validator->field('description', $data['description'], 'description')->required();
+        // print_r($data);
+        // die;
 
-        // if ($validator->isSuccess()) {
+        if (!empty($_FILES['images']['name'][0])) {
 
-        //     $upload_dir_on_server = "/Applications/MAMP/htdocs/03_session/TP_3/mvc/public/img/";
-        //     $db_image_prefix = "img/";
-        //     $livreData = [];
-        //     //print_r($_FILES["fileToUpload"]);
-        //     // print_r($data);
-        //     // die;
-        //     //print("ici 1");
-        //     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == UPLOAD_ERR_OK) {
+            // filtrer le prix:
+            $prix_input = $_POST['prix'] ?? '';
+            $prix_cleaned = trim($prix_input);
+            $prix_cleaned = str_replace(',', '.', $prix_cleaned);
+            $prix_float = floatval($prix_cleaned);
 
-        //         $uploadOk = 1;
-        //         $originalFileName = basename($_FILES["fileToUpload"]["name"]);
-        //         $imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-        //         $filename_without_ext = pathinfo($originalFileName, PATHINFO_FILENAME);
-        //         $filename = $filename_without_ext . "." . $imageFileType;
-        //         $target_file_path_on_server = $upload_dir_on_server . $filename;
+            $validator = new Validator;
+            $validator->field('titre', $data['titre'])->onlyLetters()->min(2)->max(45);
+            $validator->field('tirage', $data['tirage'], 'tirage')->number()->required();
+            $validator->field('dimensions', $data['dimensions'])->min(2)->max(45)->required();
+            $validator->field('prix', $prix_cleaned)->number()->required();
+            $validator->field('idCertifie', $data['idCertifie'], 'idCertifie')->required();
+            $validator->field('idPays', $data['idPays'], 'idPays')->required();
+            $validator->field('idEtat', $data['idEtat'], 'idEtat')->required();
+            $validator->field('idCouleur', $data['idCouleur'], 'idCouleur')->required();
+            $validator->field('description', $data['description'], 'description')->required();
 
-        //         //  Validations de l'image 
-        //         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        //         if ($check === false) {
-        //             $errors['fileToUpload'] = "Le fichier n'est pas une image.";
-        //             $uploadOk = 0;
-        //         }
+            if ($validator->isSuccess()) {
+                $dataActuelle = date("Y-m-d H:i:s");
 
-        //         if ($_FILES["fileToUpload"]["size"] > 500000) {
-        //             $errors['fileToUpload'] = "Désolé, votre fichier est trop volumineux (max 500KB).";
-        //             $uploadOk = 0;
-        //         }
+                $data['dateCreation'] = $dataActuelle;
+                $data['prix'] = $prix_float;
 
-        //         if (
-        //             $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "webp"
-        //             && $imageFileType != "gif"
-        //         ) {
-        //             $errors['fileToUpload'] = "Désolé, seuls les fichiers JPG, JPEG, PNG, WEBP et GIF sont autorisés.";
-        //             $uploadOk = 0;
-        //         }
+                $timbre = new Timbre;
+                $insertTimbre = $timbre->insert($data);
 
-        //         if ($uploadOk == 0) {
-        //             // $this->view('livre/create', ['errors' => $errors, 'livre' => $data]);
-        //         } else {
-        //             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file_path_on_server)) {
-        //                 $livreData = $db_image_prefix . $filename;
-        //             } else {
-        //                 $errors['fileToUpload'] = "Désolé, une erreur s'est produite lors de l'upload de votre fichier.";
-        //             }
-        //         }
+                $selectId = new Timbre;
+                $selectId = $selectId->selectId($insertTimbre);
+                $idTimbre = $selectId['id'];
 
-        //         $data['prix'] = $prix_float;
-        //         $data['img_url'] = $livreData;
-        //         $livre = new Livre;
-        //         $livre = $livre->insert($data);
-        //         return View::redirect('livres');
-        //     } else {
-        //         $errors['fileToUpload'] = "Une erreur inattendue s'est produite lors de l'upload : Code d'erreur " . $_FILES["fileToUpload"]["error"];
+                foreach ($_FILES['images']['name'] as $key => $originalFileName) {
 
-        //         $editeur = new Editeur;
-        //         $editeurs = $editeur->select();
-        //         $categorie = new Categorie;
-        //         $categories = $categorie->select();
-        //         $auteur = new Auteur;
-        //         $auteurs = $auteur->select();
+                    if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
 
-        //         if (isset($errors['fileToUpload']) && $errors['fileToUpload'] != null) {
-        //             $errors['fileToUpload'] = "L'image est necessaire!";
-        //         }
-        //         return View::render('livre/create', ['livre' => $data, 'editeurs' => $editeurs, 'categories' => $categories, 'auteurs' => $auteurs, 'errors' => $errors]);
-        //     }
-        // } else {
-        //     $errors = $validator->getErrors();
-        //     $editeur = new Editeur;
-        //     $editeurs = $editeur->select();
-        //     $categorie = new Categorie;
-        //     $categories = $categorie->select();
-        //     $auteur = new Auteur;
-        //     $auteurs = $auteur->select();
+                        $imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+                        $filename_without_ext = pathinfo($originalFileName, PATHINFO_FILENAME);
+                        $filename = $filename_without_ext . "." . $imageFileType;
+                        $target_file_path_on_server = $upload_dir_on_server . $filename;
 
-        //     if (isset($errors['id_editeur']) && $errors['id_editeur'] != null) {
-        //         $errors['id_editeur'] = "L'Editeur est necessaire!";
-        //     }
-        //     if (isset($errors['id_categorie']) && $errors['id_categorie'] != null) {
-        //         $errors['id_categorie'] = "La Categorie est necessaire!";
-        //     }
-        //     if (isset($errors['id_auteur']) && $errors['id_auteur'] != null) {
-        //         $errors['id_auteur'] = "L'Auteur est necessaire!";
-        //     }
-        //     if (isset($errors['numero_pages']) && $errors['numero_pages'] != null) {
-        //         $errors['numero_pages'] = "Le numero de pages est necessaire!";
-        //     }
-        //     if (isset($errors['description']) && $errors['description'] != null) {
-        //         $errors['description'] = "La description est necessaire!";
-        //     }
-        //     return View::render('livre/create', ['livre' => $data, 'editeurs' => $editeurs, 'categories' => $categories, 'auteurs' => $auteurs, 'errors' => $errors]);
-        // }
+                        $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+                        if (!in_array($imageFileType, $allowed)) {
+                            continue; // Passe cette image
+                        }
+
+                        // Validation taille
+                        if ($_FILES['images']['size'][$key] > 500000) {
+                            continue;
+                        }
+
+                        // Vérifie si c'est bien une image
+                        $check = getimagesize($_FILES['images']['tmp_name'][$key]);
+                        if ($check === false) {
+                            continue;
+                        }
+
+                        // Déplace l'image
+                        if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file_path_on_server)) {
+                            $imagesData[] = $db_image_prefix . $filename;
+                            $image = new Image;
+                            $imageTableau = [];
+                            $imageTableau['image'] = $filename_without_ext;
+                            $imageTableau['lien'] = $filename;
+                            $imageTableau['idTimbre'] = $idTimbre;
+
+                            $image = $image->insert($imageTableau);
+                        }
+                    }
+                }
+                $timbres = new Timbre;
+                $timbres = $timbres->select();
+
+                $images = new Image;
+                $images = $images->select();
+                return View::redirect('timbre/index?id=' . $_SESSION['userId'], ['timbres' => $timbres, 'images' => $images], ['page' => 'Mes timbres']);
+            } else {
+                $certifie = new Certifie;
+                $certifies = $certifie->select();
+                $couleur = new Couleur;
+                $couleurs = $couleur->select();
+                $pays = new Pays;
+                $pays = $pays->select();
+                $etat = new Etat;
+                $etat = $etat->select();
+
+                if (isset($errors['idCertifie']) && $errors['idCertifie'] != null) {
+                    $errors['idCertifie'] = "Une reponse est necessaire!";
+                }
+                if (isset($errors['idCouleur']) && $errors['idCouleur'] != null) {
+                    $errors['idCouleur'] = "La couleur est necessaire!";
+                }
+                if (isset($errors['idPays']) && $errors['idPays'] != null) {
+                    $errors['idPays'] = "Un pays est necessaire!";
+                }
+                if (isset($errors['idEtat']) && $errors['idEtat'] != null) {
+                    $errors['idEtat'] = "L'etat est necessaire!";
+                }
+                if (isset($errors['description']) && $errors['description'] != null) {
+                    $errors['description'] = "La description est necessaire!";
+                }
+
+                $errors = $validator->getErrors();
+                return View::render('timbre/create', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
+            }
+        } else {
+            $errors['images'] = "Une erreur inattendue s'est produite lors de l'upload.";
+
+            // On récupère les codes d'erreur de tous les fichiers
+            foreach ($_FILES['images']['error'] as $index => $errorCode) {
+                if ($errorCode !== UPLOAD_ERR_OK) {
+                    $errors['images'] .= " (Fichier $index : Code d'erreur $errorCode)";
+                }
+            }
+
+            // Recharge les données pour le formulaire
+            $certifie = new Certifie;
+            $certifies = $certifie->select();
+            $couleur = new Couleur;
+            $couleurs = $couleur->select();
+            $pays = new Pays;
+            $pays = $pays->select();
+            $etat = new Etat;
+            $etat = $etat->select();
+
+            // Message si aucune image envoyée
+            if (empty($_FILES['images']['name'][0])) {
+                $errors['images'] = "L'image est nécessaire !";
+            }
+
+            return View::render('timbre/create', [
+                'timbre' => $data,
+                'certifies' => $certifies,
+                'couleurs' => $couleurs,
+                'pays' => $pays,
+                'etat' => $etat,
+                'errors' => $errors
+            ]);
+        }
     }
 }

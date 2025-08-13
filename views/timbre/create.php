@@ -40,6 +40,14 @@ lien7: '/auth/logout',
         </div>
 
         <div class="form__contenu">
+            <label class="form__label" for="prix">Prix :</label>
+            <input class="form__input" type="text" name="prix" id="prix" value="{{ timbre.prix|default('') }}" placeholder="Ex : 19,99">
+            {% if errors.prix is defined %}
+            <span class="error">{{ errors.prix }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form__contenu">
             <label class="form__label" for="tirage">Tirage :</label>
             <input class="form__input" type="number" name="tirage" id="tirage" value="{{ timbre.tirage|default('') }}" placeholder="Entrez un nombre">
             {% if errors.tirage is defined %}
@@ -49,79 +57,79 @@ lien7: '/auth/logout',
 
         <div class="form__contenu">
             <label class="form__label" for="dimensions">Dimensions :</label>
-            <input class="form__input" type="number" name="dimensions" id="dimensions" value="{{ timbre.dimensions|default('') }}" placeholder="Dimensions">
+            <input class="form__input" type="text" name="dimensions" id="dimensions" value="{{ timbre.dimensions|default('') }}" placeholder="Ex: 5,5 po x 3,5 po">
             {% if errors.dimensions is defined %}
             <span class="error">{{ errors.dimensions }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_certifie">Est certifie :</label>
-            <select name="id_certifie" id="id_certifie" class="form__options">
+            <label class="form__label" for="idCertifie">Est certifie :</label>
+            <select name="idCertifie" id="idCertifie" class="form__options">
                 <option value="">Certifie</option>
                 {% for certifie in certifies %}
-                <option value="{{ certifie.id }}" {% if timbre.id_certifie is defined and timbre.id_certifie == certifie.id %}selected{% endif %}>{{ certifie.certifie }}</option>
+                <option value="{{ certifie.id }}" {% if timbre.idCertifie is defined and timbre.idCertifie == certifie.id %}selected{% endif %}>{{ certifie.certifie }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_certifie is defined %}
-            <span class="error">{{ errors.id_certifie }}</span>
+            {% if errors.idCertifie is defined %}
+            <span class="error">{{ errors.idCertifie }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_pays">Pays:</label>
-            <select name="id_pays" id="id_pays" class="form__options">
+            <label class="form__label" for="idPays">Pays :</label>
+            <select name="idPays" id="idPays" class="form__options">
                 <option value="">Pays</option>
                 {% for pay in pays %}
-                <option value="{{ pay.id }}" {% if timbre.id_pay is defined and timbre.id_pay == pay.id %}selected{% endif %}>{{ pay.pays }}</option>
+                <option value="{{ pay.id }}" {% if timbre.idPays is defined and timbre.idPays == pay.id %}selected{% endif %}>{{ pay.pays }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_pays is defined %}
-            <span class="error">{{ errors.id_pays }}</span>
+            {% if errors.idPays is defined %}
+            <span class="error">{{ errors.idPays }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_etat">Etat:</label>
-            <select name="id_etat" id="id_etat" class="form__options">
+            <label class="form__label" for="idEtat">Etat :</label>
+            <select name="idEtat" id="idEtat" class="form__options">
                 <option value="">Etat</option>
-                {% for etat1 in etat %}
-                <option value="{{ etat1.id }}" {% if timbre.id_etat1 is defined and timbre.id_etat1 == etat1.id %}selected{% endif %}>{{ etat1.etat }}</option>
+                {% for etat_ in etat %}
+                <option value="{{ etat_.id }}" {% if timbre.idEtat is defined and timbre.idEtat == etat_.id %}selected{% endif %}>{{ etat_.etat }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_etat is defined %}
-            <span class="error">{{ errors.id_etat }}</span>
+            {% if errors.idEtat is defined %}
+            <span class="error">{{ errors.idEtat }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
-            <label class="form__label" for="id_couleur">Couleur:</label>
-            <select name="id_couleur" id="id_couleur" class="form__options">
+            <label class="form__label" for="idCcouleur">Couleur :</label>
+            <select name="idCouleur" id="idCouleur" class="form__options">
                 <option value="">Couleur</option>
                 {% for couleur in couleurs %}
-                <option value="{{ couleur.id }}" {% if timbre.id_couleur is defined and timbre.id_couleur == couleur.id %}selected{% endif %}>{{ couleur.couleur }}</option>
+                <option value="{{ couleur.id }}" {% if timbre.idCouleur is defined and timbre.idCouleur == couleur.id %}selected{% endif %}>{{ couleur.couleur }}</option>
                 {% endfor %}
             </select>
-            {% if errors.id_couleur is defined %}
-            <span class="error">{{ errors.id_couleur }}</span>
+            {% if errors.idCouleur is defined %}
+            <span class="error">{{ errors.idCouleur }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form__contenu">
+            <label class="form__label" for="images">Images:</label>
+            <input type="file" name="images[]" id="images" multiple accept="image/*">
+            {% if errors.images is defined %}
+            <span class="error">{{ errors.images }}</span>
             {% endif %}
         </div>
 
         <div class="form__contenu">
             <label class="form__label" for="description">Description :</label>
-            <textarea class="form__input" name="description" id="description" rows="5" maxlength="1000" placeholder="Décrivez le livre...">{{ user.description|default('') }}</textarea>
+            <textarea class="form__input" name="description" id="description" rows="5" maxlength="1000" placeholder="Décrivez le timbre...">{{ timbre.description|default('') }}</textarea>
             {% if errors.description is defined %}
             <span class="error">{{ errors.description }}</span>
             {% endif %}
         </div>
-
-        <!-- <div class="form__contenu">
-            <label class="form__label" for="fileToUpload">Image (Upload) :</label>
-            <input class="form__input" type="file" name="fileToUpload" id="fileToUpload">
-            {% if errors.fileToUpload is defined %}
-            <span class="error">{{ errors.fileToUpload }}</span>
-            {% endif %}
-        </div> -->
 
         <button type="submit" class="button button-bleu">Créer</button>
         <div>
