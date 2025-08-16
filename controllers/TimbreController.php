@@ -21,10 +21,14 @@ class TimbreController
 
         $images = new Image;
         $images = $images->select();
+
+        $pays = new Pays;
+        $pays = $pays->select();
         // print_r($images);
-        // print_r($timbres);
+        //print_r($timbres);
+        // print_r($pays);
         // die;
-        return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'page' => 'Mes timbres']);
+        return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
     }
 
     final public function create($get)
@@ -53,9 +57,10 @@ class TimbreController
         // print_r($data);
         // die;
 
+        // Verifier si cest pas vide l'array d'image
         if (!empty($_FILES['images']['name'][0])) {
 
-            // filtrer le prix:
+            // filtrer le prix pour la validation et pour enregistrer au bon format
             $prix_input = $_POST['prix'] ?? '';
             $prix_cleaned = trim($prix_input);
             $prix_cleaned = str_replace(',', '.', $prix_cleaned);
@@ -73,8 +78,8 @@ class TimbreController
             $validator->field('description', $data['description'], 'description')->required();
 
             if ($validator->isSuccess()) {
+                // Ajouter la Date actuelle pour l'enregistrement aussi comme le prix au bon format FLOAT
                 $dataActuelle = date("Y-m-d H:i:s");
-
                 $data['dateCreation'] = $dataActuelle;
                 $data['prix'] = $prix_float;
 
@@ -85,6 +90,7 @@ class TimbreController
                 $selectId = $selectId->selectId($insertTimbre);
                 $idTimbre = $selectId['id'];
 
+                // Boucle pour valider les images
                 foreach ($_FILES['images']['name'] as $key => $originalFileName) {
 
                     if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
@@ -94,9 +100,10 @@ class TimbreController
                         $filename = $filename_without_ext . "." . $imageFileType;
                         $target_file_path_on_server = $upload_dir_on_server . $filename;
 
+                        // Validation format
                         $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
                         if (!in_array($imageFileType, $allowed)) {
-                            continue; // Passe cette image
+                            continue;
                         }
 
                         // Validation taille
@@ -128,10 +135,15 @@ class TimbreController
 
                 $images = new Image;
                 $images = $images->select();
+
+                $pays = new Pays;
+                $pays = $pays->select();
+                //print_r($pays);
+                //die;
                 // print_r($images);
                 // print_r($timbres);
                 // die;
-                return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'page' => 'Mes timbres']);
+                return View::redirect('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
             } else {
                 $certifie = new Certifie;
                 $certifies = $certifie->select();

@@ -76,12 +76,12 @@ class UserController
         }
     }
 
-    final public function show($data)
+    final public function show()
     {
 
-        if (isset($data['id']) && isset($_SESSION['userId']) && $data['id'] != null && $data['id'] == $_SESSION['userId']) {
+        if (isset($_SESSION['userId'])) {
             $user = new User;
-            $user = $user->selectId($data['id']);
+            $user = $user->selectId($_SESSION['userId']);
 
             if ($user) {
 

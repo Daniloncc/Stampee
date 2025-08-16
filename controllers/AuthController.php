@@ -27,13 +27,14 @@ class AuthController
             $champ = array_key_first($data);
             $userExist = $user->unique($champ, $data['courriel']);
 
+            // Verifier si l'utilisateur existe ou non
             if ($userExist) {
                 $checkuser = $userCheck->checkUser($data['courriel'], $data['motPasse']);
                 if ($checkuser) {
                     if (Auth::session()) {
                         $user = new User;
                         $user = $user->selectId($_SESSION['userId']);
-                        return View::redirect('user/show?id=' . $_SESSION['userId'], ['user' => $user]);
+                        return View::redirect('user/show', ['user' => $user]);
                     } else {
                         $errors['message'] = "Mauvaise utilisateur!";
                         return View::render('auth/index', ['errors' => $errors, 'user' => $data]);
@@ -52,6 +53,7 @@ class AuthController
         }
     }
 
+    // Faire la deconnexion
     final public function delete()
     {
         session_destroy();
