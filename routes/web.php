@@ -33,8 +33,9 @@ Route::get('/timbre/edit', 'TimbreController@edit');
 // Route POST pour le Timbre
 Route::post('/timbre/delete', 'UserController@delete');
 
-// Route POST pour l'auth'
-Route::post('/timbre/store', 'TimbreController@delete');
+// Route POST pour le Timbre'
+Route::post('/timbre/store', 'TimbreController@store');
+Route::post('/timbre/update', 'TimbreController@update');
 
 
 

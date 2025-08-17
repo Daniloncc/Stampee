@@ -12,8 +12,8 @@
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
     lien7: '/auth/logout',
-    lien8: '/timbre/create?id=' ~ session.userId,
-    lien15: '/timbre/index',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
     
 }) }}
 {% endif %}

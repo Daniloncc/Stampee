@@ -11,7 +11,9 @@
     nav6: 'Profil',
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
-lien7: '/auth/logout',
+    lien7: '/auth/logout',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
 
 }) }}
 {% endif %}
@@ -133,10 +135,9 @@ lien7: '/auth/logout',
 
         <button type="submit" class="button button-bleu">Créer</button>
         <div>
-            <a class="button button-rouge" href="{{ base }}/user/show?id={{ session.userId }}">Retourner</a>
+            <a class="button button-rouge" href="{{ base }}/user/show?id={{ session.userId }}">← Retourner</a>
         </div>
     </form>
-
 
 </main>
 

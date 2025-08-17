@@ -49,6 +49,8 @@ class TimbreController
 
     final public function store($data)
     {
+
+
         // ADRESSE POUR ENREGISTRER L'IMAGE, CHANGER POUR LE WEBDEV
         $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
         $db_image_prefix = "img/";
@@ -171,7 +173,7 @@ class TimbreController
                 }
 
                 $errors = $validator->getErrors();
-                return View::render('timbre/create', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
+                return View::render('timbre/update', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
             }
         } else {
             $errors['images'] = "Une erreur inattendue s'est produite lors de l'upload.";
@@ -212,52 +214,54 @@ class TimbreController
     public function timbre($get)
     {
 
-        $timbre = new Timbre;
-        $timbre = $timbre->selectId($get['id']);
+        if (isset($get['id'])) {
+            $timbre = new Timbre;
+            $timbre = $timbre->selectId($get['id']);
 
-        $timbres = new Timbre;
-        $timbres = $timbres->select();
-        $timbreParPays = [];
+            $timbres = new Timbre;
+            $timbres = $timbres->select();
+            $timbreParPays = [];
 
-        foreach ($timbres as $timbresPays) {
+            foreach ($timbres as $timbresPays) {
 
-            if ($timbresPays['idPays'] == $timbre['idPays']) {
-                $timbreParPays[] = $timbresPays;
+                if ($timbresPays['idPays'] == $timbre['idPays']) {
+                    $timbreParPays[] = $timbresPays;
+                }
             }
-        }
 
-        $images = new Image;
-        $images = $images->select();
-        $usersImages = [];
-        foreach ($images as $image) {
+            $images = new Image;
+            $images = $images->select();
+            $usersImages = [];
+            foreach ($images as $image) {
 
-            if ($image['idTimbre'] == $get['id']) {
-                $usersImages[] = $image;
+                if ($image['idTimbre'] == $get['id']) {
+                    $usersImages[] = $image;
+                }
             }
-        }
 
-        $pays = new Pays;
-        $pays = $pays->select();
-        $usersPays = "";
-        foreach ($pays as $pay) {
-            if ($pay['id'] == $timbre['idPays']) {
-                $usersPays = $pay;
+            $pays = new Pays;
+            $pays = $pays->select();
+            $usersPays = "";
+            foreach ($pays as $pay) {
+                if ($pay['id'] == $timbre['idPays']) {
+                    $usersPays = $pay;
+                }
             }
-        }
 
-        $certifie = new Certifie;
-        $certifies = $certifie->select();
-        $couleur = new Couleur;
-        $couleurs = $couleur->select();
-        $pays = new Pays;
-        $pays = $pays->select();
-        $etat = new Etat;
-        $etat = $etat->select();
-        // print("<pre>");
-        // print_r($usersPays);
-        // print("</pre>");
-        // die;
-        return View::render('timbre/timbre', ['timbres' => $timbreParPays, 'timbre' => $timbre, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat, 'page' => 'Timbre']);
+            $certifie = new Certifie;
+            $certifies = $certifie->select();
+            $couleur = new Couleur;
+            $couleurs = $couleur->select();
+            $pays = new Pays;
+            $pays = $pays->select();
+            $etat = new Etat;
+            $etats = $etat->select();
+            // print("<pre>");
+            // print_r($usersPays);
+            // print("</pre>");
+            // die;
+            return View::render('timbre/timbre', ['timbres' => $timbreParPays, 'timbre' => $timbre, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+        }
     }
 
     final public function edit($get)
@@ -284,6 +288,72 @@ class TimbreController
         }
     }
 
+    final public function update($data)
+    {
+
+
+        if (isset($data) && $data != null && $data['idUtilisateur'] == $_SESSION['userId']) {
+
+            $prix_input = $_POST['prix'] ?? '';
+            $prix_cleaned = trim($prix_input);
+            $prix_cleaned = str_replace(',', '.', $prix_cleaned);
+            $prix_float = floatval($prix_cleaned);
+
+            $validator = new Validator;
+            $validator->field('titre', $data['titre'])->onlyLetters()->min(2)->max(45);
+            $validator->field('tirage', $data['tirage'], 'tirage')->number()->required();
+            $validator->field('dimensions', $data['dimensions'])->min(2)->max(45)->required();
+            $validator->field('prix', $prix_cleaned)->number()->required();
+            $validator->field('idCertifie', $data['idCertifie'], 'idCertifie')->required();
+            $validator->field('idPays', $data['idPays'], 'idPays')->required();
+            $validator->field('idEtat', $data['idEtat'], 'idEtat')->required();
+            $validator->field('idCouleur', $data['idCouleur'], 'idCouleur')->required();
+            $validator->field('description', $data['description'], 'description')->required();
+
+
+            if ($validator->isSuccess()) {
+                $dataActuelle = date("Y-m-d");
+                $data['dateCreation'] = $dataActuelle;
+                $data['prix'] = $prix_float;
+                // print_r($data);
+                // die;
+                $timbre = new Timbre;
+                $updateTimbre = $timbre->update($data, $data['id']);
+                return View::redirect('timbre/timbre?id=' . $data['id'], ['timbre' => $updateTimbre]);
+            } else {
+                $certifie = new Certifie;
+                $certifies = $certifie->select();
+                $couleur = new Couleur;
+                $couleurs = $couleur->select();
+                $pays = new Pays;
+                $pays = $pays->select();
+                $etat = new Etat;
+                $etat = $etat->select();
+
+                if (isset($errors['idCertifie']) && $errors['idCertifie'] != null) {
+                    $errors['idCertifie'] = "Une reponse est necessaire!";
+                }
+                if (isset($errors['idCouleur']) && $errors['idCouleur'] != null) {
+                    $errors['idCouleur'] = "La couleur est necessaire!";
+                }
+                if (isset($errors['idPays']) && $errors['idPays'] != null) {
+                    $errors['idPays'] = "Un pays est necessaire!";
+                }
+                if (isset($errors['idEtat']) && $errors['idEtat'] != null) {
+                    $errors['idEtat'] = "L'etat est necessaire!";
+                }
+                if (isset($errors['description']) && $errors['description'] != null) {
+                    $errors['description'] = "La description est necessaire!";
+                }
+
+                $errors = $validator->getErrors();
+                return View::render('timbre/edit', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
+            }
+        } else {
+            return View::render('error', ['message' => 'Impossible de mettre vos informations a jour!']);
+        }
+    }
+
     final public function delete($data)
     {
 
@@ -293,23 +363,24 @@ class TimbreController
             $images = $images->select();
             $usersImages = [];
             // Deleter tous les images du timbre avant de deleter le timbre a cause de la cle etrangere
-            foreach ($images as $image) {
-                if ($image['idTimbre'] == $data['id']) {
-                    $imageDeleter = new Image;
-                    $deleter = $imageDeleter->delete($image['id']);
+            if (isset($image['idTimbre'])) {
+                foreach ($images as $image) {
+                    if ($image['idTimbre'] == $data['id']) {
+                        $imageDeleter = new Image;
+                        $deleter = $imageDeleter->delete($image['id']);
+                    }
                 }
-            }
+                $timbres = new Timbre;
+                $timbres = $timbres->select();
 
-            $timbres = new Timbre;
-            $timbres = $timbres->select();
+                $pays = new Pays;
+                $pays = $pays->select();
 
-            $pays = new Pays;
-            $pays = $pays->select();
-
-            $timbre = new Timbre;
-            $deleteTimbre = $timbre->delete($data['id']);
-            if ($deleteTimbre) {
-                return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
+                $timbre = new Timbre;
+                $deleteTimbre = $timbre->delete($data['id']);
+                if ($deleteTimbre) {
+                    return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
+                }
             }
         }
     }

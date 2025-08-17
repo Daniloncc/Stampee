@@ -12,7 +12,8 @@
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
     lien7: '/auth/logout',
-    lien8: '/timbre/index',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
     lienJScript:'Timbre.js'
 
 }) }}
@@ -74,14 +75,14 @@
                         {% endif %}
                         {% endfor %}
                         <small>Prix : <strong>{{timbre.prix}}</strong></small>
-                        <small>Dimensions : <strong>${timbre.dimensions}</strong></small>
+                        <small>Dimensions : <strong>{{timbre.dimensions}}</strong></small>
                     </div>
                     <footer>
-                        <small>Prix : <strong>{{timbre.prix}}</strong></small>
+                        <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
-                        <small>Temps restant s: <strong>{{timbre.prix}}</strong></small>
+                        <small>Temps restant : <strong>Temps</strong></small>
                         <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir plus <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="{{ base }}/timbre/create" class="button button-joune">Ajouter Timbre</a>
+                        <!-- <a href="{{ base }}/timbre/create" class="button button-joune">Ajouter Timbre</a> -->
                     </footer>
 
                 </div>

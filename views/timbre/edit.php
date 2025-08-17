@@ -12,13 +12,15 @@
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
     lien7: '/auth/logout',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
 
 }) }}
 {% endif %}
 
 <main class="main__form">
     <!-- si je ne mets pas un action je reviens a la meme page -->
-    <form action="{{ base }}/timbre/store" method="post" class="form" enctype="multipart/form-data">
+    <form action="{{ base }}/timbre/update" method="post" class="form" enctype="multipart/form-data">
         <header>
             <h2 class="quicksand">Modifier un Timbre</h2>
             <hr>
@@ -127,13 +129,14 @@
             {% endif %}
         </div>
         <div class="form__contenu_btn">
-            <a class="button button-rouge" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">Retourner</a>
+            <a class="button button-rouge" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">← Retourner</a>
             <div class="barre-division"> </div>
             <form class="donnee__form" action="{{ base }}/timbre/delete" method="post">
                 <input type="hidden" name="id" value="{{ timbre.id }}">
                 <button type="submit" class="button button-rouge">Supprimer</button>
             </form>
-            <button type="submit" class="button button-bleu">Créer</button>
+            <a class="button button-joune" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">Images</a>
+            <button type="submit" class="button button-bleu">Modifier</button>
         </div>
     </form>
 </main>

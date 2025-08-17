@@ -13,7 +13,10 @@
     lien6: '/user/edit?id=' ~ session.userId,
     lien7: '/auth/logout',
     lien8: '/timbre/index',
-    lienJScript:'Timbre.js'
+    lienJScript:'Timbre.js',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
+    lienJScript:'TimbreZoom.js'
 
 }) }}
 {% endif %}
@@ -25,35 +28,29 @@
                 {{ timbre.titre }}
             </h2>
         </header> -->
-
         <section class="timbre">
+            <div id="myresult" class="img-zoom-result"></div>
             <div class="timbre__galerie">
-                <!-- <i class="fa-solid fa-star preference"></i> -->
-                {% set found = false %}
+
+                {# Image principale (première) #}
                 {% for image in images %}
-                {% if not found and timbre.id == image.idTimbre %}
-                <picture>
-                    <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbre.titre }}">
+                {% if timbre.id == image.idTimbre and loop.first %}
+                <picture class="img-zoom-container">
+                    <img id="myimage" src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
+
                 </picture>
-                {% set found = true %}
                 {% endif %}
                 {% endfor %}
+
+                {# Galerie des autres images #}
                 <div class="timbre__galerie-petit">
+                    {% for image in images %}
+                    {% if timbre.id == image.idTimbre and not loop.first %}
                     <picture>
-                        <img
-                            src="./assets/img/oaseux_nouvelle_zelandie.webp"
-                            alt="Timbre oiseaux Nouvelle-Zélande">
+                        <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
                     </picture>
-                    <picture>
-                        <img
-                            src="./assets/img/oaseux_nouvelle_zelandie.webp"
-                            alt="Timbre oiseaux Nouvelle-Zélande">
-                    </picture>
-                    <picture>
-                        <img
-                            src="./assets/img/oaseux_nouvelle_zelandie.webp"
-                            alt="Timbre oiseaux Nouvelle-Zélande">
-                    </picture>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="timbre__contenu forme-enchere">
@@ -61,31 +58,38 @@
                     <h3 class="cinzel">{{ timbre.titre }}</h3>
                 </header>
                 <div>
-                    <h4 class="old-standard-tt-regular">Faune Endémique de Nouvelle-Zélande</h4>
+                    <!-- <h4 class="old-standard-tt-regular">Faune Endémique de Nouvelle-Zélande</h4> -->
                     {% for pay in pays %}
                     {% if timbre.idPays == pay.id %}
-                    <small>Nombre reference: {{ pay.abreviation }}{{ timbre.id }}</small>
+                    <small>Nombre reference: {{ pay.abreviation }}{{ timbre.dateCreation }}.{{ timbre.id }}</small>
                     {% endif %}
                     {% endfor %}
                     <p class="quicksand">
                         {{ timbre.description }}
                     </p>
                     <div class="flex-row">
-
                         <footer>
                             <small>Prix Base: <strong>${{ timbre.prix }}</strong></small>
-                            <small>Date Production: <strong>{{ timbre.dateCreation }}</strong></small>
                             {% for pay in pays %}
                             {% if timbre.idPays == pay.id %}
                             <small>Pays: <strong>{{ pay.pays }}</strong></small>
                             {% endif %}
                             {% endfor %}
-                            <small>Condition: <strong>{{ timbre.description }}</strong></small>
-                            <small>Tirage: <strong>4</strong></small>
+                            {% for etat in etats %}
+                            {% if timbre.idEtat == etat.id %}
+                            <small>Condition: <strong>{{ etat.etat }}</strong></small>
+                            {% endif %}
+                            {% endfor %}
+                            <small>Tirage: <strong>{{ timbre.tirage }}</strong></small>
                             <small>Dimensions: <strong>{{ timbre.dimensions }}</strong></small>
                             {% for certifie in certifies %}
                             {% if timbre.idCertifie == certifie.id %}
                             <small>Certifie: <strong>{{ certifie.certifie }}</strong></small>
+                            {% endif %}
+                            {% endfor %}
+                            {% for couleur in couleurs %}
+                            {% if timbre.idCouleur == couleur.id %}
+                            <small>Couleur: <strong>{{ couleur.couleur }}</strong></small>
                             {% endif %}
                             {% endfor %}
 
@@ -93,7 +97,7 @@
                             <small>Temps restant: <strong>faire logique 2</strong></small>
                         </footer>
                         {% if session.userId is defined and session.userId == timbre.idUtilisateur %}
-                        <a href="{{ base }}/timbre/edit?id={{timbre.id}}" class="button button-bleu">Editer Timbre<i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="{{ base }}/timbre/edit?id={{timbre.id}}" class="button button-bleu">Editer Timbre <i class="fa-solid fa-arrow-right"></i></a>
                         {% else %}
                         <div class="flex-column">
                             <div class="timbre__favoris">
@@ -104,9 +108,9 @@
                         {% endif %}
                     </div>
                 </div>
-
             </div>
         </section>
+        <a class="button button-rouge" href="{{ base }}/timbre/index">← Retourner</a>
         <header>
             <h2 class="old-standard-tt-regular">D'autres options similaires</h2>
         </header>

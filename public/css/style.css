@@ -22,6 +22,7 @@
 @import "./composants/flex-row.css";
 @import "./composants/flex-column.css";
 @import "./composants/barre-division.css";
+@import "./composants/img-zoom-container.css";
 @import "./composants/error.css";
 @import "./composants/media-query.css";
 
