@@ -82,9 +82,9 @@
                 <li class="menu-deroulant">
                     <a href="#">Timbre ▿</a>
                     <ul class="conteneur">
-                        <li><a href="{{ base }}{{ lien8}}">Ajouter Timbre</a></li>
+                        <li><a href="{{ base }}{{ lienTimbre }}">Ajouter Timbre</a></li>
                         <li><a href="#">Mes Favoris</a></li>
-                        <li><a href="{{ base }}{{ lien15}}">Mes Timbres</a></li>
+                        <li><a href="{{ base }}{{ lienTimbres }}">Mes Timbres</a></li>
                     </ul>
                 </li>
                 {% endif %}

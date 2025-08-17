@@ -6,7 +6,7 @@ use App\Models\CRUD;
 
 class Image extends CRUD
 {
-    protected $table = "image";
+    protected $table = "Image";
     protected $primaryKey = "id";
     protected $fillable = ['image', 'lien', 'idTimbre'];
 }

@@ -31,7 +31,7 @@ class TimbreController
         return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
     }
 
-    final public function create($get)
+    final public function create()
     {
 
         $certifie = new Certifie;
@@ -206,6 +206,111 @@ class TimbreController
                 'etat' => $etat,
                 'errors' => $errors
             ]);
+        }
+    }
+
+    public function timbre($get)
+    {
+
+        $timbre = new Timbre;
+        $timbre = $timbre->selectId($get['id']);
+
+        $timbres = new Timbre;
+        $timbres = $timbres->select();
+        $timbreParPays = [];
+
+        foreach ($timbres as $timbresPays) {
+
+            if ($timbresPays['idPays'] == $timbre['idPays']) {
+                $timbreParPays[] = $timbresPays;
+            }
+        }
+
+        $images = new Image;
+        $images = $images->select();
+        $usersImages = [];
+        foreach ($images as $image) {
+
+            if ($image['idTimbre'] == $get['id']) {
+                $usersImages[] = $image;
+            }
+        }
+
+        $pays = new Pays;
+        $pays = $pays->select();
+        $usersPays = "";
+        foreach ($pays as $pay) {
+            if ($pay['id'] == $timbre['idPays']) {
+                $usersPays = $pay;
+            }
+        }
+
+        $certifie = new Certifie;
+        $certifies = $certifie->select();
+        $couleur = new Couleur;
+        $couleurs = $couleur->select();
+        $pays = new Pays;
+        $pays = $pays->select();
+        $etat = new Etat;
+        $etat = $etat->select();
+        // print("<pre>");
+        // print_r($usersPays);
+        // print("</pre>");
+        // die;
+        return View::render('timbre/timbre', ['timbres' => $timbreParPays, 'timbre' => $timbre, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat, 'page' => 'Timbre']);
+    }
+
+    final public function edit($get)
+    {
+        $timbre = new Timbre;
+        $timbre = $timbre->selectId($get['id']);
+        $utilisateurIdTimbre = $timbre['idUtilisateur'];
+
+        if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
+            // print_r($utilisateurIdTimbre);
+            // die;
+            $certifie = new Certifie;
+            $certifies = $certifie->select();
+            $couleur = new Couleur;
+            $couleurs = $couleur->select();
+            $pays = new Pays;
+            $pays = $pays->select();
+            $etat = new Etat;
+            $etat = $etat->select();
+
+            return View::render('timbre/edit', ['timbre' => $timbre, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat, 'page' => 'Timbre']);
+        } else {
+            return View::render('error', ['message' => "Vous n'etes pas autorise!"]);
+        }
+    }
+
+    final public function delete($data)
+    {
+
+        if ($data['idUtilisateur'] == $_SESSION['userId']) {
+
+            $images = new Image;
+            $images = $images->select();
+            $usersImages = [];
+            // Deleter tous les images du timbre avant de deleter le timbre a cause de la cle etrangere
+            foreach ($images as $image) {
+                if ($image['idTimbre'] == $data['id']) {
+                    $imageDeleter = new Image;
+                    $deleter = $imageDeleter->delete($image['id']);
+                }
+            }
+
+            $timbres = new Timbre;
+            $timbres = $timbres->select();
+
+            $pays = new Pays;
+            $pays = $pays->select();
+
+            $timbre = new Timbre;
+            $deleteTimbre = $timbre->delete($data['id']);
+            if ($deleteTimbre) {
+                return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
+            }
         }
     }
 }

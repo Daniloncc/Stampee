@@ -66,11 +66,8 @@
                 <div class="carte__contenu forme-enchere">
                     <header>
                         <h3 class="cinzel">{{timbre.titre}}</h3>
-
                     </header>
                     <div>
-                        <!-- <h4 class="old-standard-tt-regular">${description}...</h4> -->
-
                         {% for pay in pays %}
                         {% if timbre.idPays == pay.id %}
                         <small>Pays : <strong>{{pay.pays}}</strong></small>
@@ -83,7 +80,8 @@
                         <small>Prix : <strong>{{timbre.prix}}</strong></small>
                         <div>|</div>
                         <small>Temps restant s: <strong>{{timbre.prix}}</strong></small>
-                        <a hrtf="/STAMPEE/mvc/timbre/timbre?id=${timbre.id}" class="button button-bleu">Voir plus <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir plus <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="{{ base }}/timbre/create" class="button button-joune">Ajouter Timbre</a>
                     </footer>
 
                 </div>
