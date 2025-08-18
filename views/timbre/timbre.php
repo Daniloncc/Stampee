@@ -37,7 +37,6 @@
                 {% if timbre.id == image.idTimbre and loop.first %}
                 <picture class="img-zoom-container">
                     <img id="myimage" src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
-
                 </picture>
                 {% endif %}
                 {% endfor %}
@@ -200,13 +199,13 @@
                 <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
             </article>
         </div>
-        <footer class="pagination">
+        <!-- <footer class="pagination">
             <span class="pagination__page">1</span>
             <span class="pagination__page">2</span>
             <span class="pagination__page">3</span>
             <span class="pagination__page">4</span>
             <span class="pagination__page">5</span>
-        </footer>
+        </footer> -->
     </section>
 </main>
 

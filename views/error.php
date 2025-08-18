@@ -11,6 +11,8 @@
     nav7: 'Devenir Membre',
     lien6: '/auth/index',
     lien7: '/user/create',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
 
 }) }}
 <header class="entete entete-accueil">

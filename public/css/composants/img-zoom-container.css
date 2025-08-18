@@ -16,9 +16,9 @@
     position: absolute;
     z-index: 2;
     margin-top: -17px;
-    margin-left: -125px;
+    margin-left: -180px;
     border: 1px solid #d4d4d4;
     /*set the size of the result div:*/
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }

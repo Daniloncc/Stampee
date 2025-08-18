@@ -29,13 +29,12 @@ Route::get('/timbre/create', 'TimbreController@create');
 Route::get('/timbre/index', 'TimbreController@index');
 Route::get('/timbre/timbre', 'TimbreController@timbre');
 Route::get('/timbre/edit', 'TimbreController@edit');
+Route::get('/timbre/delete', 'TimbreController@delete');
 
 // Route POST pour le Timbre
-Route::post('/timbre/delete', 'UserController@delete');
-
-// Route POST pour le Timbre'
-Route::post('/timbre/store', 'TimbreController@store');
 Route::post('/timbre/update', 'TimbreController@update');
+Route::post('/timbre/store', 'TimbreController@store');
+Route::post('/timbre/delete', 'TimbreController@delete');
 
 
 

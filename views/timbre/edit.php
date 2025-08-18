@@ -20,7 +20,9 @@
 
 <main class="main__form">
     <!-- si je ne mets pas un action je reviens a la meme page -->
-    <form action="{{ base }}/timbre/update" method="post" class="form" enctype="multipart/form-data">
+    <form action="{{ base }}/timbre/update" method="post" class="form">
+        <label for="id"></label>
+        <input type="hidden" id="id" name="id" value="{{ timbre.id }}">
         <header>
             <h2 class="quicksand">Modifier un Timbre</h2>
             <hr>
@@ -131,10 +133,11 @@
         <div class="form__contenu_btn">
             <a class="button button-rouge" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">← Retourner</a>
             <div class="barre-division"> </div>
-            <form class="donnee__form" action="{{ base }}/timbre/delete" method="post">
+            <a class="button button-rouge" href="{{ base }}/timbre/delete?id={{ timbre.id }}">Supprimer</a>
+            <!-- <form class="donnee__form" action="{{ base }}/" method="post">
                 <input type="hidden" name="id" value="{{ timbre.id }}">
                 <button type="submit" class="button button-rouge">Supprimer</button>
-            </form>
+            </form> -->
             <a class="button button-joune" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">Images</a>
             <button type="submit" class="button button-bleu">Modifier</button>
         </div>

@@ -1,6 +1,6 @@
 {% if session.userId is defined %}
 {{ include('layouts/header.php', {
-    title: 'Creez votre compte',
+    title: 'Mes Timbres',
     nav1: 'Lord Stampee III ▿',
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
@@ -53,7 +53,7 @@
             {% for timbre in timbres %}
             {% if session.userId == timbre.idUtilisateur %}
             <article class="carte" id="{{timbre.id}}">
-                <i class="fa-solid fa-star preference"></i>
+
                 {% set found = false %}
                 {% for image in images %}
                 {% if not found and timbre.id == image.idTimbre %}
@@ -65,6 +65,7 @@
                 {% endfor %}
 
                 <div class="carte__contenu forme-enchere">
+                    <i class="fa-solid fa-star preference"></i>
                     <header>
                         <h3 class="cinzel">{{timbre.titre}}</h3>
                     </header>
@@ -81,10 +82,10 @@
                         <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
                         <small>Temps restant : <strong>Temps</strong></small>
-                        <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir plus <i class="fa-solid fa-arrow-right"></i></a>
+
                         <!-- <a href="{{ base }}/timbre/create" class="button button-joune">Ajouter Timbre</a> -->
                     </footer>
-
+                    <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </article>
             {% endif %}

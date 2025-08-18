@@ -147,6 +147,8 @@ class TimbreController
                 // die;
                 return View::redirect('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
             } else {
+                // print_r($data);
+                // die;
                 $certifie = new Certifie;
                 $certifies = $certifie->select();
                 $couleur = new Couleur;
@@ -155,7 +157,7 @@ class TimbreController
                 $pays = $pays->select();
                 $etat = new Etat;
                 $etat = $etat->select();
-
+                $errors = $validator->getErrors();
                 if (isset($errors['idCertifie']) && $errors['idCertifie'] != null) {
                     $errors['idCertifie'] = "Une reponse est necessaire!";
                 }
@@ -172,8 +174,8 @@ class TimbreController
                     $errors['description'] = "La description est necessaire!";
                 }
 
-                $errors = $validator->getErrors();
-                return View::render('timbre/update', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
+
+                return View::render('timbre/create', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
             }
         } else {
             $errors['images'] = "Une erreur inattendue s'est produite lors de l'upload.";
@@ -291,7 +293,6 @@ class TimbreController
     final public function update($data)
     {
 
-
         if (isset($data) && $data != null && $data['idUtilisateur'] == $_SESSION['userId']) {
 
             $prix_input = $_POST['prix'] ?? '';
@@ -312,14 +313,21 @@ class TimbreController
 
 
             if ($validator->isSuccess()) {
+                // print_r($data);
+                // die;
                 $dataActuelle = date("Y-m-d");
                 $data['dateCreation'] = $dataActuelle;
                 $data['prix'] = $prix_float;
                 // print_r($data);
                 // die;
                 $timbre = new Timbre;
+
                 $updateTimbre = $timbre->update($data, $data['id']);
-                return View::redirect('timbre/timbre?id=' . $data['id'], ['timbre' => $updateTimbre]);
+                // print_r($updateTimbre);
+                // die;
+                if ($updateTimbre) {
+                    return View::redirect('timbre/timbre?id=' . $data['id'], ['timbre' => $$data]);
+                }
             } else {
                 $certifie = new Certifie;
                 $certifies = $certifie->select();
@@ -330,6 +338,7 @@ class TimbreController
                 $etat = new Etat;
                 $etat = $etat->select();
 
+                $errors = $validator->getErrors();
                 if (isset($errors['idCertifie']) && $errors['idCertifie'] != null) {
                     $errors['idCertifie'] = "Une reponse est necessaire!";
                 }
@@ -346,7 +355,6 @@ class TimbreController
                     $errors['description'] = "La description est necessaire!";
                 }
 
-                $errors = $validator->getErrors();
                 return View::render('timbre/edit', ['errors' => $errors, 'timbre' => $data, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
             }
         } else {
@@ -354,33 +362,35 @@ class TimbreController
         }
     }
 
-    final public function delete($data)
+    final public function delete($get)
     {
+        $timbre = new Timbre;
+        $timbre = $timbre->selectId($get['id']);
 
-        if ($data['idUtilisateur'] == $_SESSION['userId']) {
+        $images = new Image;
+        $images = $images->select();
+        $usersImages = [];
 
-            $images = new Image;
-            $images = $images->select();
-            $usersImages = [];
+        if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
+            // print_r($timbre);
+            // die;
             // Deleter tous les images du timbre avant de deleter le timbre a cause de la cle etrangere
-            if (isset($image['idTimbre'])) {
-                foreach ($images as $image) {
-                    if ($image['idTimbre'] == $data['id']) {
-                        $imageDeleter = new Image;
-                        $deleter = $imageDeleter->delete($image['id']);
-                    }
+            foreach ($images as $image) {
+                if ($image['idTimbre'] == $timbre['id']) {
+                    $imageDeleter = new Image;
+                    $deleter = $imageDeleter->delete($image['id']);
                 }
-                $timbres = new Timbre;
-                $timbres = $timbres->select();
+            }
+            $timbres = new Timbre;
+            $timbres = $timbres->select();
 
-                $pays = new Pays;
-                $pays = $pays->select();
+            $pays = new Pays;
+            $pays = $pays->select();
 
-                $timbre = new Timbre;
-                $deleteTimbre = $timbre->delete($data['id']);
-                if ($deleteTimbre) {
-                    return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
-                }
+            $timbredel = new Timbre;
+            $deleteTimbre = $timbredel->delete($get['id']);
+            if ($deleteTimbre) {
+                return View::redirect('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
             }
         }
     }
