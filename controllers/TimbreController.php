@@ -49,8 +49,6 @@ class TimbreController
 
     final public function store($data)
     {
-
-
         // ADRESSE POUR ENREGISTRER L'IMAGE, CHANGER POUR LE WEBDEV
         $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
         $db_image_prefix = "img/";
@@ -93,6 +91,8 @@ class TimbreController
                 $idTimbre = $selectId['id'];
 
                 // Boucle pour valider les images
+                // Lister l'ordre de chaque image enregistre
+                $index = 0;
                 foreach ($_FILES['images']['name'] as $key => $originalFileName) {
 
                     if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
@@ -127,8 +127,10 @@ class TimbreController
                             $imageTableau['image'] = $filename_without_ext;
                             $imageTableau['lien'] = $filename;
                             $imageTableau['idTimbre'] = $idTimbre;
+                            $imageTableau['ordre'] = $index;
 
                             $image = $image->insert($imageTableau);
+                            $index++;
                         }
                     }
                 }

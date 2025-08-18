@@ -138,7 +138,7 @@
                 <input type="hidden" name="id" value="{{ timbre.id }}">
                 <button type="submit" class="button button-rouge">Supprimer</button>
             </form> -->
-            <a class="button button-joune" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">Images</a>
+            <a class="button button-joune" href="{{ base }}/image/edit?id={{ timbre.id }}">Images</a>
             <button type="submit" class="button button-bleu">Modifier</button>
         </div>
     </form>

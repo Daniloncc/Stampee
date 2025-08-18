@@ -18,9 +18,39 @@
     display: block;
     width: 100%;
     min-height: 200px; 
-    max-height: 400px; 
+    max-height: 300px; 
     overflow: hidden;
     
+  }
+}
+
+/* VARIATION POUR AFFICHER LES IMAGES */
+.timbre-images {
+  margin-inline: auto;
+  margin-bottom: 30px;
+  height: fit-content;
+  max-width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  border: 1px solid var(--brun-fonce);
+  padding: 35px;
+  
+}
+
+.timbre__galerie-images {
+  display: flex;
+  gap: 20px;
+
+  & > * {
+    flex-basis: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    & img {
+      height: 150px;
+    }
   }
 }
 

@@ -37,5 +37,11 @@ Route::post('/timbre/store', 'TimbreController@store');
 Route::post('/timbre/delete', 'TimbreController@delete');
 
 
+// Route GET pour les images
+Route::get('/image/edit', 'ImageController@edit');
+Route::get('/image/delete', 'ImageController@delete');
+
+// Route POST pour l'Image
+Route::post('/image/action', 'ImageController@action');
 
 Route::dispatch();
