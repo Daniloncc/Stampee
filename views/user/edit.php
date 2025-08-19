@@ -69,7 +69,7 @@
         {% endif %}
         <button type="submit" class="button button-bleu">Modifier</button>
         <div>
-            <a class="button button-rouge" href="{{ base }}/user/show?id={{ user.id }}">Retourner</a>
+            <a class="button button-rouge" href="{{ base }}/user/show">Retourner</a>
         </div>
     </form>
 </main>

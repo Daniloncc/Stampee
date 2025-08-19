@@ -24,26 +24,24 @@ class TimbreController
 
         $pays = new Pays;
         $pays = $pays->select();
-        // print_r($images);
-        //print_r($timbres);
-        // print_r($pays);
-        // die;
+
         return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
     }
 
     final public function create()
     {
-
         $certifie = new Certifie;
         $certifies = $certifie->select();
+
         $couleur = new Couleur;
         $couleurs = $couleur->select();
+
         $pays = new Pays;
         $pays = $pays->select();
+
         $etat = new Etat;
         $etat = $etat->select();
-        // print_r($certifies);
-        // die;
+
         return View::render('timbre/create', ['certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etat' => $etat]);
     }
 
@@ -51,16 +49,11 @@ class TimbreController
     {
         // ADRESSE POUR ENREGISTRER L'IMAGE, CHANGER POUR LE WEBDEV
         $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
-        $db_image_prefix = "img/";
-        $imagesData = [];
-
-        // print_r($data);
-        // die;
 
         // Verifier si cest pas vide l'array d'image
         if (!empty($_FILES['images']['name'][0])) {
 
-            // filtrer le prix pour la validation et pour enregistrer au bon format
+            // Filtrer le prix pour la validation et pour enregistrer au bon format
             $prix_input = $_POST['prix'] ?? '';
             $prix_cleaned = trim($prix_input);
             $prix_cleaned = str_replace(',', '.', $prix_cleaned);
@@ -83,9 +76,11 @@ class TimbreController
                 $data['dateCreation'] = $dataActuelle;
                 $data['prix'] = $prix_float;
 
+                // Inserer le timbre
                 $timbre = new Timbre;
                 $insertTimbre = $timbre->insert($data);
 
+                // Selectioner le Id du timbre enregistre pour faire l'insertion des images
                 $selectId = new Timbre;
                 $selectId = $selectId->selectId($insertTimbre);
                 $idTimbre = $selectId['id'];
@@ -97,6 +92,7 @@ class TimbreController
 
                     if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
 
+                        // Variables
                         $imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
                         $filename_without_ext = pathinfo($originalFileName, PATHINFO_FILENAME);
                         $filename = $filename_without_ext . "." . $imageFileType;
@@ -124,9 +120,10 @@ class TimbreController
 
                         // Nouveau chemin cible
                         $target_file_path_on_server = $upload_dir_on_server . $newFileName;
-                        // Déplace l'image
+
+                        // Enregistrer l'image en local et apres dans la base de donnees
                         if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file_path_on_server)) {
-                            $imagesData[] = $db_image_prefix . $filename;
+
                             $image = new Image;
                             $imageTableau = [];
                             $imageTableau['image'] = $filename_without_ext;
@@ -147,15 +144,10 @@ class TimbreController
 
                 $pays = new Pays;
                 $pays = $pays->select();
-                //print_r($pays);
-                //die;
-                // print_r($images);
-                // print_r($timbres);
-                // die;
+
                 return View::redirect('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
             } else {
-                // print_r($data);
-                // die;
+
                 $certifie = new Certifie;
                 $certifies = $certifie->select();
                 $couleur = new Couleur;
@@ -223,21 +215,25 @@ class TimbreController
     public function timbre($get)
     {
 
-        if (isset($get['id'])) {
-            $timbre = new Timbre;
-            $timbre = $timbre->selectId($get['id']);
+        $timbre = new Timbre;
+        $timbre = $timbre->selectId($get['id']);
+
+        // Validation de Id
+        if (isset($timbre['idUtilisateur']) && $get['id'] != null && $_SESSION['userId'] == $timbre['idUtilisateur']) {
 
             $timbres = new Timbre;
             $timbres = $timbres->select();
             $timbreParPays = [];
 
-            foreach ($timbres as $timbresPays) {
+            // Filtre pour afficher les timbres par pays
+            // foreach ($timbres as $timbresPays) {
 
-                if ($timbresPays['idPays'] == $timbre['idPays']) {
-                    $timbreParPays[] = $timbresPays;
-                }
-            }
+            //     if ($timbresPays['idPays'] == $timbre['idPays']) {
+            //         $timbreParPays[] = $timbresPays;
+            //     }
+            // }
 
+            // Filtrer les images du timbre
             $images = new Image;
             $images = $images->select();
             $usersImages = [];
@@ -248,28 +244,21 @@ class TimbreController
                 }
             }
 
-            $pays = new Pays;
-            $pays = $pays->select();
-            $usersPays = "";
-            foreach ($pays as $pay) {
-                if ($pay['id'] == $timbre['idPays']) {
-                    $usersPays = $pay;
-                }
-            }
-
             $certifie = new Certifie;
             $certifies = $certifie->select();
+
             $couleur = new Couleur;
             $couleurs = $couleur->select();
+
             $pays = new Pays;
             $pays = $pays->select();
+
             $etat = new Etat;
             $etats = $etat->select();
-            // print("<pre>");
-            // print_r($usersPays);
-            // print("</pre>");
-            // die;
+
             return View::render('timbre/timbre', ['timbres' => $timbreParPays, 'timbre' => $timbre, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+        } else {
+            return View::render('error', ['message' => '404 page non trouve!']);
         }
     }
 
@@ -277,17 +266,18 @@ class TimbreController
     {
         $timbre = new Timbre;
         $timbre = $timbre->selectId($get['id']);
-        $utilisateurIdTimbre = $timbre['idUtilisateur'];
 
         if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
-            // print_r($utilisateurIdTimbre);
-            // die;
+
             $certifie = new Certifie;
             $certifies = $certifie->select();
+
             $couleur = new Couleur;
             $couleurs = $couleur->select();
+
             $pays = new Pays;
             $pays = $pays->select();
+
             $etat = new Etat;
             $etat = $etat->select();
 
@@ -302,6 +292,7 @@ class TimbreController
 
         if (isset($data) && $data != null && $data['idUtilisateur'] == $_SESSION['userId']) {
 
+            // Filtrer le prix pour la validation et pour enregistrer au bon format
             $prix_input = $_POST['prix'] ?? '';
             $prix_cleaned = trim($prix_input);
             $prix_cleaned = str_replace(',', '.', $prix_cleaned);
@@ -320,28 +311,27 @@ class TimbreController
 
 
             if ($validator->isSuccess()) {
-                // print_r($data);
-                // die;
+                // Ajouter la Date actuelle pour l'enregistrement aussi comme le prix au bon format FLOAT
                 $dataActuelle = date("Y-m-d");
                 $data['dateCreation'] = $dataActuelle;
                 $data['prix'] = $prix_float;
-                // print_r($data);
-                // die;
-                $timbre = new Timbre;
 
+                // Faire le mise a jour du timbre
+                $timbre = new Timbre;
                 $updateTimbre = $timbre->update($data, $data['id']);
-                // print_r($updateTimbre);
-                // die;
                 if ($updateTimbre) {
                     return View::redirect('timbre/timbre?id=' . $data['id'], ['timbre' => $$data]);
                 }
             } else {
                 $certifie = new Certifie;
                 $certifies = $certifie->select();
+
                 $couleur = new Couleur;
                 $couleurs = $couleur->select();
+
                 $pays = new Pays;
                 $pays = $pays->select();
+
                 $etat = new Etat;
                 $etat = $etat->select();
 
@@ -376,11 +366,9 @@ class TimbreController
 
         $images = new Image;
         $images = $images->select();
-        $usersImages = [];
 
         if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
-            // print_r($timbre);
-            // die;
+
             // Deleter tous les images du timbre avant de deleter le timbre a cause de la cle etrangere
             foreach ($images as $image) {
                 if ($image['idTimbre'] == $timbre['id']) {

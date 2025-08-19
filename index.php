@@ -7,3 +7,7 @@ session_start();
 require_once 'vendor/autoload.php';
 require_once 'config.php';
 require_once 'routes/web.php';
+
+// Pour le  webdev :
+// Changer le chemin d'insertion d'image dans le TimbreController - ligne: 51,
+// Changer le chemin d'insertion d'image dans le ImageController - ligne: 44, ,214

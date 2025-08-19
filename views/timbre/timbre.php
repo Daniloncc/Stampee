@@ -23,18 +23,14 @@
 
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
-        <!-- <header>
-            <h2 class="old-standard-tt-regular">
-                {{ timbre.titre }}
-            </h2>
-        </header> -->
+
         <section class="timbre">
             <div id="myresult" class="img-zoom-result"></div>
             <div class="timbre__galerie">
 
                 {# Image principale (première) #}
                 {% for image in images %}
-                {% if timbre.id == image.idTimbre and loop.first %}
+                {% if image.ordre == 0 %}
                 <picture class="img-zoom-container">
                     <img id="myimage" src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
                 </picture>
@@ -44,7 +40,7 @@
                 {# Galerie des autres images #}
                 <div class="timbre__galerie-petit">
                     {% for image in images %}
-                    {% if timbre.id == image.idTimbre and not loop.first %}
+                    {% if image.ordre != 0 %}
                     <picture>
                         <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
                     </picture>

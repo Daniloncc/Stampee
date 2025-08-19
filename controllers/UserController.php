@@ -27,33 +27,35 @@ class UserController
         $validator->field('telephone', $data['telephone'])->number()->min(10)->max(13);
         $validator->field('courriel', $data['courriel'])->email()->min(4)->max(80);
         $validator->field('motPasse', $data['motPasse'])->onlyLettersAndNumbers();
-        // print("ici");
-        // die;
+
         if ($validator->isSuccess()) {
             $user = new User;
+            // Hash du mot de passe
             $data['motPasse'] = $user->hashPassword($data['motPasse']);
+
+            // Inserer l'utilisateur
             $insertUser = $user->insert($data);
 
             if ($insertUser == "Le courriel existe déjà.") {
                 $errors = $validator->getErrors();
-                // print_r($insertUser);
-                // die;
+
                 return View::render('user/create', ['errors' => $errors, 'user' => $data, 'message' => $insertUser]);
             } else {
+                // Envoyer email de confirmation
                 $mail = new PHPMailer(true);
 
                 try {
                     // Configuration SMTP
                     $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com'; // change ça si tu utilises un autre service
+                    $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'dancc86@gmail.com'; // ton email
+                    $mail->Username = 'dancc86@gmail.com';
                     $mail->Password = 'oylp wijw sigd eoiq';   // mot de passe d’application
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                     $mail->Port = 587;
 
                     // Destinataires
-                    $mail->setFrom('dancc86@gmail.com', 'Ton Projet');
+                    $mail->setFrom('dancc86@gmail.com', 'Bienvenue du monsieur Stampee!');
                     $mail->addAddress($data['courriel'], $data['prenom']);
 
                     $nom = $data['prenom'];
@@ -78,18 +80,12 @@ class UserController
 
     final public function show()
     {
-
         if (isset($_SESSION['userId'])) {
             $user = new User;
             $user = $user->selectId($_SESSION['userId']);
 
             if ($user) {
-
                 return View::render('user/show', ['user' => $user]);
-                // print_r($user);
-                // print_r($data['id']);
-                // print($_SESSION['userId']);
-                // die;
             } else {
                 return View::render('error', ['message' => "Ce Client n'existe pas!"]);
             }
@@ -128,17 +124,22 @@ class UserController
             if ($validator->isSuccess()) {
                 $user = new User;
 
-                $courrielExistant = $user->selectId($_SESSION['userId']); // dan
-                $courrielExistant = $courrielExistant['courriel']; //dan
-                $testUser = $user->unique('courriel', $data['courriel']); //mohamed
+                // Selectionner le utilisateur connecte avec la session
+                $courrielExistant = $user->selectId($_SESSION['userId']);
 
-                // Voir si le nouveau courriel exite das la base de donnees et comparer si le courriel qui est dans la base de donnees est different
+                // Selectionner le courriel de cet utilisateur
+                $courrielExistant = $courrielExistant['courriel'];
+
+                // Comparer le nouveau courriel choisi avec les courriels dans la base de donnees
+                $testUser = $user->unique('courriel', $data['courriel']);
+
+                // Voir si le nouveau courriel exite das la base de donnees, si oui, comparer si le courriel qui est dans la base de donnees est different du nouveau courriel choisi
                 if (isset($testUser['courriel']) && $testUser['courriel'] != $courrielExistant) {
                     $errors = $validator->getErrors();
                     return View::render('user/edit', ['message' => "Le courriel existe déjà.", 'user' => $data]);
                 } else {
                     $insertUser = $user->update($data, $data['id']);
-                    return View::redirect('user/show?id=' . $data['id'], ['user' => $insertUser]);
+                    return View::redirect('user/show?', ['user' => $insertUser]);
                 }
             } else {
                 $errors = $validator->getErrors();
@@ -151,6 +152,7 @@ class UserController
 
     final public function delete($data)
     {
+        // Supprimer l'utilisateur et aussi faire la deconnexion
         if ($data['id'] == $_SESSION['userId']) {
             $user = new User;
             $delete = $user->delete($data['id']);

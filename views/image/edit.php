@@ -32,16 +32,10 @@
             <form action="{{ base }}/image/action" method="post" class="form" enctype="multipart/form-data">
                 <label for="id"></label>
                 <input type="hidden" id="id" name="id" value="{{ timbre.id }}">
-                {% for image in images %}
+
                 <div class="timbre__galerie-images">
+                    {% for image in images %}
                     {% if image.ordre == 0 %}
-                    <!-- <div class="form__contenu">
-                    <label class="form__label" for="images">Images:</label>
-                    <input type="file" name="images[]" id="images" multiple accept="image/*">
-                    {% if errors.images is defined %}
-                    <span class="error">{{ errors.images }}</span>
-                    {% endif %}
-                </div> -->
                     <div>
                         <label for="image">Image Principale :</label>
                         <small>Titre: <strong>{{ image.image }}</strong></small>
@@ -54,8 +48,11 @@
                         {% endif %}
 
                     </div>
+                    {% endif %}
+                    {% endfor %}
 
-                    {% else %}
+                    {% for image in images %}
+                    {% if image.ordre != 0 %}
                     <div>
                         <label for="images">Image Secondaire :</label>
                         <small>Titre: <strong>{{ image.image }}</strong></small>
@@ -63,10 +60,11 @@
                             <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ image.image }}">
                             <a class="button button-joune" href="{{ base }}/image/delete?id={{ image.id }}"><i class="fa-solid fa-trash"></i></a>
                         </picture>
-                        {% endif %}
                     </div>
+                    {% endif %}
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
                 <input type="file" name="images[]" id="images" multiple accept="image/*">
                 {% if errors.images is defined %}
                 <span class="error">{{ errors.images }}</span>
@@ -76,14 +74,6 @@
 
         </section>
         <a class="button button-rouge" href="{{ base }}/timbre/timbre?id={{ timbre.id }}">← Retourner</a>
-
-        <!-- <footer class="pagination">
-            <span class="pagination__page">1</span>
-            <span class="pagination__page">2</span>
-            <span class="pagination__page">3</span>
-            <span class="pagination__page">4</span>
-            <span class="pagination__page">5</span>
-        </footer> -->
     </section>
 </main>
 
