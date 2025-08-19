@@ -89,6 +89,8 @@ class Validator
         return $this;
     }
 
+    public function validatoinImage($data) {}
+
     public function isSuccess()
     {
         if (empty($this->errors)) return true;

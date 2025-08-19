@@ -288,6 +288,8 @@ class ImageController
             // die;
             $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
             $db_image_prefix = "img/";
+
+            // MISE A JOUR DE L'IMAGE PRINCIPALE
             if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
                 $uploadOk = 1;
                 $originalFileName = basename($_FILES["image"]["name"]);
@@ -359,6 +361,71 @@ class ImageController
             } else {
                 $errors['image'] = "Une erreur inattendue s'est produite lors de l'upload : Code d'erreur " . $_FILES["image"]["error"];
             }
+
+            // AJOUTER DES IMAGES SECONDAIRES
+
+            // Boucle pour valider les images
+            // Lister l'ordre de chaque image enregistre
+            $index = 0;
+            foreach ($_FILES['images']['name'] as $key => $originalFileName) {
+
+                // print("ici");
+                // die;
+                if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
+
+                    $imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+                    $filename_without_ext = pathinfo($originalFileName, PATHINFO_FILENAME);
+                    $filename = $filename_without_ext . "." . $imageFileType;
+                    $target_file_path_on_server = $upload_dir_on_server . $filename;
+
+                    // Validation format
+                    $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+                    if (!in_array($imageFileType, $allowed)) {
+                        continue;
+                    }
+
+                    // Validation taille
+                    if ($_FILES['images']['size'][$key] > 500000) {
+                        continue;
+                    }
+
+                    // Vérifie si c'est bien une image
+                    $check = getimagesize($_FILES['images']['tmp_name'][$key]);
+                    if ($check === false) {
+                        continue;
+                    }
+
+
+                    $timbreImages = [];
+                    $indexOrdre = 1;
+                    foreach ($images as $image) {
+                        if ($image['idTimbre'] == $timbre['id']) {
+                            $timbreImages[] = $image['image'];
+                            // if ($image['image'] != 0) {
+                            // }
+                        }
+                    }
+
+                    // print("<pre>");
+                    // print("nouveau: ");
+                    // print_r($timbreImages);
+                    // print("</pre>");
+                    die;
+                    // Déplace l'image
+                    if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file_path_on_server)) {
+                        $imagesData[] = $db_image_prefix . $filename;
+                        $image = new Image;
+                        $imageTableau = [];
+                        $imageTableau['image'] = $filename_without_ext;
+                        $imageTableau['lien'] = $filename;
+                        $imageTableau['idTimbre'] = $idTimbre;
+                        $imageTableau['ordre'] = $index;
+
+                        $image = $image->insert($imageTableau);
+                        $index++;
+                    }
+                }
+            }
         }
     }
 
@@ -370,8 +437,6 @@ class ImageController
 
         $timbre = new Timbre;
         $timbre = $timbre->selectId($get['id']);
-
-        $utilisateurIdTimbre = $timbre['idUtilisateur'];
 
         if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
             foreach ($images as $image) {

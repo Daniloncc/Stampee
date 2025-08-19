@@ -119,13 +119,18 @@ class TimbreController
                             continue;
                         }
 
+                        // Nouveau nom avec _idTimbre
+                        $newFileName = $filename_without_ext . "_" . $idTimbre . "." . $imageFileType;
+
+                        // Nouveau chemin cible
+                        $target_file_path_on_server = $upload_dir_on_server . $newFileName;
                         // Déplace l'image
                         if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $target_file_path_on_server)) {
                             $imagesData[] = $db_image_prefix . $filename;
                             $image = new Image;
                             $imageTableau = [];
                             $imageTableau['image'] = $filename_without_ext;
-                            $imageTableau['lien'] = $filename;
+                            $imageTableau['lien'] = $filename_without_ext . "_" . $idTimbre . "." . $imageFileType;
                             $imageTableau['idTimbre'] = $idTimbre;
                             $imageTableau['ordre'] = $index;
 
