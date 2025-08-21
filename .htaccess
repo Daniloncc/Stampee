@@ -8,13 +8,13 @@ RewriteEngine On
 # # '%{REQUEST_FILENAME}' représente le chemin complet du fichier demandé par l'utilisateur.
 # # '!-f' signifie "n'est pas un fichier".
 # # Si la requête est pour "monsite.com/image.jpg" et que "image.jpg" existe physiquement, cette condition est fausse.
-RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-f
 
 # # Condition 2 : Vérifier si la requête ne correspond PAS à un dossier réel existant sur le serveur.
 # # '%{REQUEST_FILENAME}' représente encore une fois le chemin demandé.
 # # '!-d' signifie "n'est pas un dossier".
 # # Si la requête est pour "monsite.com/blog/" et que "blog/" est un dossier physique, cette condition est fausse.
-RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteCond %{REQUEST_FILENAME} !-d
 
 # # ---
 
@@ -32,11 +32,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # # '[L]' : C'est un "flag" (drapeau) qui signifie "Last" (Dernière).
 # #         Il indique à Apache d'arrêter le traitement des règles de réécriture supplémentaires si cette règle est appliquée.
 # #         C'est important pour éviter des boucles ou des réécritures indésirables.
-RewriteRule ^(.*)$ index.php [L]
+ RewriteRule ^(.*)$ index.php [L]
 
 # #pour le webdev
 
-# RewriteEngine On
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+ #RewriteEngine On
+ #RewriteCond %{REQUEST_FILENAME} !-d
+ #RewriteCond %{REQUEST_FILENAME} !-f
+ #RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

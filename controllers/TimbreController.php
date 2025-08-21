@@ -49,6 +49,7 @@ class TimbreController
     {
         // ADRESSE POUR ENREGISTRER L'IMAGE, CHANGER POUR LE WEBDEV
         $upload_dir_on_server = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
+        //$upload_dir_on_server = "/home/e2495746/www/STAMPEE/mvc/public/img/";
 
         // Verifier si cest pas vide l'array d'image
         if (!empty($_FILES['images']['name'][0])) {
