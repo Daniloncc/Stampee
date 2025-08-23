@@ -34,8 +34,13 @@ class EnchereController
         $timbreEnVigueur = [];
         $imagesEnVigueur = [];
 
+        $encheresLord = [];
+        $timbreLord  = [];
+        $imagesLord  = [];
+
         // Séparer les enchères en vigueur et archivées
         foreach ($encheres as $enchere) {
+
             $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
             if ($enchere['dateFin'] < $dateActuelle) {
                 $encheresArchivee[] = $enchere;
@@ -51,6 +56,15 @@ class EnchereController
                 foreach ($images as $image) {
                     if ($image['idTimbre'] == $timbreEnchere['id']) {
                         $imagesEnVigueur[] = $image;
+                    }
+                }
+            }
+            if ($enchere['coupLord'] == 1) {
+                $encheresLord[] = $enchere;
+                $timbreLord[] = $timbreEnchere;
+                foreach ($images as $image) {
+                    if ($image['idTimbre'] == $timbreEnchere['id']) {
+                        $imagesLord[] = $image;
                     }
                 }
             }
@@ -73,6 +87,14 @@ class EnchereController
                 'timbres' => $timbreArchivee,
                 'images' => $imagesArchivee,
                 'page' => 'Encheres archivees',
+                'condition' => $condition
+            ]);
+        } elseif ($condition === 'coupDuLord') {
+            return View::render('enchere/index', [
+                'encheres' => $encheresLord,
+                'timbres' => $timbreLord,
+                'images' => $imagesLord,
+                'page' => 'Coup du coeur du Lord',
                 'condition' => $condition
             ]);
         } else {

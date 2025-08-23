@@ -237,14 +237,11 @@ class TimbreController
     public function timbre($get)
     {
 
-        $timbre = new Timbre;
-        $timbre = $timbre->selectId($get['id']);
-
+        $timbres = (new Timbre)->select();
+        $timbre = (new Timbre)->selectId($get['id']);
+        $encheres = (new Enchere)->select();
         // Validation de Id
         if (isset($timbre['idUtilisateur']) && $get['id']) {
-
-            $timbres = new Timbre;
-            $timbres = $timbres->select();
             $timbreParPays = [];
 
             // Filtre pour afficher les timbres par pays
@@ -278,7 +275,7 @@ class TimbreController
             $etat = new Etat;
             $etats = $etat->select();
 
-            return View::render('timbre/timbre', ['timbres' => $timbreParPays, 'timbre' => $timbre, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+            return View::render('timbre/timbre', ['encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         } else {
             return View::render('error', ['message' => '404 page non trouve!']);
         }

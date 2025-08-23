@@ -1,8 +1,11 @@
 .flex-row {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
     margin-top: 20px;
     border-top: 1px solid black;
     padding-top: 7px;
+
+    & > * {
+        margin-top: 15px;
+    }
 }

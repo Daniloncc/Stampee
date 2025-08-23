@@ -15,7 +15,7 @@
     lien7: '/auth/logout',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'Timbre.js',
+    lienJScript:'TimbreZoom.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% else %}
@@ -35,15 +35,13 @@
     lien7: '/user/create',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'Timbre.js',
+    lienJScript:'TimbreZoom.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% endif %}
 
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
-
-
         <section class="timbre">
             <div id="myresult" class="img-zoom-result"></div>
             <div class="timbre__galerie">
@@ -76,6 +74,7 @@
                     <!-- <h4 class="old-standard-tt-regular">Faune Endémique de Nouvelle-Zélande</h4> -->
                     {% for pay in pays %}
                     {% if timbre.idPays == pay.id %}
+                    {% set PaysTimbre = pay.id %}
                     <small>Nombre reference: {{ pay.abreviation }}{{ timbre.dateCreation }}.{{ timbre.id }}</small>
                     {% endif %}
                     {% endfor %}
@@ -108,19 +107,55 @@
                             {% endif %}
                             {% endfor %}
 
-                            <small>Prix Actuel: <strong>faire logique</strong></small>
-                            <small>Temps restant: <strong>faire logique 2</strong></small>
+                            {% set aEnchere = false %}
+                            {# flag pour savoir si le timbre a une enchère #}
+                            {% for enchere in encheres %}
+                            {% if enchere.idTimbreEnchere == timbre.id %}
+                            {% set aEnchere = true %}
+                            <small>Prix : <strong>Actuel</strong></small>
+                            <small>
+                                {% if enchere.dateFin|date('U') > "now"|date('U') %}
+                                Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                                {% else %}
+                                Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                                {% endif %}
+                            </small>
+                            {% endif %}
+                            {% endfor %}
                         </footer>
                         {% if session.userId is defined and session.userId == timbre.idUtilisateur %}
                         <a href="{{ base }}/timbre/edit?id={{timbre.id}}" class="button button-bleu">Editer Timbre <i class="fa-solid fa-arrow-right"></i></a>
                         {% else %}
                         {% if session.userId is defined %}
+
+                        {% set aEnchere = false %}
+                        {# flag pour savoir si le timbre a une enchère #}
+                        {% for enchere in encheres %}
+                        {% if enchere.idTimbreEnchere == timbre.id %}
+                        {% set aEnchere = true %}
+                        {% if enchere.dateFin|date('U') > "now"|date('U') %}
                         <div class="flex-column">
-                            <div class="timbre__favoris">
-                                <small>Placer aux Favoris</small> <i class="fa-solid fa-star"></i>
-                            </div>
-                            <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
+                            <form action="" class="timbre__favoris">
+                                <label class="form__label" for="favorit"></label>
+                                <input class="form__input" type="hidden" name="favorit" id="favorit" value="{{ timbre.prix|default('') }}">
+                                <button>Placer aux Favoris <i class="fa-solid fa-star"></i></button>
+                            </form>
+
+                            <form action="" class="offre">
+                                <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
+                                <div class="form__contenu">
+                                    <label class="form__label" for="prix">Valeur:</label>
+                                    <input class="form__input" type="text" name="prix" id="prix" value="{{ timbre.prix|default('') }}" placeholder="Ex : 19,99">
+                                    {% if errors.prix is defined %}
+                                    <span class="error">{{ errors.prix }}</span>
+                                    {% endif %}
+                                </div>
+                            </form>
                         </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+
                         {% endif %}
                         {% endif %}
                     </div>
@@ -128,94 +163,67 @@
             </div>
         </section>
         <a class="button button-rouge" href="{{ base }}/timbre/index">← Retourner</a>
+        <!--  -->
         <header>
-            <h2 class="old-standard-tt-regular">D'autres options similaires</h2>
+            <h2 class="old-standard-tt-regular">D'autres options similaires par pays</h2>
         </header>
         <div class="grille-cartes">
-
-            <article class="carte">
+            {% for timbrePays in timbres %}
+            {% if timbrePays.idPays == timbre.idPays %}
+            <article class="carte" id="{{timbrePays.id}}">
+                {% set found = false %}
+                {% for image in imagesTimbres %}
+                {% if not found and timbrePays.id == image.idTimbre and image.ordre == 0 %}
                 <picture>
-                    <img src="./assets/img/eliot_british.webp" alt="timbre Lord Anglais">
+                    <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbrePays.titre }}">
                 </picture>
+                {% set found = true %}
+                {% endif %}
+                {% endfor %}
+
                 <div class="carte__contenu forme-enchere">
+                    <i class="fa-solid fa-star preference"></i>
                     <header>
-                        <h3 class="cinzel">Lord Eliot 1927</h3>
+                        <h3 class="cinzel">{{timbrePays.titre}}</h3>
                     </header>
                     <div>
-                        <h4 class="old-standard-tt-regular">Portraits de l’Aristocratie Britannique</h4>
-                        <small>Stock Code: GBR1927E001</small>
+                        {% for pay in pays %}
+                        {% if timbrePays.idPays == pay.id %}
+                        <small>Pays : <strong>{{pay.pays}}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+                        <small>Prix : <strong>{{timbrePays.prix}}</strong></small>
+                        <small>Dimensions : <strong>{{timbrePays.dimensions}}</strong></small>
                     </div>
                     <footer>
-                        <small><strong>$490</strong></small>
+                        {% set aEnchere = false %}
+                        {# flag pour savoir si le timbrePays a une enchère #}
+                        {% for enchere in encheres %}
+                        {% if enchere.idTimbreEnchere == timbrePays.id %}
+                        {% set aEnchere = true %}
+                        <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
-                        <small>1 jour restant</small>
-                    </footer>
-                </div>
-                <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
-            </article>
+                        <small>
+                            {% if enchere.dateFin|date('U') > "now"|date('U') %}
+                            Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                            {% else %}
+                            Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                            {% endif %}
+                        </small>
+                        {% endif %}
+                        {% endfor %}
 
-            <article class="carte">
-                <picture>
-                    <img src="./assets/img/elisabeth_1th.webp" alt="timbre Elisabeth I">
-                </picture>
-                <div class="carte__contenu forme-enchere">
-                    <header>
-                        <h3 class="cinzel">Elisabeth Ière 1588</h3>
-                    </header>
-                    <div>
-                        <h4 class="old-standard-tt-regular">Dynastie Tudor en Philatélie</h4>
-                        <small>Stock Code: GBR1588E001</small>
-                    </div>
-                    <footer>
-                        <small><strong>$325</strong></small>
-                        <div>|</div>
-                        <small>3 jours restants</small>
+                        {% if not aEnchere %}
+                        <small>
+                            Pas encore disponible <strong class="error"></strong>
+                        </small>
+                        {% endif %}
                     </footer>
+                    <a href="{{ base }}/timbre/timbre?id={{timbrePays.id}}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
-                <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
             </article>
-
-            <article class="carte">
-                <picture>
-                    <img src="./assets/img/migration_oeseaux.webp" alt="timbre migration oiseaux">
-                </picture>
-                <div class="carte__contenu forme-enchere">
-                    <header>
-                        <h3 class="cinzel">Oiseaux Migrateurs 1981</h3>
-                    </header>
-                    <div>
-                        <h4 class="old-standard-tt-regular">Réserve Ornithologique Internationale</h4>
-                        <small>Stock Code: INT1981M001</small>
-                    </div>
-                    <footer>
-                        <small><strong>$42</strong></small>
-                        <div>|</div>
-                        <small>4 jours restants</small>
-                    </footer>
-                </div>
-                <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
-            </article>
-
-            <article class="carte">
-                <picture>
-                    <img src="./assets/img/omnibus_1880.webp" alt="Timbre omnibus 1880">
-                </picture>
-                <div class="carte__contenu forme-enchere">
-                    <header>
-                        <h3 class="cinzel">Omnibus Impérial 1880</h3>
-                    </header>
-                    <div>
-                        <h4 class="old-standard-tt-regular">Transport Urbain Victorien</h4>
-                        <small>Stock Code: UKG1880O001</small>
-                    </div>
-                    <footer>
-                        <small><strong>$88</strong></small>
-                        <div>|</div>
-                        <small>6 jours restants</small>
-                    </footer>
-                </div>
-                <button class="button">Voir plus <i class="fa-solid fa-arrow-right"></i></button>
-            </article>
+            {% endif %}
+            {% endfor %}
         </div>
         <!-- <footer class="pagination">
             <span class="pagination__page">1</span>

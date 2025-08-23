@@ -66,7 +66,7 @@
             <h2 class="pompiere-regular">
                 <pre>{{ page }}</pre>
             </h2>
-            <small class="quicksand">Tous les options | 12 sur 231</small>
+            <small class="quicksand"> Tous les options | {{ encheres|length }} sur {{ encheres|length }}</small>
         </header>
 
         <div class="grille-cartes">
@@ -114,7 +114,7 @@
                         <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
                         <small>
-                            {% if condition == 'envigueur' %}
+                            {% if enchere.dateFin|date('U') > "now"|date('U') %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
                             {% else %}
                             Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>

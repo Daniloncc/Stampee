@@ -98,11 +98,16 @@
       cursor: pointer;
       width: fit-content;
       padding: 10px 10px;
-      color: var(--joune-fonce);
-      margin-top: 25px;
+      /* margin-top: 25px; */
       border-top: 0.5px solid var(--joune-fonce) ;
       border-left: 0.5px solid var(--joune-fonce);
       transition: all 0.3s ease-in-out;
+
+      & button {
+        color: var(--joune-fonce);
+        background-color: transparent;
+        border: none;
+      }
 
       &:hover {
         transform: scale(1.08);
@@ -111,10 +116,11 @@
         border-bottom: 0.5px solid var(--joune-fonce) ;
         border-right: 0.5px solid var(--joune-fonce);
       }
+
+
     }
   }
   & footer {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
     align-items: start;

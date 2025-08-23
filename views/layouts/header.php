@@ -95,6 +95,7 @@
                         <li><a href="{{ base }}{{ lienEnchere }}?condition=envigueur">{{ nav21 }}</a></li>
                         <li><a href="{{ base }}{{ lienEnchere }}?condition=archivee">{{ nav22 }}</a></li>
                         <li><a href="{{ base }}/enchere/index">Tous les Encheres</a></li>
+                        <li><a href="{{ base }}{{ lienEnchere }}?condition=coupDuLord">Coup de Coeur du Lord</a></li>
                     </ul>
                 </li>
                 <li class="menu-deroulant">

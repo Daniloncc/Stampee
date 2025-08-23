@@ -44,7 +44,7 @@ Route::get('/image/delete', 'ImageController@delete');
 // Route POST pour l'Image
 Route::post('/image/action', 'ImageController@action');
 
-// Route GET pour les images
+// Route GET pour les encheres
 Route::get('/enchere/index', 'EnchereController@index');
 
 Route::dispatch();
