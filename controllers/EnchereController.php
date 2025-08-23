@@ -15,54 +15,40 @@ use Intervention\Image\ImageManager;
 
 class EnchereController
 {
-    public function index($get)
+    public function index($get = [])
     {
-
-        $timbreEnchereArc = new Timbre;
-        $timbreEnchereVig = new Timbre;
-
         $timbresToutUsage = new Timbre;
         $timbres = $timbresToutUsage->select();
 
-        $encheres = new Enchere;
-        $encheres = $encheres->select();
-
-        $images = new Image;
-        $images = $images->select();
-
-        $pays = new Pays;
-        $pays = $pays->select();
+        $encheres = (new Enchere)->select();
+        $images = (new Image)->select();
+        $pays = (new Pays)->select();
 
         $dateActuelle = date('Y-m-d H:i:s');
-        // Archivee
+
         $encheresArchivee = [];
         $timbreArchivee = [];
         $imagesArchivee = [];
 
-
-        // En vigueur
         $encheresEnVigueur = [];
         $timbreEnVigueur = [];
         $imagesEnVigueur = [];
 
-        // Boucle pour separer les encheres archivees et en vigueur
-        foreach ($encheres as $key => $enchere) {
+        // Séparer les enchères en vigueur et archivées
+        foreach ($encheres as $enchere) {
+            $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
             if ($enchere['dateFin'] < $dateActuelle) {
                 $encheresArchivee[] = $enchere;
-                // Selectioner le timbre par son id
-                $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
                 $timbreArchivee[] = $timbreEnchere;
-                foreach ($images as $key => $image) {
+                foreach ($images as $image) {
                     if ($image['idTimbre'] == $timbreEnchere['id']) {
                         $imagesArchivee[] = $image;
                     }
                 }
             } else {
                 $encheresEnVigueur[] = $enchere;
-                // Selectioner le timbre par son id
-                $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
                 $timbreEnVigueur[] = $timbreEnchere;
-                foreach ($images as $key => $image) {
+                foreach ($images as $image) {
                     if ($image['idTimbre'] == $timbreEnchere['id']) {
                         $imagesEnVigueur[] = $image;
                     }
@@ -70,22 +56,39 @@ class EnchereController
             }
         }
 
-        // print("<pre>");
-        // print_r($timbreArchivee);
-        // print("</pre>");
-        // print("<pre>");
-        // print_r($imagesArchivee);
-        // print("</pre>");
-        // die;
+        // Déterminer la condition
+        $condition = $get['condition'] ?? 'tous'; // 'tous' par défaut
 
-        if ($get['condition'] == 'envigueur') {
-            return View::render('enchere/index', ['encheres' => $encheresEnVigueur, 'timbres' => $timbreEnVigueur, 'images' => $imagesEnVigueur, 'page' => 'Encheres en vigueur', 'condition' => $get['condition']]);
+        if ($condition === 'envigueur') {
+            return View::render('enchere/index', [
+                'encheres' => $encheresEnVigueur,
+                'timbres' => $timbreEnVigueur,
+                'images' => $imagesEnVigueur,
+                'page' => 'Encheres en vigueur',
+                'condition' => $condition
+            ]);
+        } elseif ($condition === 'archivee') {
+            return View::render('enchere/index', [
+                'encheres' => $encheresArchivee,
+                'timbres' => $timbreArchivee,
+                'images' => $imagesArchivee,
+                'page' => 'Encheres archivees',
+                'condition' => $condition
+            ]);
         } else {
-            return View::render('enchere/index', ['encheres' => $encheresArchivee, 'timbres' => $timbreArchivee, 'images' => $imagesArchivee, 'page' => 'Encheres archivees', 'condition' => $get['condition']]);
+            // Cas "tous" : on envoie tout
+            // print_r($encheres);
+            // die;
+            return View::render('enchere/index', [
+                'encheres' => $encheres,
+                'timbres' => $timbres,
+                'images' => $images,
+                'page' => 'Toutes les enchères',
+                'condition' => $condition
+            ]);
         }
-
-        // return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
     }
+
 
     // final public function create()
     // {

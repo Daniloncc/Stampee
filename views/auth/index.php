@@ -5,6 +5,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',

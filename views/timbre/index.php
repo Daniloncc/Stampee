@@ -5,6 +5,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',
@@ -24,6 +25,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',
@@ -65,7 +67,9 @@
             <h2 class="pompiere-regular">
                 <pre>{{ page }}</pre>
             </h2>
-            <small class="quicksand">Tous les options | 12 sur 231</small>
+            <small class="quicksand">
+                Tous les options | {{ timbres|length }} sur {{ timbres|length }}
+            </small>
         </header>
 
         <div class="grille-cartes">
@@ -134,8 +138,7 @@
             <span class="pagination__page">5</span>
         </footer>
     </section>
+
 </main>
-
-
 
 {{ include('layouts/footer.php') }}

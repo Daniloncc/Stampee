@@ -17,7 +17,6 @@ class TimbreController
 {
     public function index()
     {
-
         $encheres = new Enchere;
         $encheres = $encheres->select();
 
@@ -31,6 +30,23 @@ class TimbreController
         $pays = $pays->select();
 
         return View::render('timbre/index', ['encheres' => $encheres, 'timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Tous les timbres']);
+    }
+
+    public function mytimbres()
+    {
+        $encheres = new Enchere;
+        $encheres = $encheres->select();
+
+        $timbres = new Timbre;
+        $timbres = $timbres->select();
+
+        $images = new Image;
+        $images = $images->select();
+
+        $pays = new Pays;
+        $pays = $pays->select();
+
+        return View::render('timbre/mytimbres', ['encheres' => $encheres, 'timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
     }
 
     final public function create()

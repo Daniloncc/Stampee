@@ -25,6 +25,7 @@ Route::get('/auth/logout', 'AuthController@delete');
 Route::post('/auth/index', 'AuthController@login');
 
 // Route GET pour les timbre
+Route::get('/timbre/mytimbres', 'TimbreController@mytimbres');
 Route::get('/timbre/create', 'TimbreController@create');
 Route::get('/timbre/index', 'TimbreController@index');
 Route::get('/timbre/timbre', 'TimbreController@timbre');

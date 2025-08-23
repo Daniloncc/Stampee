@@ -84,7 +84,8 @@
                     <ul class="conteneur">
                         <li><a href="{{ base }}{{ lienTimbre }}">Ajouter Timbre</a></li>
                         <li><a href="#">Mes Favoris</a></li>
-                        <li><a href="{{ base }}{{ lienTimbres }}">Mes Timbres</a></li>
+                        <li><a href="{{ base }}/timbre/mytimbres">Mes Timbres</a></li>
+                        <li><a href="{{ base }}/timbre/index">Tous les Timbres</a></li>
                     </ul>
                 </li>
                 {% endif %}
@@ -93,6 +94,7 @@
                     <ul class="conteneur">
                         <li><a href="{{ base }}{{ lienEnchere }}?condition=envigueur">{{ nav21 }}</a></li>
                         <li><a href="{{ base }}{{ lienEnchere }}?condition=archivee">{{ nav22 }}</a></li>
+                        <li><a href="{{ base }}/enchere/index">Tous les Encheres</a></li>
                     </ul>
                 </li>
                 <li class="menu-deroulant">

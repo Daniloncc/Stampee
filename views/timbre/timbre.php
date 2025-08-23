@@ -5,6 +5,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',
@@ -24,6 +25,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',
@@ -40,6 +42,7 @@
 
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
+
 
         <section class="timbre">
             <div id="myresult" class="img-zoom-result"></div>
@@ -111,14 +114,14 @@
                         {% if session.userId is defined and session.userId == timbre.idUtilisateur %}
                         <a href="{{ base }}/timbre/edit?id={{timbre.id}}" class="button button-bleu">Editer Timbre <i class="fa-solid fa-arrow-right"></i></a>
                         {% else %}
+                        {% if session.userId is defined %}
                         <div class="flex-column">
                             <div class="timbre__favoris">
                                 <small>Placer aux Favoris</small> <i class="fa-solid fa-star"></i>
                             </div>
-                            {% if session.userId is defined %}
                             <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
-                            {% endif %}
                         </div>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -222,6 +225,7 @@
             <span class="pagination__page">5</span>
         </footer> -->
     </section>
+
 </main>
 
 {{ include('layouts/footer.php') }}

@@ -5,6 +5,7 @@
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
     nav22: 'Archivée',
+    nav23: 'Tous les Timbres',
     nav3: 'Aide ▿',
     nav4: 'Langue ▿',
     nav5: ' Échange ▿',
@@ -69,38 +70,49 @@
         </header>
 
         <div class="grille-cartes">
+            {% for enchere in encheres %}
+            {# Chercher le timbre associé à cette enchère #}
+            {% set timbreAssocie = null %}
             {% for timbre in timbres %}
-            <article class="carte" id="{{ timbre.id }}">
+            {% if timbre.id == enchere.idTimbreEnchere %}
+            {% set timbreAssocie = timbre %}
+            {% endif %}
+            {% endfor %}
 
-                {% set found = false %}
+            {% if timbreAssocie %}
+            <article class="carte" id="{{ timbreAssocie.id }}">
+
+                {# Chercher la première image du timbre #}
+                {% set imageTrouvee = null %}
                 {% for image in images %}
-                {% if not found and timbre.id == image.idTimbre %}
-                <picture>
-                    <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbre.titre }}">
-                </picture>
-                {% set found = true %}
+                {% if image.idTimbre == timbreAssocie.id and imageTrouvee is null and imageTrouvee == 0 %}
+                {% set imageTrouvee = image %}
                 {% endif %}
                 {% endfor %}
+
+                {% if imageTrouvee %}
+                <picture>
+                    <img src="{{ asset }}/img/{{ imageTrouvee.lien }}" alt="{{ imageTrouvee.image }}">
+                </picture>
+                {% endif %}
 
                 <div class="carte__contenu forme-enchere">
                     <i class="fa-solid fa-star preference"></i>
                     <header>
-                        <h3 class="cinzel">{{ timbre.titre }}</h3>
+                        <h3 class="cinzel">{{ timbreAssocie.titre }}</h3>
                     </header>
                     <div>
                         {% for pay in pays %}
-                        {% if timbre.idPays == pay.id %}
+                        {% if timbreAssocie.idPays == pay.id %}
                         <small>Pays : <strong>{{ pay.pays }}</strong></small>
                         {% endif %}
                         {% endfor %}
-                        <small>Prix : <strong>{{ timbre.prix }}</strong></small>
-                        <small>Dimensions : <strong>{{ timbre.dimensions }}</strong></small>
+                        <small>Prix : <strong>{{ timbreAssocie.prix }}</strong></small>
+                        <small>Dimensions : <strong>{{ timbreAssocie.dimensions }}</strong></small>
                     </div>
                     <footer>
                         <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
-                        {% for enchere in encheres %}
-                        {% if enchere.idTimbreEnchere == timbre.id %}
                         <small>
                             {% if condition == 'envigueur' %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
@@ -108,15 +120,18 @@
                             Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>
                             {% endif %}
                         </small>
-                        {% endif %}
-                        {% endfor %}
-
                     </footer>
-                    <a href="{{ base }}/timbre/timbre?id={{ timbre.id }}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
+
+                    <a href="{{ base }}/timbre/timbre?id={{ timbreAssocie.id }}" class="button button-bleu">
+                        Voir <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </article>
+            {% endif %}
             {% endfor %}
         </div>
+
+
         <!--  -->
         <footer class="pagination">
             <span class="pagination__page">1</span>
@@ -127,7 +142,5 @@
         </footer>
     </section>
 </main>
-
-
 
 {{ include('layouts/footer.php') }}
