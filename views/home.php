@@ -11,6 +11,7 @@
     nav7: 'Devenir Membre',
     lien6: '/auth/index',
     lien7: '/user/create',
+    lienEnchere: '/enchere/index'
 
 }) }}
 <header class="entete entete-accueil">

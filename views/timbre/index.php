@@ -1,6 +1,6 @@
 {% if session.userId is defined %}
 {{ include('layouts/header.php', {
-    title: 'Mes Timbres',
+    title: 'Timbres',
     nav1: 'Lord Stampee III ▿',
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
@@ -14,9 +14,28 @@
     lien7: '/auth/logout',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'Timbre.js'
-
-}) }}
+    lienJScript:'Timbre.js',
+    lienEnchere: '/enchere/index'
+    }) }}
+{% else %}
+{{ include('layouts/header.php', {
+    title: 'Timbres',
+    nav1: 'Lord Stampee III ▿',
+    nav2: 'Enchères ▿',
+    nav21: 'En vigueur',
+    nav22: 'Archivée',
+    nav3: 'Aide ▿',
+    nav4: 'Langue ▿',
+    nav5: ' Échange ▿',
+    nav6: 'Se connecter',
+    nav7: 'Devenir Membre',
+    lien6: '/auth/index',
+    lien7: '/user/create',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
+    lienJScript:'Timbre.js',
+    lienEnchere: '/enchere/index'
+    }) }}
 {% endif %}
 
 <header class="entete">
@@ -51,9 +70,7 @@
 
         <div class="grille-cartes">
             {% for timbre in timbres %}
-            {% if session.userId == timbre.idUtilisateur %}
             <article class="carte" id="{{timbre.id}}">
-
                 {% set found = false %}
                 {% for image in images %}
                 {% if not found and timbre.id == image.idTimbre %}
@@ -79,16 +96,33 @@
                         <small>Dimensions : <strong>{{timbre.dimensions}}</strong></small>
                     </div>
                     <footer>
+                        {% set aEnchere = false %}
+                        {# flag pour savoir si le timbre a une enchère #}
+                        {% for enchere in encheres %}
+                        {% if enchere.idTimbreEnchere == timbre.id %}
+                        {% set aEnchere = true %}
                         <small>Prix : <strong>Actuel</strong></small>
                         <div>|</div>
-                        <small>Temps restant : <strong>Temps</strong></small>
+                        <small>
+                            {% if enchere.dateFin|date('U') > "now"|date('U') %}
+                            Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                            {% else %}
+                            Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>
+                            {% endif %}
+                        </small>
+                        {% endif %}
+                        {% endfor %}
 
-                        <!-- <a href="{{ base }}/timbre/create" class="button button-joune">Ajouter Timbre</a> -->
+                        {% if not aEnchere %}
+                        <small>
+                            Pas encore disponible <strong class="error"></strong>
+                        </small>
+                        {% endif %}
                     </footer>
                     <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </article>
-            {% endif %}
+
             {% endfor %}
         </div>
         <!--  -->

@@ -14,6 +14,7 @@
     lien7: '/auth/logout',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
+    lienEnchere: '/enchere/index'
     
 }) }}
 {% endif %}

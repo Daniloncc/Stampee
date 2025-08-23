@@ -9,6 +9,7 @@ use App\Models\Couleur;
 use App\Models\Pays;
 use App\Models\Etat;
 use App\Models\Image;
+use App\Models\Enchere;
 use App\Providers\Validator;
 use Intervention\Image\ImageManager;
 
@@ -16,6 +17,10 @@ class TimbreController
 {
     public function index()
     {
+
+        $encheres = new Enchere;
+        $encheres = $encheres->select();
+
         $timbres = new Timbre;
         $timbres = $timbres->select();
 
@@ -25,7 +30,7 @@ class TimbreController
         $pays = new Pays;
         $pays = $pays->select();
 
-        return View::render('timbre/index', ['timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Mes timbres']);
+        return View::render('timbre/index', ['encheres' => $encheres, 'timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Tous les timbres']);
     }
 
     final public function create()
@@ -220,7 +225,7 @@ class TimbreController
         $timbre = $timbre->selectId($get['id']);
 
         // Validation de Id
-        if (isset($timbre['idUtilisateur']) && $get['id'] != null && $_SESSION['userId'] == $timbre['idUtilisateur']) {
+        if (isset($timbre['idUtilisateur']) && $get['id']) {
 
             $timbres = new Timbre;
             $timbres = $timbres->select();

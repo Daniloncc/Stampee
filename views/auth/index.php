@@ -1,5 +1,6 @@
 {{ include('layouts/header.php', {
-    title: 'Connectez-vous',
+    title: 'Connectez-
+    vous',
     nav1: 'Lord Stampee III ▿',
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
@@ -11,8 +12,10 @@
     nav7: 'Devenir Membre',
     lien6: '/auth/index',
     lien7: '/user/create',
+    lienEnchere: '/enchere/index'
 
 }) }}
+
 
 <main class="main__form">
     <form action="{{base}}/auth/index" method="post" class="form">

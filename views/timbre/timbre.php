@@ -1,6 +1,6 @@
 {% if session.userId is defined %}
 {{ include('layouts/header.php', {
-    title: 'Creez votre compte',
+    title: 'Timbre',
     nav1: 'Lord Stampee III ▿',
     nav2: 'Enchères ▿',
     nav21: 'En vigueur',
@@ -12,13 +12,30 @@
     nav7: 'Deconnecter',
     lien6: '/user/edit?id=' ~ session.userId,
     lien7: '/auth/logout',
-    lien8: '/timbre/index',
-    lienJScript:'Timbre.js',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'TimbreZoom.js'
-
-}) }}
+    lienJScript:'Timbre.js',
+    lienEnchere: '/enchere/index'
+    }) }}
+{% else %}
+{{ include('layouts/header.php', {
+    title: 'Timbre',
+    nav1: 'Lord Stampee III ▿',
+    nav2: 'Enchères ▿',
+    nav21: 'En vigueur',
+    nav22: 'Archivée',
+    nav3: 'Aide ▿',
+    nav4: 'Langue ▿',
+    nav5: ' Échange ▿',
+    nav6: 'Se connecter',
+    nav7: 'Devenir Membre',
+    lien6: '/auth/index',
+    lien7: '/user/create',
+    lienTimbre: '/timbre/create?id=' ~ session.userId,
+    lienTimbres: '/timbre/index',
+    lienJScript:'Timbre.js',
+    lienEnchere: '/enchere/index'
+    }) }}
 {% endif %}
 
 <main class="encheres">
@@ -98,7 +115,9 @@
                             <div class="timbre__favoris">
                                 <small>Placer aux Favoris</small> <i class="fa-solid fa-star"></i>
                             </div>
+                            {% if session.userId is defined %}
                             <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
+                            {% endif %}
                         </div>
                         {% endif %}
                     </div>

@@ -91,8 +91,8 @@
                 <li class="menu-deroulant">
                     <a href="#">{{ nav2 }}</a>
                     <ul class="conteneur">
-                        <li><a href="#">{{ nav21 }}</a></li>
-                        <li><a href="#">{{ nav22 }}</a></li>
+                        <li><a href="{{ base }}{{ lienEnchere }}?condition=envigueur">{{ nav21 }}</a></li>
+                        <li><a href="{{ base }}{{ lienEnchere }}?condition=archivee">{{ nav22 }}</a></li>
                     </ul>
                 </li>
                 <li class="menu-deroulant">
