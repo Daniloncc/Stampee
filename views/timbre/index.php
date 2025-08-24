@@ -77,7 +77,7 @@
             <article class="carte" id="{{timbre.id}}">
                 {% set found = false %}
                 {% for image in images %}
-                {% if not found and timbre.id == image.idTimbre %}
+                {% if not found and timbre.id == image.idTimbre and image.ordre == 0%}
                 <picture>
                     <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbre.titre }}">
                 </picture>
@@ -96,7 +96,12 @@
                         <small>Pays : <strong>{{pay.pays}}</strong></small>
                         {% endif %}
                         {% endfor %}
-                        <small>Prix : <strong>{{timbre.prix}}</strong></small>
+                        {% for pay in pays %}
+                        {% if timbre.idPays == pay.id %}
+                        {% set PaysTimbre = pay.id %}
+                        <small>Nombre reference: {{ pay.abreviation }}{{ timbre.dateCreation }}.{{ timbre.id }}</small>
+                        {% endif %}
+                        {% endfor %}
                         <small>Dimensions : <strong>{{timbre.dimensions}}</strong></small>
                     </div>
                     <footer>
@@ -105,8 +110,6 @@
                         {% for enchere in encheres %}
                         {% if enchere.idTimbreEnchere == timbre.id %}
                         {% set aEnchere = true %}
-                        <small>Prix : <strong>Actuel</strong></small>
-                        <div>|</div>
                         <small>
                             {% if enchere.dateFin|date('U') > "now"|date('U') %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>

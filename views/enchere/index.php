@@ -105,14 +105,16 @@
                         {% for pay in pays %}
                         {% if timbreAssocie.idPays == pay.id %}
                         <small>Pays : <strong>{{ pay.pays }}</strong></small>
+                        <small>Nombre reference: {{ pay.abreviation }}{{ timbreAssocie.dateCreation }}.{{ timbreAssocie.id }}</small>
+                        {% endif %}
+                        {% if timbre.idPays == pay.id %}
+
                         {% endif %}
                         {% endfor %}
-                        <small>Prix : <strong>{{ timbreAssocie.prix }}</strong></small>
+
                         <small>Dimensions : <strong>{{ timbreAssocie.dimensions }}</strong></small>
                     </div>
                     <footer>
-                        <small>Prix : <strong>Actuel</strong></small>
-                        <div>|</div>
                         <small>
                             {% if enchere.dateFin|date('U') > "now"|date('U') %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>

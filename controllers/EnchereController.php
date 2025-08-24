@@ -78,6 +78,7 @@ class EnchereController
                 'encheres' => $encheresEnVigueur,
                 'timbres' => $timbreEnVigueur,
                 'images' => $imagesEnVigueur,
+                'pays' => $pays,
                 'page' => 'Encheres en vigueur',
                 'condition' => $condition
             ]);
@@ -86,6 +87,7 @@ class EnchereController
                 'encheres' => $encheresArchivee,
                 'timbres' => $timbreArchivee,
                 'images' => $imagesArchivee,
+                'pays' => $pays,
                 'page' => 'Encheres archivees',
                 'condition' => $condition
             ]);
@@ -94,6 +96,7 @@ class EnchereController
                 'encheres' => $encheresLord,
                 'timbres' => $timbreLord,
                 'images' => $imagesLord,
+                'pays' => $pays,
                 'page' => 'Coup du coeur du Lord',
                 'condition' => $condition
             ]);
@@ -105,6 +108,7 @@ class EnchereController
                 'encheres' => $encheres,
                 'timbres' => $timbres,
                 'images' => $images,
+                'pays' => $pays,
                 'page' => 'Toutes les enchères',
                 'condition' => $condition
             ]);

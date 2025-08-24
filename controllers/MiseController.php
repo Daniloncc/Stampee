@@ -68,6 +68,8 @@ class MiseController
                         return View::render('timbre/timbre', ['errors' => $errors, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
                     } else {
                         $premierMise = (new Mise)->insert($data);
+                        print_r($premierMise);
+                        die;
                         return View::render('timbre/timbre', ['mise' => $premierMise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
                     }
                 } else {
@@ -81,7 +83,6 @@ class MiseController
                     // print_r($miseFinale);
                     // die;
                     return View::render('timbre/timbre', ['mise' => $miseFinale, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
-                    //return View::redirect('timbre/timbre?id=' . $get['id'], ['mise' => $miseFinale]);
                 }
                 // print_r($mise);
                 // die;

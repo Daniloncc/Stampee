@@ -42,8 +42,10 @@
 
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
-        <section class="timbre">
-            <div id="myresult" class="img-zoom-result"></div>
+        <section class="timbre" id="{{ timbre.id }}">
+            {% set TimbrePage = timbre.id %}
+            {% set EncherePage = mise.id %}
+            <div class="img-zoom-result"></div>
             <div class="timbre__galerie">
 
                 {# Image principale (première) #}
@@ -205,7 +207,14 @@
                         <small>Pays : <strong>{{pay.pays}}</strong></small>
                         {% endif %}
                         {% endfor %}
-                        <small>Prix : <strong>{{timbrePays.prix}}</strong></small>
+
+                        {% for pay in pays %}
+                        {% if timbrePays.idPays == pay.id %}
+                        {% set PaysTimbre = pay.id %}
+                        <small>Nombre reference: {{ pay.abreviation }}{{ timbrePays.dateCreation }}.{{ timbrePays.id }}</small>
+                        {% endif %}
+                        {% endfor %}
+
                         <small>Dimensions : <strong>{{timbrePays.dimensions}}</strong></small>
                     </div>
                     <footer>
@@ -214,8 +223,6 @@
                         {% for enchere in encheres %}
                         {% if enchere.idTimbreEnchere == timbrePays.id %}
                         {% set aEnchere = true %}
-                        <small>Prix : <strong>Actuel</strong></small>
-                        <div>|</div>
                         <small>
                             {% if enchere.dateFin|date('U') > "now"|date('U') %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>

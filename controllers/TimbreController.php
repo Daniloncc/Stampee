@@ -10,6 +10,7 @@ use App\Models\Pays;
 use App\Models\Etat;
 use App\Models\Image;
 use App\Models\Enchere;
+use App\Models\Mise;
 use App\Providers\Validator;
 use Intervention\Image\ImageManager;
 
@@ -237,9 +238,24 @@ class TimbreController
     public function timbre($get)
     {
 
+
         $timbres = (new Timbre)->select();
         $timbre = (new Timbre)->selectId($get['id']);
         $encheres = (new Enchere)->select();
+        $mises = (new Mise)->select();
+        $enchereMise = [];
+
+        foreach ($mises as $key => $mise) {
+            $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);
+            if ($mise['idEnchereMise'] == $enchereTimbre['id']) {
+                $enchereMise[] = $mise;
+            }
+        }
+
+        // $enchereTimbre = (new Enchere)->select2Id($_SESSION['userId'], $get['id']);
+
+        // $mise = (new Mise)->select2Id($_SESSION['userId'], $enchereTimbre['idEnchereMise']);
+
         // Validation de Id
         if (isset($timbre['idUtilisateur']) && $get['id']) {
             $timbreParPays = [];
@@ -265,8 +281,10 @@ class TimbreController
 
             $etat = new Etat;
             $etats = $etat->select();
+            // print_r($enchereMise);
+            // die;
 
-            return View::render('timbre/timbre', ['encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+            return View::render('timbre/timbre', ['mise' => $enchereMise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         } else {
             return View::render('error', ['message' => '404 page non trouve!']);
         }
