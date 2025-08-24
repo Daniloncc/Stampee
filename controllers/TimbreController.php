@@ -284,7 +284,7 @@ class TimbreController
             // print_r($enchereMise);
             // die;
 
-            return View::render('timbre/timbre', ['mise' => $enchereMise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+            return View::render('timbre/timbre', ['mise' => $mise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         } else {
             return View::render('error', ['message' => '404 page non trouve!']);
         }
