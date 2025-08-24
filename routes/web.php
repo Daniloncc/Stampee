@@ -47,4 +47,7 @@ Route::post('/image/action', 'ImageController@action');
 // Route GET pour les encheres
 Route::get('/enchere/index', 'EnchereController@index');
 
+// Route POST pour la mise
+Route::post('/mise/index', 'MiseController@index');
+
 Route::dispatch();

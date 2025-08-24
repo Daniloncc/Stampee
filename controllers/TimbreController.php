@@ -243,15 +243,6 @@ class TimbreController
         // Validation de Id
         if (isset($timbre['idUtilisateur']) && $get['id']) {
             $timbreParPays = [];
-
-            // Filtre pour afficher les timbres par pays
-            // foreach ($timbres as $timbresPays) {
-
-            //     if ($timbresPays['idPays'] == $timbre['idPays']) {
-            //         $timbreParPays[] = $timbresPays;
-            //     }
-            // }
-
             // Filtrer les images du timbre
             $images = new Image;
             $images = $images->select();

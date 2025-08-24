@@ -112,7 +112,11 @@
                             {% for enchere in encheres %}
                             {% if enchere.idTimbreEnchere == timbre.id %}
                             {% set aEnchere = true %}
-                            <small>Prix : <strong>Actuel</strong></small>
+
+                            {% if mise is defined %}
+                            <small>Prix : <strong>{{ mise.prix }} $</strong></small>
+                            {% endif %}
+
                             <small>
                                 {% if enchere.dateFin|date('U') > "now"|date('U') %}
                                 Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
@@ -141,11 +145,20 @@
                                 <button>Placer aux Favoris <i class="fa-solid fa-star"></i></button>
                             </form>
 
-                            <form action="" class="offre">
+                            <form action="{{ base }}/mise/index?id={{ timbre.id }}" method="post" class="offre">
                                 <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
                                 <div class="form__contenu">
-                                    <label class="form__label" for="prix">Valeur:</label>
-                                    <input class="form__input" type="text" name="prix" id="prix" value="{{ timbre.prix|default('') }}" placeholder="Ex : 19,99">
+                                    <input type="hidden" name="idEnchereMise" id="idEnchereMise" value="{{ enchere.id }}">
+                                    <input type="hidden" name="idUtilisateurMise" id="idUtilisateurMise" value="{{ session.userId}}">
+                                    <div>
+                                        <label class="form__label" for="prix">Valeur:</label>
+                                        {% if mise is defined %}
+                                        <input class="form__input" type="text" name="prix" id="prix" value="{{ mise.prix }} " placeholder="Ex : 19,99">
+                                        {% else %}
+                                        <input class="form__input" type="text" name="prix" id="prix" value="{{ timbre.prix|default('') }}" placeholder="Ex : 19,99">
+                                        {% endif %}
+
+                                    </div>
                                     {% if errors.prix is defined %}
                                     <span class="error">{{ errors.prix }}</span>
                                     {% endif %}

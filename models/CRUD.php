@@ -71,6 +71,26 @@ abstract class CRUD extends \PDO
         }
     }
 
+    final public function select2Id($valueId1, $valueId2)
+    {
+        $sql = "SELECT * FROM $this->table WHERE $this->secondaryKey1 = :$this->secondaryKey1 and $this->secondaryKey2 = :$this->secondaryKey2";
+        // Eviter des injections SQL et associer le nom avec la valeur
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$this->secondaryKey1", $valueId1);
+        $stmt->bindValue(":$this->secondaryKey2", $valueId2);
+        //faire la requete et retourne un booleen mais avec un contenu "cache" qui cest le retour de la requete
+        $stmt->execute();
+        // pour voir son contenu, ligne par ligne, s'il y en a
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        // confirmer - chatGPT dit que le rowCount() est mieux pour INSERT, DELETE, UPDATE, pour select c'est mieux : $data = $stmt->fetchAll(PDO::FETCH_ASSOC); pour retourner la quantite de lignes
+        $count = count($rows);
+        if ($count == 1) {
+            return $rows[0];
+        } else {
+            return false;
+        }
+    }
+
     final public function unique($field, $value)
     {
         $sql = "SELECT * FROM $this->table WHERE $field = :$field";
