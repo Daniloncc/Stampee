@@ -18,17 +18,10 @@ class TimbreController
 {
     public function index()
     {
-        $encheres = new Enchere;
-        $encheres = $encheres->select();
-
-        $timbres = new Timbre;
-        $timbres = $timbres->select();
-
-        $images = new Image;
-        $images = $images->select();
-
-        $pays = new Pays;
-        $pays = $pays->select();
+        $encheres = (new Enchere)->select();
+        $timbres = (new Timbre)->select();
+        $images = (new Image)->select();
+        $pays = (new Pays)->select();
 
         return View::render('timbre/index', ['encheres' => $encheres, 'timbres' => $timbres, 'images' => $images, 'pays' => $pays, 'page' => 'Tous les timbres']);
     }
@@ -237,58 +230,51 @@ class TimbreController
 
     public function timbre($get)
     {
-
-
+        $certifies = (new Certifie)->select();
+        $couleurs = (new Couleur)->select();
+        $pays = (new Pays)->select();
+        $etats = (new Etat)->select();
         $timbres = (new Timbre)->select();
         $timbre = (new Timbre)->selectId($get['id']);
         $encheres = (new Enchere)->select();
         $mises = (new Mise)->select();
-        $enchereMise = [];
 
-        foreach ($mises as $key => $mise) {
-            $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);
-            if ($mise['idEnchereMise'] == $enchereTimbre['id']) {
-                $enchereMise[] = $mise;
+        $enchereMise = [];
+        $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);
+
+        // Filtrer les images du timbre
+        $images = new Image;
+        $images = $images->select();
+        $usersImages = [];
+
+        foreach ($images as $image) {
+            if ($image['idTimbre'] == $get['id']) {
+                $usersImages[] = $image;
             }
         }
 
-        // $enchereTimbre = (new Enchere)->select2Id($_SESSION['userId'], $get['id']);
-
-        // $mise = (new Mise)->select2Id($_SESSION['userId'], $enchereTimbre['idEnchereMise']);
-
-        // Validation de Id
-        if (isset($timbre['idUtilisateur']) && $get['id']) {
-            $timbreParPays = [];
-            // Filtrer les images du timbre
-            $images = new Image;
-            $images = $images->select();
-            $usersImages = [];
-            foreach ($images as $image) {
-
-                if ($image['idTimbre'] == $get['id']) {
-                    $usersImages[] = $image;
+        // print_r($enchereTimbre);
+        // die;
+        if ($enchereTimbre) {
+            foreach ($mises as $key => $mise) {
+                if ($mise['idEnchereMise'] == $enchereTimbre['id']) {
+                    $enchereMise[] = $mise;
                 }
             }
+        }
 
-            $certifie = new Certifie;
-            $certifies = $certifie->select();
-
-            $couleur = new Couleur;
-            $couleurs = $couleur->select();
-
-            $pays = new Pays;
-            $pays = $pays->select();
-
-            $etat = new Etat;
-            $etats = $etat->select();
-            // print_r($enchereMise);
-            // die;
+        if (!empty($enchereMise)) {
+            $mise = end($enchereMise);
 
             return View::render('timbre/timbre', ['mise' => $mise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         } else {
-            return View::render('error', ['message' => '404 page non trouve!']);
+
+            return View::render('timbre/timbre', ['encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+
+            // return View::render('error', ['message' => '404 page non trouve!']);
         }
     }
+
 
     final public function edit($get)
     {

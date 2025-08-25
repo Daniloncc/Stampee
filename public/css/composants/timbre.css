@@ -2,8 +2,8 @@
   margin-inline: auto;
   margin-bottom: 30px;
   min-height: 550px;
-  max-height: 700px;
-  max-width: 770px;
+  max-height: 750px;
+  max-width: 730px;
   display: flex;
   gap: 20px;
   border: 1px solid var(--brun-fonce);
@@ -70,7 +70,6 @@
 }
 
 .timbre__contenu {
-  height: 100%;
   & > picture {
     height: 300px;
   }
