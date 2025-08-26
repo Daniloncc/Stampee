@@ -3,7 +3,7 @@
   margin-bottom: 30px;
   min-height: 550px;
   max-height: 750px;
-  max-width: 770px;
+  max-width: 730px;
   display: flex;
   gap: 20px;
   border: 1px solid var(--brun-fonce);
@@ -92,26 +92,25 @@
     }
 
     & .timbre__favoris {
+      border: none;
       cursor: pointer;
       width: fit-content;
       padding: 10px 10px;
-      /* margin-top: 25px; */
-      border-top: 0.5px solid var(--joune-fonce) ;
-      border-left: 0.5px solid var(--joune-fonce);
+      border-bottom: 0.5px solid var(--joune-fonce) ;
+      border-right: 0.5px solid var(--joune-fonce);
       transition: all 0.3s ease-in-out;
-
-      & button {
-        color: var(--joune-fonce);
-        background-color: transparent;
-        border: none;
-      }
+      color: var(--joune-fonce);
+      background-color: transparent;
+       
+      
 
       &:hover {
-        transform: scale(1.08);
-        border-top: none;
-      border-left: none;
-        border-bottom: 0.5px solid var(--joune-fonce) ;
-        border-right: 0.5px solid var(--joune-fonce);
+      transform: scale(1.08);
+      border-bottom: none;
+      border-right: none;
+      border-top: 0.5px solid var(--joune-fonce) ;
+      border-left: 0.5px solid var(--joune-fonce);
+        
       }
 
 

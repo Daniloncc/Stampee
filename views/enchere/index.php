@@ -198,19 +198,15 @@
             {% if timbreAssocie %}
             <article class="carte" id="{{ timbreAssocie.id }}">
 
-                {# Chercher la première image du timbre #}
-                {% set imageTrouvee = null %}
+                {% set found = false %}
                 {% for image in images %}
-                {% if image.idTimbre == timbreAssocie.id and imageTrouvee is null and imageTrouvee == 0 %}
-                {% set imageTrouvee = image %}
+                {% if not found and timbreAssocie.id == image.idTimbre and image.ordre == 0 %}
+                <picture>
+                    <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbrePays.titre }}">
+                </picture>
+                {% set found = true %}
                 {% endif %}
                 {% endfor %}
-
-                {% if imageTrouvee %}
-                <picture>
-                    <img src="{{ asset }}/img/{{ imageTrouvee.lien }}" alt="{{ imageTrouvee.image }}">
-                </picture>
-                {% endif %}
 
                 <div class="carte__contenu forme-enchere">
                     <!-- <i class="fa-solid fa-star preference"></i> -->

@@ -11,6 +11,7 @@ use App\Models\Etat;
 use App\Models\Image;
 use App\Models\Enchere;
 use App\Models\Mise;
+use App\Models\Favoris;
 use App\Providers\Validator;
 use Intervention\Image\ImageManager;
 
@@ -84,7 +85,8 @@ class TimbreController
                 // Ajouter la Date actuelle pour l'enregistrement aussi comme le prix au bon format FLOAT
                 $dataActuelle = date("Y-m-d H:i:s");
                 $data['dateCreation'] = $dataActuelle;
-                $data['prix'] = $prix_float;
+                $data['prix'] = number_format($prix_float, 2);
+
 
                 // Inserer le timbre
                 $insertTimbre = (new Timbre)->insert($data);
@@ -217,6 +219,17 @@ class TimbreController
         // Verifier s'il y a une enchere pour ce timbre
         $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);
 
+        // Verifier si c'est un favorit
+        $favoris = (new Favoris)->select2Id($_SESSION['userId'], $enchereTimbre['id']);
+
+        if (empty($favoris)) {
+            $favoris = "inactive";
+            // print("pas de favorit");
+        } else {
+            // print("favorit");
+            $favoris = "";
+        }
+
         //Enregistrer les images du timbre
         $usersImages = [];
         foreach ($images as $image) {
@@ -239,7 +252,7 @@ class TimbreController
         if (!empty($enchereMise)) {
             $mise = end($enchereMise);
 
-            return View::render('timbre/timbre', ['mise' => $mise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
+            return View::render('timbre/timbre', ['favoris' => $favoris, 'mise' => $mise, 'encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         } else {
             return View::render('timbre/timbre', ['encheres' => $encheres, 'timbres' => $timbres, 'timbre' => $timbre, 'imagesTimbres' => $images, 'images' => $usersImages, 'certifies' => $certifies, 'couleurs' => $couleurs, 'pays' => $pays, 'etats' => $etats, 'page' => 'Timbre']);
         }

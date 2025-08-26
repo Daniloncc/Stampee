@@ -20,6 +20,9 @@
     {% if lienJScript is defined %}
     <script src="{{ base }}/views/timbre/{{ lienJScript }}" defer></script>
     {% endif %}
+    {% if lienJScript2 is defined %}
+    <script src="{{ base }}/views/timbre/{{ lienJScript2 }}" defer></script>
+    {% endif %}
     <title>{{ title }}</title>
 </head>
 

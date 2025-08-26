@@ -16,6 +16,7 @@
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
     lienJScript:'TimbreZoom.js',
+    lienJScript2:'Favoris.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% else %}
@@ -42,7 +43,13 @@
 
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
-        <section class="timbre" id="{{ timbre.id }}">
+        <section data-timbre="{{ timbre.id }}" class="timbre" id="{{ timbre.id }}">
+            {% if favoris == "inactive" %}
+            <i class="fa-solid fa-star preference inactive"></i>
+            {% else %}
+            <i class="fa-solid fa-star preference "></i>
+            {% endif %}
+
             {% set TimbrePage = timbre.id %}
             {% set EncherePage = mise.id %}
             <div id="myresult" class="img-zoom-result"></div>
@@ -72,6 +79,7 @@
                 <header>
                     <h3 class="cinzel">{{ timbre.titre }}</h3>
                 </header>
+
                 <div>
                     {% for pay in pays %}
                     {% if timbre.idPays == pay.id %}
@@ -143,12 +151,14 @@
                                 {% set aEnchere = true %}
                                 {% if enchere.dateFin|date('U') > "now"|date('U') %}
                                 <div class="flex-column">
-                                    <form action="{{ base }}/favoris/index?id={{ timbre.id }}" method="post" class="timbre__favoris">
-                                        <label class="form__label" for="favoris"></label>
+                                    <!-- <form action="{{ base }}/favoris/index?id={{ timbre.id }}" method="post" class="timbre__favoris"> -->
+                                    <!-- <label class="form__label" for="favoris"></label>
                                         <input type="hidden" name="idUtilisateurFavorit" id="idUtilisateurFavorit" value="{{ session.userId }}">
-                                        <input type="hidden" name="idEnchereFavorit" id="idEnchereFavorit" value="{{ enchere.id }}">
-                                        <button>Placer aux Favoris <i class="fa-solid fa-star"></i></button>
-                                    </form>
+                                        <input type="hidden" name="idEnchereFavorit" id="idEnchereFavorit" value="{{ enchere.id }}"> -->
+                                    <button class="timbre__favoris" data-bouton-enchere data-enchere="{{ enchere.id }}" data-utilisateur="{{ session.userId }}">Placer aux Favoris <i class="fa-solid fa-star"></i></button>
+                                    <!-- </form> -->
+                                    <!-- <button data-bouton-enchere data-enchere="{{ enchere.id }}" data-utilisateur="{{ session.userId }}">api</button> -->
+
                                     <form action="{{ base }}/mise/index?id={{ timbre.id }}" method="post" class="offre"> <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
                                         <div class="form__contenu"> <input type="hidden" name="idEnchereMise" id="idEnchereMise" value="{{ enchere.id }}"> <input type="hidden" name="idUtilisateurMise" id="idUtilisateurMise" value="{{ session.userId}}">
                                             <div>

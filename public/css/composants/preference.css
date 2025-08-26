@@ -6,3 +6,8 @@
     margin-left: -10px;
 
 }
+
+.preference.inactive {
+    display: none;
+    color: var(--joune-fonce-2);
+}

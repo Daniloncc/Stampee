@@ -35,6 +35,7 @@ class Route
                 $methodName = $contollerSegments[1];
                 $controllerInstance = new $controllerName;
 
+
                 if ($method == 'GET') {
                     if (isset($urlSegments[1])) {
 

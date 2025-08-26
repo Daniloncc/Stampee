@@ -14,19 +14,25 @@ use App\Models\Image;
 
 class FavorisController
 {
-    public function index($data, $get)
+
+    public function favoris()
     {
+        $enchereId = $_GET["enchereId"];
+        $utilisateurId = $_GET["utilisateurId"];
+        $reponse = [];
+
+        $data['idUtilisateurFavorit'] = $utilisateurId;
+        $data['idEnchereFavorit'] = $enchereId;
+
         // Verifier s'il ya un favoris ou pas
-        $favoris = (new Favoris)->select2Id($data['idUtilisateurFavorit'], $data['idEnchereFavorit']);
+        $favoris = (new Favoris)->select2Id($utilisateurId, $enchereId);
         if (empty($favoris)) {
             $insert = (new Favoris)->insert($data);
-            print("non");
+            $reponse = "oui";
         } else {
-            $delete = (new Favoris)->delete2Id($data['idUtilisateurFavorit'], $data['idEnchereFavorit']);
-            print("ici");
+            $delete = (new Favoris)->delete2Id($utilisateurId, $enchereId);
+            $reponse = "non";
         }
-
-        $timbre = new Timbre;
-        return View::redirect('timbre/timbre?id=' . $get['id'], ['timbre' => $timbre]);
+        echo json_encode(["reponse" => $reponse]);
     }
 }

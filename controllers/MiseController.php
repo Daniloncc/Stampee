@@ -54,7 +54,7 @@ class MiseController
                 // Ajouter la Date actuelle pour l'enregistrement aussi comme le prix au bon format FLOAT
                 $dataActuelle = date("Y-m-d H:i:s");
                 $data['date'] = $dataActuelle;
-                $data['prix'] = $prix_float;
+                $data['prix'] = number_format($prix_float, 2);
 
                 // Verifier si exite une enchere pour ce timbre
                 $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);

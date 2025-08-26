@@ -53,7 +53,8 @@ Route::post('/enchere/index', 'EnchereController@index');
 // Route POST pour la mise
 Route::post('/mise/index', 'MiseController@index');
 
-// Route POST pour la Favoris
-Route::post('/favoris/index', 'FavorisController@index');
+// Route api pour la Favoris
+Route::get('/api/favoris/favoris', 'FavorisController@favoris');
+
 
 Route::dispatch();
