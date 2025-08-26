@@ -156,4 +156,17 @@ abstract class CRUD extends \PDO
             return false;
         }
     }
+
+    final public function delete2Id($valueId1, $valueId2)
+    {
+        $sql = "DELETE FROM $this->table WHERE  $this->secondaryKey1 = :$this->secondaryKey1 and $this->secondaryKey2 = :$this->secondaryKey2";
+        $stmt = $this->prepare($sql);
+        $stmt->bindValue(":$this->secondaryKey1", $valueId1);
+        $stmt->bindValue(":$this->secondaryKey2", $valueId2);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

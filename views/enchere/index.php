@@ -60,7 +60,123 @@
 </header>
 <!--  -->
 <main class="encheres">
+    <aside>
+        <form action="{{ base }}/enchere/index" method="post" class="filtres">
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Pays</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+                    {% for pay in pays %}
+                    <li>
+                        <label name="pays"></label>
+                        <input type="checkbox" name="pays[]" value="{{ pay.pays }}">{{ pay.pays }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
 
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Couleur</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+                    {% for couleur in couleurs %}
+                    <li>
+                        <label name="couleur"></label>
+                        <input type="checkbox" name="couleur[]" value="{{ couleur.couleur }}">{{ couleur.couleur }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Certifie</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+
+                    {% for certifie in certifies %}
+                    <li>
+                        <label name="certifie"></label>
+                        <input type="checkbox" name="certifie[]" value="{{ certifie.certifie }}">{{ certifie.certifie }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Condition</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+
+                    {% for Etat in etats %}
+                    <li>
+                        <label name="etat"></label>
+                        <input type="checkbox" name="etat[]" value="{{ Etat.etat }}">{{ Etat.etat }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Encheres</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+                    <li>
+                        <label name="archivee"></label>
+                        <input type="checkbox" name="archivee" value="archivee">Archivee
+                    </li>
+                    <li>
+                        <label name="envigueur"></label>
+                        <input type="checkbox" name="envigueur" value="envigueur">En vigeur
+                    </li>
+                </ul>
+            </section>
+
+            <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Preferences du Lord</h3>
+                </header>
+                <ul class="filtre__options old-standard-tt-regular">
+                    {% for pay in pays %}
+                    <li>
+                        <label name="lord"></label>
+                        <input type="checkbox" name="lord" value="{{ pay.pays }}">{{ pay.pays }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <!-- <section class="filtre">
+                <header class="filtre__titre">
+                    <h3>Prix</h3>
+                </header>
+
+                <div class="filtre__gamme">
+                    <input
+                        type="range"
+                        min="0.01"
+                        max="3257.41"
+                        value="1200"
+                        step="0.01"
+                        class="filtre__gamme--barre"
+                        id="prixGamme">
+                    <div class="filtre__valeurs quicksand">
+                        <span>00.01</span>
+                        <span>1.200,01</span>
+                        <span>3.257,41</span>
+                    </div>
+                </div>
+            </section> -->
+
+            <button class="button button-bleu">Apliquer</button>
+        </form>
+
+    </aside>
+    <!--  -->
     <section class="encheres__presentation">
         <header>
             <h2 class="pompiere-regular">
@@ -97,7 +213,7 @@
                 {% endif %}
 
                 <div class="carte__contenu forme-enchere">
-                    <i class="fa-solid fa-star preference"></i>
+                    <!-- <i class="fa-solid fa-star preference"></i> -->
                     <header>
                         <h3 class="cinzel">{{ timbreAssocie.titre }}</h3>
                     </header>

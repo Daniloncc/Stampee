@@ -143,9 +143,11 @@
                                 {% set aEnchere = true %}
                                 {% if enchere.dateFin|date('U') > "now"|date('U') %}
                                 <div class="flex-column">
-                                    <form action="" class="timbre__favoris">
-                                        <label class="form__label" for="favorit"></label>
-                                        <input class="form__input" type="hidden" name="favorit" id="favorit" value="{{ timbre.prix|default('') }}"> <button>Placer aux Favoris <i class="fa-solid fa-star"></i></button>
+                                    <form action="{{ base }}/favoris/index?id={{ timbre.id }}" method="post" class="timbre__favoris">
+                                        <label class="form__label" for="favoris"></label>
+                                        <input type="hidden" name="idUtilisateurFavorit" id="idUtilisateurFavorit" value="{{ session.userId }}">
+                                        <input type="hidden" name="idEnchereFavorit" id="idEnchereFavorit" value="{{ enchere.id }}">
+                                        <button>Placer aux Favoris <i class="fa-solid fa-star"></i></button>
                                     </form>
                                     <form action="{{ base }}/mise/index?id={{ timbre.id }}" method="post" class="offre"> <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
                                         <div class="form__contenu"> <input type="hidden" name="idEnchereMise" id="idEnchereMise" value="{{ enchere.id }}"> <input type="hidden" name="idUtilisateurMise" id="idUtilisateurMise" value="{{ session.userId}}">
@@ -157,7 +159,12 @@
                                             <span class="error">{{ errors.prix }}</span> {% endif %}
                                         </div>
                                     </form>
-                                </div> {% endif %} {% endif %} {% endfor %} {% endif %} {% endif %}
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -186,7 +193,7 @@
                 {% endfor %}
 
                 <div class="carte__contenu forme-enchere">
-                    <i class="fa-solid fa-star preference"></i>
+                    <!-- <i class="fa-solid fa-star preference"></i> -->
                     <header>
                         <h3 class="cinzel">{{timbrePays.titre}}</h3>
                     </header>

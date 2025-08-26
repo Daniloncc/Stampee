@@ -67,7 +67,7 @@
                 {% endfor %}
 
                 <div class="carte__contenu forme-enchere">
-                    <i class="fa-solid fa-star preference"></i>
+                    <!-- <i class="fa-solid fa-star preference"></i> -->
                     <header>
                         <h3 class="cinzel">{{timbre.titre}}</h3>
                     </header>
@@ -77,7 +77,12 @@
                         <small>Pays : <strong>{{pay.pays}}</strong></small>
                         {% endif %}
                         {% endfor %}
-                        <small>Prix : <strong>{{timbre.prix}}</strong></small>
+                        {% for pay in pays %}
+                        {% if timbre.idPays == pay.id %}
+                        {% set PaysTimbre = pay.id %}
+                        <small>Nombre reference: {{ pay.abreviation }}{{ timbre.dateCreation }}.{{ timbre.id }}</small>
+                        {% endif %}
+                        {% endfor %}
                         <small>Dimensions : <strong>{{timbre.dimensions}}</strong></small>
                     </div>
                     <footer>
@@ -86,8 +91,6 @@
                         {% for enchere in encheres %}
                         {% if enchere.idTimbreEnchere == timbre.id %}
                         {% set aEnchere = true %}
-                        <small>Prix : <strong>Actuel</strong></small>
-                        <div>|</div>
                         <small>
                             {% if enchere.dateFin|date('U') > "now"|date('U') %}
                             Termine: <strong>{{ enchere.dateFin|date("d/m/Y") }}</strong>
