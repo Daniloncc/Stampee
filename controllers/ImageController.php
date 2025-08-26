@@ -13,16 +13,10 @@ use Intervention\Image\ImageManager;
 
 class ImageController
 {
-
     final public function action($data)
     {
-        // Selecioner tous les images
-        $images = new Image;
-        $images = $images->select();
-
-        // Selecioner le timbre par son Id
-        $timbre = new Timbre;
-        $timbre = $timbre->selectId($data['id']);
+        $images = (new Image)->select();
+        $timbre = (new Timbre)->selectId($data['id']);
 
         // Variable pour avoir tous les images du timbre et l'image principale
         $timbreImages = [];
@@ -42,7 +36,7 @@ class ImageController
 
             // Chemin pour enregistrer l'image en local
             $chemin_local = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
-            //$chemin_local = "https://e2495746.webdev.cmaisonneuve.qc.ca/STAMPEE/mvc/public/img/";
+            //$chemin_local = "/home/e2495746/www/STAMPEE/mvc/public/img/";
 
             // MISE A JOUR DE L'IMAGE PRINCIPALE
             if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {

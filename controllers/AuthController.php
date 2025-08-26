@@ -14,9 +14,9 @@ class AuthController
         return View::render('auth/index');
     }
 
+    // Faire la connection
     final public function login($data)
     {
-
         $validator = new Validator;
         $validator->field('courriel', $data['courriel'])->email()->min(4)->max(80);
         $validator->field('motPasse', $data['motPasse'])->onlyLettersAndNumbers();

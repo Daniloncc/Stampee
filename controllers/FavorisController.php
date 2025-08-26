@@ -16,6 +16,7 @@ class FavorisController
 {
     public function index($data, $get)
     {
+        // Verifier s'il ya un favoris ou pas
         $favoris = (new Favoris)->select2Id($data['idUtilisateurFavorit'], $data['idEnchereFavorit']);
         if (empty($favoris)) {
             $insert = (new Favoris)->insert($data);

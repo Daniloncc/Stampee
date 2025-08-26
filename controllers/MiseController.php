@@ -31,8 +31,10 @@ class MiseController
         $images = (new Image)->select();
         $usersImages = [];
 
+        // Verifier si la session correspond avec la personne qui a fait la mise
         if (isset($_SESSION['userId']) && $_SESSION['userId'] == $data['idUtilisateurMise']) {
 
+            // Enregistrer les images du timbre
             foreach ($images as $image) {
                 if ($image['idTimbre'] == $get['id']) {
                     $usersImages[] = $image;
@@ -49,20 +51,22 @@ class MiseController
             $validator->field('prix', $prix_cleaned)->number()->required();
 
             if ($validator->isSuccess()) {
+                // Ajouter la Date actuelle pour l'enregistrement aussi comme le prix au bon format FLOAT
                 $dataActuelle = date("Y-m-d H:i:s");
                 $data['date'] = $dataActuelle;
                 $data['prix'] = $prix_float;
 
+                // Verifier si exite une enchere pour ce timbre
                 $enchereTimbre = (new Enchere)->select2Id($timbre['idUtilisateur'], $get['id']);
 
+                // Verifier s'il y a de mise pour cet enchere
                 foreach ($mises as $key => $mise) {
                     if ($mise['idEnchereMise'] == $enchereTimbre['id']) {
-                        //print_r($mise['idEnchereMise']);
-
                         $enchereMise[] = $mise;
                     }
                 }
 
+                // S'il n'y a pas de mises on verifie si la valeur est plus haut que le prix base, si oui on fait la premier mise
                 if (empty($enchereMise)) {
                     if ($data['prix'] <= $timbre['prix']) {
                         $errors['prix'] = "La mise doit etre en haut de " . $timbre['prix'] . "$!";

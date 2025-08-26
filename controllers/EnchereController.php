@@ -16,11 +16,11 @@ use Intervention\Image\ImageManager;
 
 class EnchereController
 {
+    // Affichage des pages Encheres, Favoris, En vigueur, Archivees et Coup du couer du Lord
     public function index($get = [])
     {
         $timbresToutUsage = new Timbre;
         $timbres = $timbresToutUsage->select();
-
         $encheres = (new Enchere)->select();
         $images = (new Image)->select();
         $pays = (new Pays)->select();
@@ -28,31 +28,32 @@ class EnchereController
         $etats = (new Etat)->select();
         $couleurs = (new Couleur)->select();
 
-        $dateActuelle = date('Y-m-d H:i:s');
-
-        $encheresArchivee = [];
+        // Variables Archivees
         $encheresArchivee = [];
         $timbreArchivee = [];
         $imagesArchivee = [];
 
-        $encheresEnVigueur = [];
+        // Variables En vigeur
         $encheresEnVigueur = [];
         $timbreEnVigueur = [];
         $imagesEnVigueur = [];
 
-        $encheresLord = [];
+        // Variables Lord
         $encheresLord = [];
         $timbreLord  = [];
         $imagesLord  = [];
 
-        $encheresFavoris = [];
+        // Variables Favoris
         $encheresFavoris = [];
         $timbreFavoris  = [];
         $imagesFavoris  = [];
 
-        // Séparer les enchères en vigueur et archivées
+        $dateActuelle = date('Y-m-d H:i:s');
+
+        // Séparer les enchères  Archivées, En vigueur, du Lord et Favoris
         foreach ($encheres as $enchere) {
 
+            // Archivees
             $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
             if ($enchere['dateFin'] < $dateActuelle) {
                 $encheresArchivee[] = $enchere;
@@ -62,7 +63,9 @@ class EnchereController
                         $imagesArchivee[] = $image;
                     }
                 }
-            } else {
+            }
+            // En vigueur
+            else {
                 $encheresEnVigueur[] = $enchere;
                 $timbreEnVigueur[] = $timbreEnchere;
                 foreach ($images as $image) {
@@ -71,6 +74,7 @@ class EnchereController
                     }
                 }
             }
+            // Lord
             if ($enchere['coupLord'] == 1) {
                 $encheresLord[] = $enchere;
                 $timbreLord[] = $timbreEnchere;
@@ -80,9 +84,8 @@ class EnchereController
                     }
                 }
             }
-
+            // Favoris
             $favoris = (new Favoris)->select2Id($_SESSION['userId'], $enchere['id']);
-
             if (!empty($favoris)) {
                 $encheresFavoris[] = $enchere;
                 $timbreFavoris[] = $timbreEnchere;

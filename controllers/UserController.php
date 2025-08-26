@@ -12,11 +12,13 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 class UserController
 {
+    // Afficher la lage de creation
     final public function create()
     {
         return View::render('user/create');
     }
 
+    // Ajouter un utilisateur
     final public function store($data)
     {
 
@@ -38,10 +40,9 @@ class UserController
 
             if ($insertUser == "Le courriel existe déjà.") {
                 $errors = $validator->getErrors();
-
                 return View::render('user/create', ['errors' => $errors, 'user' => $data, 'message' => $insertUser]);
             } else {
-                // Envoyer email de confirmation
+                // Envoyer courriel de confirmation  -  enlever pour WEBDEV
                 $mail = new PHPMailer(true);
 
                 try {
@@ -78,22 +79,21 @@ class UserController
         }
     }
 
+    // Affichage des donnes du utilisateur connecte
     final public function show()
     {
+        // Connexion avec la session ouverte
         if (isset($_SESSION['userId'])) {
             $user = new User;
             $user = $user->selectId($_SESSION['userId']);
 
-            if ($user) {
-                return View::render('user/show', ['user' => $user]);
-            } else {
-                return View::render('error', ['message' => "Ce Client n'existe pas!"]);
-            }
+            return View::render('user/show', ['user' => $user]);
         } else {
             return View::render('error', ['message' => '404 page non trouve!']);
         }
     }
 
+    // Afficher la page pour mettre ajout avec les infos du utilisateur
     final public function edit($data)
     {
         if (isset($data['id']) && $data['id'] != null && $data['id'] == $_SESSION['userId']) {
@@ -110,6 +110,7 @@ class UserController
         }
     }
 
+    // Mise a jour du utilisateur
     final public function update($data, $get)
     {
         if (isset($get['id']) && $get['id'] != null && $get['id'] == $_SESSION['userId']) {
@@ -127,19 +128,19 @@ class UserController
                 // Selectionner le utilisateur connecte avec la session
                 $courrielExistant = $user->selectId($_SESSION['userId']);
 
-                // Selectionner le courriel de cet utilisateur
+                // Selectionner le courriel dans la base de donnes de cet utilisateur
                 $courrielExistant = $courrielExistant['courriel'];
 
-                // Comparer le nouveau courriel choisi avec les courriels dans la base de donnees
+                // Comparer le nouveau courriel choisi avec les courriels dans la base de donnees, soit retourne rien ou le curriel trouve
                 $testUser = $user->unique('courriel', $data['courriel']);
 
-                // Voir si le nouveau courriel exite das la base de donnees, si oui, comparer si le courriel qui est dans la base de donnees est different du nouveau courriel choisi
+                // Verifier si le nouveau courriel choisi par l'utilisatuer exite das la base de donnees, si oui, comparer si le courriel qui est dans la base de donnees est different du nouveau courriel choisi
                 if (isset($testUser['courriel']) && $testUser['courriel'] != $courrielExistant) {
                     $errors = $validator->getErrors();
                     return View::render('user/edit', ['message' => "Le courriel existe déjà.", 'user' => $data]);
                 } else {
                     $insertUser = $user->update($data, $data['id']);
-                    return View::redirect('user/show?', ['user' => $insertUser]);
+                    return View::redirect('user/show', ['user' => $insertUser]);
                 }
             } else {
                 $errors = $validator->getErrors();
@@ -150,6 +151,7 @@ class UserController
         }
     }
 
+    // Supprimer un utilisateur
     final public function delete($data)
     {
         // Supprimer l'utilisateur et aussi faire la deconnexion
