@@ -15,8 +15,8 @@
     lien7: '/auth/logout',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'TimbreZoom.js',
-    lienJScript2:'Favoris.js',
+    lienJScript:'/timbre/TimbreZoom.js',
+    lienJScript2:'/timbre/Favoris.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% else %}

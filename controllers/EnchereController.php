@@ -19,6 +19,8 @@ class EnchereController
     // Affichage des pages Encheres, Favoris, En vigueur, Archivees et Coup du couer du Lord
     public function index($get = [])
     {
+        //var_dump($_POST);
+        // die;
         $timbresToutUsage = new Timbre;
         $timbres = $timbresToutUsage->select();
         $encheres = (new Enchere)->select();
@@ -49,6 +51,40 @@ class EnchereController
         $imagesFavoris  = [];
 
         $dateActuelle = date('Y-m-d H:i:s');
+        //print_r($_POST['pays']);
+        //die;
+
+        if (!empty($_POST['pays'])) {
+            $paysSelectionnes = is_array($_POST['pays']) ? $_POST['pays'] : [$_POST['pays']];
+
+            $timbres = array_filter($timbres, function ($timbre) use ($paysSelectionnes) {
+                return in_array($timbre['idPays'], $paysSelectionnes);
+            });
+        }
+
+        if (!empty($_POST['couleur'])) {
+            $couleurSelectionnes = is_array($_POST['couleur']) ? $_POST['couleur'] : [$_POST['couleur']];
+
+            $timbres = array_filter($timbres, function ($timbre) use ($couleurSelectionnes) {
+                return in_array($timbre['idCouleur'], $couleurSelectionnes);
+            });
+        }
+
+        if (!empty($_POST['certifie'])) {
+            $certifieSelectionnes = is_array($_POST['certifie']) ? $_POST['certifie'] : [$_POST['certifie']];
+            $timbres = array_filter($timbres, function ($timbre) use ($certifieSelectionnes) {
+                return in_array($timbre['idCertifie'], $certifieSelectionnes);
+            });
+        }
+
+        if (!empty($_POST['etat'])) {
+            $etatSelectionnes = is_array($_POST['etat']) ? $_POST['etat'] : [$_POST['etat']];
+
+            $timbres = array_filter($timbres, function ($timbre) use ($etatSelectionnes) {
+                return in_array($timbre['idEtat'], $etatSelectionnes);
+            });
+        }
+
 
         // Séparer les enchères  Archivées, En vigueur, du Lord et Favoris
         foreach ($encheres as $enchere) {
@@ -68,6 +104,7 @@ class EnchereController
             else {
                 $encheresEnVigueur[] = $enchere;
                 $timbreEnVigueur[] = $timbreEnchere;
+
                 foreach ($images as $image) {
                     if ($image['idTimbre'] == $timbreEnchere['id']) {
                         $imagesEnVigueur[] = $image;
@@ -158,104 +195,6 @@ class EnchereController
                 'certifies' => $certifies,
                 'couleurs' => $couleurs,
                 'page' => 'Toutes les enchères',
-                'condition' => $condition
-            ]);
-        }
-    }
-
-    public function filtre($data)
-    {
-        // pays
-        // certifie
-        // etat
-        // envigueur
-        // archivee
-        // lord
-        print("<pre>");
-        print_r($data);
-        print("<pre>");
-        die;
-        $timbresToutUsage = new Timbre;
-        $timbres = $timbresToutUsage->select();
-
-        $encheres = (new Enchere)->select();
-        $images = (new Image)->select();
-        $pays = (new Pays)->select();
-        $certifies = (new Certifie)->select();
-        $couleurs = (new Couleur)->select();
-        $etats = (new Etat)->select();
-
-        $dateActuelle = date('Y-m-d H:i:s');
-
-        $encheresArchivee = [];
-        $timbreArchivee = [];
-        $imagesArchivee = [];
-
-        $encheresEnVigueur = [];
-        $timbreEnVigueur = [];
-        $imagesEnVigueur = [];
-
-        $encheresLord = [];
-        $timbreLord  = [];
-        $imagesLord  = [];
-
-        // Séparer les enchères en vigueur et archivées
-        foreach ($encheres as $enchere) {
-
-            $timbreEnchere = $timbresToutUsage->selectId($enchere['idTimbreEnchere']);
-            if ($enchere['dateFin'] < $dateActuelle) {
-                $encheresArchivee[] = $enchere;
-                $timbreArchivee[] = $timbreEnchere;
-                foreach ($images as $image) {
-                    if ($image['idTimbre'] == $timbreEnchere['id']) {
-                        $imagesArchivee[] = $image;
-                    }
-                }
-            } else {
-                $encheresEnVigueur[] = $enchere;
-                $timbreEnVigueur[] = $timbreEnchere;
-                foreach ($images as $image) {
-                    if ($image['idTimbre'] == $timbreEnchere['id']) {
-                        $imagesEnVigueur[] = $image;
-                    }
-                }
-            }
-            if ($enchere['coupLord'] == 1) {
-                $encheresLord[] = $enchere;
-                $timbreLord[] = $timbreEnchere;
-                foreach ($images as $image) {
-                    if ($image['idTimbre'] == $timbreEnchere['id']) {
-                        $imagesLord[] = $image;
-                    }
-                }
-            }
-        }
-
-        // Déterminer la condition
-        $condition = $get['condition']; // 'tous' par défaut
-
-        if ($condition === 'envigueur') {
-            return View::render('enchere/index', [
-                'encheres' => $encheresEnVigueur,
-                'timbres' => $timbreEnVigueur,
-                'images' => $imagesEnVigueur,
-                'pays' => $pays,
-                'etats' => $etats,
-                'certifies' => $certifies,
-                'couleurs' => $couleurs,
-                'page' => 'Encheres en vigueur',
-                'condition' => $condition
-            ]);
-        } elseif ($condition === 'archivee') {
-            return View::render('enchere/index', [
-                'encheres' => $encheresArchivee,
-                'timbres' => $timbreArchivee,
-                'images' => $imagesArchivee,
-                'pays' => $pays,
-                'etats' => $etats,
-                'certifies' => $certifies,
-                'couleurs' => $couleurs,
-                'page' => 'Encheres archivees',
                 'condition' => $condition
             ]);
         }

@@ -8,6 +8,7 @@ class Image extends CRUD
 {
     protected $table = "Image";
     protected $primaryKey = "id";
+    protected $foreignKey = "idTimbre";
     protected $fillable = ['image', 'lien', 'idTimbre'];
 
     public function checkImage($lien)

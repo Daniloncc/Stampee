@@ -15,7 +15,7 @@
     lien7: '/auth/logout',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'Timbre.js',
+    lienJScript:'/enchere/Filtre.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% else %}
@@ -70,7 +70,7 @@
                     {% for pay in pays %}
                     <li>
                         <label name="pays"></label>
-                        <input type="checkbox" name="pays[]" value="{{ pay.pays }}">{{ pay.pays }}
+                        <input type="checkbox" name="pays[]" value="{{ pay.id }}">{{ pay.pays }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -84,7 +84,7 @@
                     {% for couleur in couleurs %}
                     <li>
                         <label name="couleur"></label>
-                        <input type="checkbox" name="couleur[]" value="{{ couleur.couleur }}">{{ couleur.couleur }}
+                        <input type="checkbox" name="couleur[]" value="{{ couleur.id }}">{{ couleur.couleur }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -99,7 +99,7 @@
                     {% for certifie in certifies %}
                     <li>
                         <label name="certifie"></label>
-                        <input type="checkbox" name="certifie[]" value="{{ certifie.certifie }}">{{ certifie.certifie }}
+                        <input type="checkbox" name="certifie[]" value="{{ certifie.id }}">{{ certifie.certifie }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -114,63 +114,11 @@
                     {% for Etat in etats %}
                     <li>
                         <label name="etat"></label>
-                        <input type="checkbox" name="etat[]" value="{{ Etat.etat }}">{{ Etat.etat }}
+                        <input type="checkbox" name="etat[]" value="{{ Etat.id }}">{{ Etat.etat }}
                     </li>
                     {% endfor %}
                 </ul>
             </section>
-
-            <section class="filtre">
-                <header class="filtre__titre">
-                    <h3>Encheres</h3>
-                </header>
-                <ul class="filtre__options old-standard-tt-regular">
-                    <li>
-                        <label name="archivee"></label>
-                        <input type="checkbox" name="archivee" value="archivee">Archivee
-                    </li>
-                    <li>
-                        <label name="envigueur"></label>
-                        <input type="checkbox" name="envigueur" value="envigueur">En vigeur
-                    </li>
-                </ul>
-            </section>
-
-            <section class="filtre">
-                <header class="filtre__titre">
-                    <h3>Preferences du Lord</h3>
-                </header>
-                <ul class="filtre__options old-standard-tt-regular">
-                    {% for pay in pays %}
-                    <li>
-                        <label name="lord"></label>
-                        <input type="checkbox" name="lord" value="{{ pay.pays }}">{{ pay.pays }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </section>
-
-            <!-- <section class="filtre">
-                <header class="filtre__titre">
-                    <h3>Prix</h3>
-                </header>
-
-                <div class="filtre__gamme">
-                    <input
-                        type="range"
-                        min="0.01"
-                        max="3257.41"
-                        value="1200"
-                        step="0.01"
-                        class="filtre__gamme--barre"
-                        id="prixGamme">
-                    <div class="filtre__valeurs quicksand">
-                        <span>00.01</span>
-                        <span>1.200,01</span>
-                        <span>3.257,41</span>
-                    </div>
-                </div>
-            </section> -->
 
             <button class="button button-bleu">Apliquer</button>
         </form>
@@ -198,13 +146,12 @@
             {% if timbreAssocie %}
             <article class="carte" id="{{ timbreAssocie.id }}">
 
-                {% set found = false %}
+
                 {% for image in images %}
-                {% if not found and timbreAssocie.id == image.idTimbre and image.ordre == 0 %}
+                {% if  timbreAssocie.id == image.idTimbre and image.ordre == 0 %}
                 <picture>
                     <img src="{{ asset }}/img/{{ image.lien }}" alt="{{ timbrePays.titre }}">
                 </picture>
-                {% set found = true %}
                 {% endif %}
                 {% endfor %}
 
@@ -219,8 +166,23 @@
                         <small>Pays : <strong>{{ pay.pays }}</strong></small>
                         <small>Nombre reference: {{ pay.abreviation }}{{ timbreAssocie.dateCreation }}.{{ timbreAssocie.id }}</small>
                         {% endif %}
-                        {% if timbre.idPays == pay.id %}
+                        {% endfor %}
 
+                        {% for certifie in certifies %}
+                        {% if timbreAssocie.idCertifie == certifie.id %}
+                        <small>Certifie : <strong>{{ certifie.certifie }}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for couleur in couleurs %}
+                        {% if timbreAssocie.idCouleur == couleur.id %}
+                        <small>Couleur : <strong>{{ couleur.couleur }}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for etat in etats %}
+                        {% if timbreAssocie.idEtat == etat.id %}
+                        <small>Condition : <strong>{{ etat.etat }}</strong></small>
                         {% endif %}
                         {% endfor %}
 
@@ -234,11 +196,12 @@
                             Terminée le: <strong class="error">{{ enchere.dateFin|date("d/m/Y") }}</strong>
                             {% endif %}
                         </small>
+                        <a href="{{ base }}/timbre/timbre?id={{ timbreAssocie.id }}" class="button button-bleu">
+                            Voir <i class="fa-solid fa-arrow-right"></i>
+                        </a>
                     </footer>
 
-                    <a href="{{ base }}/timbre/timbre?id={{ timbreAssocie.id }}" class="button button-bleu">
-                        Voir <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+
                 </div>
             </article>
             {% endif %}
