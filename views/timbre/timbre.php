@@ -36,7 +36,8 @@
     lien7: '/user/create',
     lienTimbre: '/timbre/create?id=' ~ session.userId,
     lienTimbres: '/timbre/index',
-    lienJScript:'TimbreZoom.js',
+    lienJScript:'/timbre/TimbreZoom.js',
+    lienJScript2:'/timbre/Favoris.js',
     lienEnchere: '/enchere/index'
     }) }}
 {% endif %}
@@ -44,12 +45,13 @@
 <main class="encheres">
     <section class="encheres__presentation encheres__presentation-gauche">
         <section data-timbre="{{ timbre.id }}" class="timbre" id="{{ timbre.id }}">
+            {% if session.userId is defined %}
             {% if favoris == "inactive" %}
             <i class="fa-solid fa-star preference inactive"></i>
             {% else %}
             <i class="fa-solid fa-star preference "></i>
             {% endif %}
-
+            {% endif %}
             {% set TimbrePage = timbre.id %}
             {% set EncherePage = mise.id %}
             <div id="myresult" class="img-zoom-result"></div>
@@ -260,7 +262,7 @@
             <span class="pagination__page">4</span>
             <span class="pagination__page">5</span>
         </footer>
-        <a class="button button-rouge" href="{{ base }}/timbre/index">← Retourner</a>
+        <a class="button button-rouge" href="{{ base }}/enchere/index">← Retourner</a>
     </section>
 </main>
 

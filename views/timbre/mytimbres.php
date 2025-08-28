@@ -40,7 +40,7 @@
     </div>
 </header>
 
-<main class="encheres">
+<main>
 
     <section class="encheres__presentation">
         <header>

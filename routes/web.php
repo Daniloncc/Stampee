@@ -3,8 +3,8 @@
 use App\Routes\Route;
 
 // Route de base
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'EnchereController@accueil');
+Route::get('/home', 'EnchereController@accueil');
 
 // Route de User GET
 Route::get('/user/create', 'UserController@create');

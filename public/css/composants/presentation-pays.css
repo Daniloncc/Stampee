@@ -1,0 +1,16 @@
+.presentation-pays {
+    margin-top: -75px;
+    margin-bottom: 45px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+    & .medaillon {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        max-width: 130px;
+        position: relative;
+        overflow: hidden;
+
+    }
+}

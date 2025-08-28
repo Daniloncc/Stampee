@@ -14,6 +14,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-right: 30px;
 
   & > header {
     margin-bottom: 45px;

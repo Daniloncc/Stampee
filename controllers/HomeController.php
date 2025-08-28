@@ -9,7 +9,7 @@ class HomeController
 
     public function index()
     {
-        return View::render('/home');
+        return View::render('/enchere/index');
     }
 
     public function error()

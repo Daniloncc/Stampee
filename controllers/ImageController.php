@@ -36,7 +36,7 @@ class ImageController
 
             // Chemin pour enregistrer l'image en local
             $chemin_local = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
-            //$chemin_local = "/home/e2495746/www/STAMPEE/mvc/public/img/";
+            // $chemin_local = "/home/e2495746/www/STAMPEE/mvc/public/img/";
 
             // MISE A JOUR DE L'IMAGE PRINCIPALE
             if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
@@ -207,7 +207,7 @@ class ImageController
 
         if ($timbre['idUtilisateur'] == $_SESSION['userId']) {
             $chemin_local = "/Applications/MAMP/htdocs/STAMPEE/mvc/public/img/";
-            //$chemin_local = "https://e2495746.webdev.cmaisonneuve.qc.ca/STAMPEE/mvc/public/img/";
+            // $chemin_local = "/home/e2495746/www/STAMPEE/mvc/public/img/";
             $imgLienDeleter = $image['lien'];
             $imagePath = $chemin_local . $imgLienDeleter;
 

@@ -1,6 +1,6 @@
 .entete {
   margin: 0;
-  min-height: 50vh;
+  min-height: 60vh;
   position: relative;
   display: flex;
   justify-content: center;
@@ -20,17 +20,17 @@
   margin-right: 20vw;
 
   & h1 {
-    font-size: var(--titre-gros-2);
+    font-size: var(--titre-moyen-1);
     font-weight: 200;
   }
 
   & h2 {
-    font-size: var(--titre-tres-gros);
+    font-size: var(--titre-gros-1);
     color: var(--bleu-fonce);
   }
 
   & p {
-    font-size: var(--titre-moyen-2);
+    font-size: var(--titre-petit);
     font-weight: 600;
   }
 }

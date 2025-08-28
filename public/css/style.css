@@ -26,5 +26,7 @@
 @import "./composants/error.css";
 @import "./composants/offre.css";
 @import "./composants/accordeon.css";
+@import "./composants/image-cote.css";
+@import "./composants/presentation-pays.css";
 @import "./composants/media-query.css";
 

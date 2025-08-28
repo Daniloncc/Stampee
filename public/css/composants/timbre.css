@@ -89,6 +89,7 @@
       font-size: var(--petit-3);
       letter-spacing: 1px;
       word-spacing: 3px;
+      max-width: 50ch;
     }
 
     & .timbre__favoris {

@@ -60,8 +60,7 @@
     </div>
 </header>
 <!--  -->
-<main class="encheres">
-
+<main>
     <section class="encheres__presentation">
         <header>
             <h2 class="pompiere-regular">
@@ -86,7 +85,6 @@
                 {% endfor %}
 
                 <div class="carte__contenu forme-enchere">
-                    <i class="fa-solid fa-star preference"></i>
                     <header>
                         <h3 class="cinzel">{{timbre.titre}}</h3>
                     </header>
@@ -97,11 +95,31 @@
                         {% endif %}
                         {% endfor %}
                         {% for pay in pays %}
+
                         {% if timbre.idPays == pay.id %}
                         {% set PaysTimbre = pay.id %}
                         <small>Nombre reference: {{ pay.abreviation }}{{ timbre.dateCreation }}.{{ timbre.id }}</small>
                         {% endif %}
                         {% endfor %}
+
+                        {% for certifie in certifies %}
+                        {% if timbre.idCertifie == certifie.id %}
+                        <small>Certifie : <strong>{{ certifie.certifie }}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for couleur in couleurs %}
+                        {% if timbre.idCouleur == couleur.id %}
+                        <small>Couleur : <strong>{{ couleur.couleur }}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for etat in etats %}
+                        {% if timbre.idEtat == etat.id %}
+                        <small>Condition : <strong>{{ etat.etat }}</strong></small>
+                        {% endif %}
+                        {% endfor %}
+
                         <small>Dimensions : <strong>{{timbre.dimensions}}</strong></small>
                     </div>
                     <footer>
@@ -125,8 +143,9 @@
                             Pas encore disponible <strong class="error"></strong>
                         </small>
                         {% endif %}
+                        <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
                     </footer>
-                    <a href="{{ base }}/timbre/timbre?id={{timbre.id}}" class="button button-bleu">Voir <i class="fa-solid fa-arrow-right"></i></a>
+
                 </div>
             </article>
 

@@ -51,7 +51,7 @@
         <footer class="navigation__principale">
             <div class="navigation__logo">
                 <picture class="logo">
-                    <img src="{{ asset }}/img/logo.webp" alt="logo">
+                    <a href="{{ base }}"><img src="{{ asset }}/img/logo.webp" alt="logo"></a>
                 </picture>
                 <div class="navigation__titre">
                     <p class="italianno-regular">Lord Ronald</p>

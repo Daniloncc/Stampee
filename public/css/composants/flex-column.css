@@ -9,6 +9,8 @@
 .flex-column-center {
     border-top: 0.5px solid black;
     border-bottom: 0.5px solid black;
+    padding: 20px;
+    margin-bottom: 45px;
     align-items: center;
     gap: 15px;
 
@@ -19,5 +21,9 @@
 
     & > p {
         margin-bottom: 15px;
+        max-width: 80ch;
+        margin-inline: auto;
+        text-align: center;
+        font-size: 18px;
     }
 }
