@@ -55,7 +55,7 @@
 .image-cote-gauche {
     /* margin-top: 60px; */
     & > picture {
-        flex-grow: 1;
+        flex-grow: 0.7;
         
 
         & > img {

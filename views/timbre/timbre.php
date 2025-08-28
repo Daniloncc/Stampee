@@ -142,8 +142,10 @@
                                     {% endif %}
                                     {% endfor %}
                                 </footer>
-                                {% if session.userId is defined and session.userId == timbre.idUtilisateur %}
+                                {% if session.userId is defined and session.userId == timbre.idUtilisateur%}
+                                {% if enchere is defined %}
                                 <a href="{{ base }}/timbre/edit?id={{timbre.id}}" class="button button-bleu">Editer Timbre <i class="fa-solid fa-arrow-right"></i></a>
+                                {% endif %}
                                 {% else %}
                                 {% if session.userId is defined %}
                                 {% set aEnchere = false %}
@@ -153,14 +155,7 @@
                                 {% set aEnchere = true %}
                                 {% if enchere.dateFin|date('U') > "now"|date('U') %}
                                 <div class="flex-column">
-                                    <!-- <form action="{{ base }}/favoris/index?id={{ timbre.id }}" method="post" class="timbre__favoris"> -->
-                                    <!-- <label class="form__label" for="favoris"></label>
-                                        <input type="hidden" name="idUtilisateurFavorit" id="idUtilisateurFavorit" value="{{ session.userId }}">
-                                        <input type="hidden" name="idEnchereFavorit" id="idEnchereFavorit" value="{{ enchere.id }}"> -->
                                     <button class="timbre__favoris" data-bouton-enchere data-enchere="{{ enchere.id }}" data-utilisateur="{{ session.userId }}">Placer aux Favoris <i class="fa-solid fa-star"></i></button>
-                                    <!-- </form> -->
-                                    <!-- <button data-bouton-enchere data-enchere="{{ enchere.id }}" data-utilisateur="{{ session.userId }}">api</button> -->
-
                                     <form action="{{ base }}/mise/index?id={{ timbre.id }}" method="post" class="offre"> <button class="button button-bleu"><i class="fa-solid fa-gavel"></i> Placer une offre</button>
                                         <div class="form__contenu"> <input type="hidden" name="idEnchereMise" id="idEnchereMise" value="{{ enchere.id }}"> <input type="hidden" name="idUtilisateurMise" id="idUtilisateurMise" value="{{ session.userId}}">
                                             <div>
